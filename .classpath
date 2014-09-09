@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="lib/gdx-backend-lwjgl-natives.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-backend-lwjgl.jar"/>
+	<classpathentry kind="lib" path="lib/gdx-natives.jar"/>
+	<classpathentry kind="lib" path="lib/gdx.jar" sourcepath="lib/gdx-sources.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/C:/java libs/libGDX 0.9.9/docs/api/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/Cual es mi IP v1.05.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
