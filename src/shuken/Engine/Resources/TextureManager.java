@@ -19,7 +19,7 @@ public class TextureManager {
 	//public Animation playerRunning;
 	//public Animation playerJumpForward;
 	
-	public Texture tablero, cruz, circulo, button, textbox, transition;
+	public Texture tablero, cruz, circulo, button, textbox, transition, checkbox_checked, checkbox_unchecked;
 	
 	protected static TextureManager getInstance(){
 		if(instance == null) instance= new TextureManager();
@@ -40,6 +40,8 @@ public class TextureManager {
 		button= new Texture("assets/images/button.png");
 		textbox= new Texture("assets/images/textbox.png");
 		transition= new Texture("assets/images/transition.png");
+		checkbox_checked= new Texture("assets/images/checkbox_check.png");
+		checkbox_unchecked= new Texture("assets/images/checkbox_uncheck.png");
 		
 		tablero.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		cruz.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -47,7 +49,8 @@ public class TextureManager {
 		button.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		textbox.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		transition.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
+		checkbox_checked.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		checkbox_unchecked.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		/*
 		//Cargamos el atlas del player...

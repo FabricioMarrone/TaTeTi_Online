@@ -16,6 +16,7 @@ import shuken.Engine.SimpleGUI.SimpleButton;
 import shuken.Engine.SimpleGUI.SimpleGUI;
 import shuken.Engine.SimpleGUI.SimpleTextBox;
 import shuken.Engine.SimpleGUI.TimeLabel;
+import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
@@ -167,6 +168,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 				System.out.println("Actualizando PLAYERS ONLINE...");
 				sendObtenerPlayersOnline= true;
 			}
+			this.tableOfPlayersOnline.update(delta);
 			break;
 			
 		case ESPERANDO_RESPUESTA_DE_OTRO_USUARIO:
@@ -187,6 +189,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		//Actualizamos gui...
 		SimpleGUI.getInstance().update(delta);
 		
+		//TODO test code
+		//this.tableOfPlayersOnline.setPosition(100, 220);
 	}//fin update
 
 	
@@ -200,12 +204,17 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		
 		batch.begin();
 		
-		ResourceManager.fonts.defaultFont.draw(batch, "MainMenu Screen (" + state + ")", 10, Gdx.graphics.getHeight() - 20);
-		ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 40);
+		if(Config.DEBUG_MODE){
+			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);
+			ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 20);
+			ResourceManager.fonts.defaultFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, Gdx.graphics.getHeight() - 35);
+			ResourceManager.fonts.defaultFont.draw(batch, "MainMenu Screen (" + state + ")", 10, Gdx.graphics.getHeight() - 50);
+		}
+		
 		switch(state){
 		case NORMAL:
 			//Usuario loggeado
-			ResourceManager.fonts.defaultFont.draw(batch, "Bienvenido " + GameSession.getPlayer().getNick() + "!!", 100, 350);
+			ResourceManager.fonts.defaultFont.draw(batch, "Bienvenido " + GameSession.getPlayer().getNick() + "!!", 50, 320);
 			ResourceManager.fonts.defaultFont.draw(batch, "Ingrese el nombre del jugador con el que desea jugar: ", 50, 300);
 			
 			//Graficamos tablas
@@ -418,6 +427,19 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().turnAreaON(btnRechazarSolicitud);
 	}
 	
+	public void invitarAJugar(String opponent){
+		ShukenInput.getInstance().cleanAll();
+		nickOponente= opponent;
+		
+		if(GameSession.getInstance().getLocalPlayer().getNick().compareToIgnoreCase(nickOponente)== 0){
+			//System.out.println("Client-side: No puedes invitarte a ti mismo.");
+			lblErrorMsg.setLabel("No puedes invitarte a ti mismo.");
+			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
+		}
+		else {
+			sendSolicitudParaJugar= true;
+		}
+	}
 	
 	@Override
 	public void simpleGUI_Event(ClickableArea area) {
@@ -425,16 +447,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		if(area.equals(btnInvitar)){
 			//Obtenemos el nick ingresado...
 			nickOponente= txtOpponent.getTextNoConsume();
-			ShukenInput.getInstance().cleanAll();
 			
-			if(GameSession.getInstance().getLocalPlayer().getNick().compareToIgnoreCase(nickOponente)== 0){
-				//System.out.println("Client-side: No puedes invitarte a ti mismo.");
-				lblErrorMsg.setLabel("No puedes invitarte a ti mismo.");
-				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
-			}
-			else {
-				sendSolicitudParaJugar= true;
-			}
+			this.invitarAJugar(nickOponente);
 		}
 
 		if(area.equals(btnCerrarSesion)){

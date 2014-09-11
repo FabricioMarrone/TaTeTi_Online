@@ -49,7 +49,7 @@ public class TaTeTi extends ShukenGame{
 		cfg.resizable= false;
 		
 		//Creamos la aplicacion...
-		LwjglApplication app= new LwjglApplication(new TaTeTi(), cfg);	//De aca se llama al metodo "create()"
+		app= new LwjglApplication(new TaTeTi(), cfg);	//De aca se llama al metodo "create()"
 		
 		System.out.println("LWJGL version: " + Sys.getVersion());
 		System.out.println("LibGDX version: " + Version.VERSION);
@@ -100,20 +100,18 @@ public class TaTeTi extends ShukenGame{
 			app.exit();
 		}
 		
-		/*
 		//Cargamos archivo de preferencias (o lo crea si es que no existe)...
-		gamePreferences= app.getPreferences(".typingFighter");
+		gamePreferences= app.getPreferences(".ttt");
 		if(gamePreferences.getBoolean("Created", false)) { 
 			// El archivo esta ya creado de antes y se presume, configurado por el usuario asique no se modifica.
 		}
 		else{
 			//El archivo de preferencias a sido creado recientemente. Cargamos datos iniciales.
 			gamePreferences.putBoolean("Created", true);
-			gamePreferences.putBoolean("musicON", true);
-			gamePreferences.putBoolean("showIntro", true);
+			gamePreferences.putBoolean("rememberUserName", false);
+			gamePreferences.putString("userName", "");
 			gamePreferences.flush();
 		}
-		 */
 		
 		//Instanciamos el GameSession...
 		GameSession.getInstance();

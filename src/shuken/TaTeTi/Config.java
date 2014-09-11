@@ -13,7 +13,7 @@ import java.io.FileReader;
  */
 public class Config {
 
-	public static boolean DEBUG_MODE= true;
+	public static boolean DEBUG_MODE;
 	
 	public static boolean TRANSITIONS_ON= true;
 	
@@ -48,6 +48,11 @@ public class Config {
 				if(line.startsWith("port")){
 					PORT= Integer.parseInt(line.substring(line.indexOf("=")+1).trim());
 					System.out.println("Port: " + PORT);
+				}
+				if(line.startsWith("debug")){
+					DEBUG_MODE= false;
+					if(line.substring(line.indexOf("=")+1).trim().compareToIgnoreCase("true")== 0) DEBUG_MODE= true;
+					System.out.println("DEBUG_MODE: " + DEBUG_MODE);
 				}
 			}
 			loadOK= true;

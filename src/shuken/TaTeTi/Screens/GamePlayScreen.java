@@ -17,6 +17,7 @@ import shuken.Engine.ShukenInput.ShukenInput;
 import shuken.Engine.SimpleGUI.ClickableArea;
 import shuken.Engine.SimpleGUI.SimpleButton;
 import shuken.Engine.SimpleGUI.SimpleGUI;
+import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
@@ -152,7 +153,14 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
-		ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 40);
+		
+		if(Config.DEBUG_MODE){
+			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);
+			ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 20);
+			ResourceManager.fonts.defaultFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, Gdx.graphics.getHeight() - 35);
+			ResourceManager.fonts.defaultFont.draw(batch, "GamePlay State: " + currentState, 10, Gdx.graphics.getHeight() - 50);
+			ResourceManager.fonts.defaultFont.draw(batch, "Match State: " + partida.getPartidaState(), 10, Gdx.graphics.getHeight() - 65);
+		}
 		
 		ResourceManager.fonts.defaultFont.draw(batch, partida.getPlayerX().getNick() + " VS " + partida.getPlayerO().getNick(), 200, Gdx.graphics.getHeight()-20);
 		
@@ -193,11 +201,6 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		
 		//Graficamos la partida...
 		partida.render(batch, shapeRender);
-		
-		
-		//Graficamos info
-		ResourceManager.fonts.defaultFont.draw(batch, "GamePlay State: " + currentState, 20, 20);
-		ResourceManager.fonts.defaultFont.draw(batch, "Match State: " + partida.getPartidaState(), 20, 60);
 		
 		//Graficamos GUI
 		SimpleGUI.getInstance().render(batch);

@@ -14,10 +14,12 @@ import shuken.Engine.Resources.ResourceManager;
 import shuken.Engine.ShukenInput.ShukenInput;
 import shuken.Engine.SimpleGUI.ClickableArea;
 import shuken.Engine.SimpleGUI.SimpleButton;
+import shuken.Engine.SimpleGUI.SimpleCheckBox;
 import shuken.Engine.SimpleGUI.SimpleErrorMessage;
 import shuken.Engine.SimpleGUI.SimpleGUI;
 import shuken.Engine.SimpleGUI.SimpleTextBox;
 import shuken.Engine.SimpleGUI.TimeLabel;
+import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
@@ -44,6 +46,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 	private SimpleButton btnLoggin, btnCrearCuenta, btnReintentar;
 	private SimpleTextBox txtUser, txtPass;
 	private TimeLabel lblErrorMsg;
+	private SimpleCheckBox checkBoxUser;
 	
 	/** ---------Flags para enviar mensajes al servidor.--------------- */
 	protected boolean sendLogginRequest= false;
@@ -68,17 +71,17 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		btnCrearCuenta= new SimpleButton("Crear cuenta", 350, 100, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnReintentar= new SimpleButton("Actualizar estado", 350, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		txtUser= new SimpleTextBox(150, 200, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
-		txtUser.putStringIntoText("Player");
 		txtPass= new SimpleTextBox(150, 150, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass.setTextboxForPassword(true);
-		txtPass.putStringIntoText("123");
 		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 2.5f, ResourceManager.textures.transition);
+		checkBoxUser= new SimpleCheckBox(100, 200, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
 		SimpleGUI.getInstance().addAreaNoActive(btnLoggin);
 		SimpleGUI.getInstance().addAreaNoActive(btnCrearCuenta);
 		SimpleGUI.getInstance().addAreaNoActive(txtUser);
 		SimpleGUI.getInstance().addAreaNoActive(txtPass);
 		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
 		SimpleGUI.getInstance().addAreaNoActive(btnReintentar);
+		SimpleGUI.getInstance().addAreaNoActive(checkBoxUser);
 		
 	}//fin constructor
 	
@@ -96,6 +99,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		transitions.add(transitionIn);
 		transitions.add(transitionToCreateAccount);
 		transitions.add(transitionToMainMenu);
+		
 	}
 	
 	@Override
@@ -145,8 +149,12 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		
 		batch.begin();
 		
-		ResourceManager.fonts.defaultFont.draw(batch, "LogginScreen", 10, Gdx.graphics.getHeight() - 20);
-		ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 40);
+		if(Config.DEBUG_MODE){
+			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);
+			ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 20);
+			ResourceManager.fonts.defaultFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, Gdx.graphics.getHeight() - 35);
+			ResourceManager.fonts.defaultFont.draw(batch, "LogginScreen", 10, Gdx.graphics.getHeight() - 50);
+		}
 		
 		//Usuario no loggeado
 		ResourceManager.fonts.defaultFont.draw(batch, "Nick: ", 100, 230);
@@ -244,6 +252,12 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 			nickIngresado= txtUser.getTextNoConsume();
 			passIngresado= txtPass.getText();
 			
+			//Guardamos user si ha de guardarse
+			if(TaTeTi.gamePreferences.getBoolean("rememberUserName")){
+				TaTeTi.gamePreferences.putString("userName", nickIngresado);
+				TaTeTi.gamePreferences.flush();
+			}
+			
 			//Limpiamos Input
 			ShukenInput.getInstance().cleanAll();
 		}
@@ -257,6 +271,16 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		if(area.equals(btnReintentar)){
 			GameSession.getInstance().tryConnectToServer();
 		}
+		
+		if(area.equals(checkBoxUser)){
+			if(checkBoxUser.isChecked()){
+				TaTeTi.gamePreferences.putBoolean("rememberUserName", true);
+			}else{
+				TaTeTi.gamePreferences.putBoolean("rememberUserName", false);
+			}
+			TaTeTi.gamePreferences.flush();
+		}
+		
 	}//fin simple gui event
 	
 	@Override
@@ -267,6 +291,14 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 
 	@Override
 	public void show() {
+		//Mostramos user por defecto (o no)
+		if(TaTeTi.gamePreferences.getBoolean("rememberUserName")){
+			txtUser.putNewStringIntoText(TaTeTi.gamePreferences.getString("userName"));
+		}else{
+			//TODO test code
+			txtUser.putNewStringIntoText("Player");
+			txtPass.putNewStringIntoText("123");
+		}
 		
 		//Si hay clicks, los limpiamos derecho viejo
 		if(ShukenInput.getInstance().hasBeenClicked(0)){
@@ -279,6 +311,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().turnAreaON(txtUser);
 		SimpleGUI.getInstance().turnAreaON(txtPass);
 		SimpleGUI.getInstance().turnAreaON(btnReintentar);
+		SimpleGUI.getInstance().turnAreaON(checkBoxUser);
 		
 		//Inicializamos transicion de llegada
 		transitionIn.start();
@@ -292,6 +325,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().turnAreaOFF(txtUser);
 		SimpleGUI.getInstance().turnAreaOFF(txtPass);
 		SimpleGUI.getInstance().turnAreaOFF(btnReintentar);
+		SimpleGUI.getInstance().turnAreaOFF(checkBoxUser);
 		
 		//Reseteamos transiciones (just in case)
 		for(int i= 0; i < transitions.size(); i++){

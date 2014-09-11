@@ -14,6 +14,7 @@ import shuken.Engine.SimpleGUI.SimpleButton;
 import shuken.Engine.SimpleGUI.SimpleGUI;
 import shuken.Engine.SimpleGUI.SimpleTextBox;
 import shuken.Engine.SimpleGUI.TimeLabel;
+import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
@@ -120,8 +121,12 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 
 		batch.begin();
 		
-		ResourceManager.fonts.defaultFont.draw(batch, "CreateAccountScreen ("+ state + ")", 10, Gdx.graphics.getHeight() - 20);
-		ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 40);
+		if(Config.DEBUG_MODE){
+			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);
+			ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 20);
+			ResourceManager.fonts.defaultFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, Gdx.graphics.getHeight() - 35);
+			ResourceManager.fonts.defaultFont.draw(batch, "CreateAccountScreen ("+ state + ")", 10, Gdx.graphics.getHeight() - 50);
+		}
 		
 		switch(state){
 		case Normal:

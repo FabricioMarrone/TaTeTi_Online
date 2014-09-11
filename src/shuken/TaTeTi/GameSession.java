@@ -162,7 +162,9 @@ public class GameSession implements Updateable{
 	}
 	
 	public int getLatency(){
-		return promLatency;
+		if(promLatency > 9999) return 9999;
+		else if(promLatency < 0) return 0;
+		else return promLatency;
 	}
 	
 	@Override

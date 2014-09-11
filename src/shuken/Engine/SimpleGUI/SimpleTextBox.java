@@ -342,6 +342,14 @@ public class SimpleTextBox extends ClickableArea {
 		
 	}
 	
+	/**
+	 * Coloca el string pasado como parametro dentro del textbox. Llamar a este metodo borra cualquier otro valor previo.
+	 */
+	public void putNewStringIntoText(String s){
+		this.clearText();
+		this.putStringIntoText(s);
+	}
+	
 	
 	/**
 	 * Mueve el cursor "p" cantidad de lugares (incluyendo negativos hacia la izquierda). Verifica limites del renderCursorPosition.
