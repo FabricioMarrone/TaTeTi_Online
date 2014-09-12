@@ -62,7 +62,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		txtPass1.setTextboxForPassword(true);
 		txtPass2= new SimpleTextBox(150, 100, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass2.setTextboxForPassword(true);
-		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 2.5f, ResourceManager.textures.transition);
+		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 4.5f, ResourceManager.textures.transition);
 		
 		SimpleGUI.getInstance().addAreaNoActive(btnCrear);
 		SimpleGUI.getInstance().addAreaNoActive(btnCancelar);
@@ -186,6 +186,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			this.setState_AccountCreated();
 		}else{
 			//Mostramos mensaje
+			lblErrorMsg.reset();
 			this.lblErrorMsg.setLabel(mensaje);
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
@@ -204,6 +205,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			//Verificamos validez de campos completados
 			if(nickIngresado.compareTo("")== 0 || passIngresado1.compareTo("")== 0 || passIngresado2.compareTo("")== 0){
 				//Mostramos mensaje
+				lblErrorMsg.reset();
 				this.lblErrorMsg.setLabel("Debes completar todos los campos para crearte una cuenta.");
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				return;
@@ -212,6 +214,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			//Verificamos validez de contraseñas
 			if(passIngresado1.compareTo(passIngresado2)!= 0){
 				//Mostramos mensaje
+				lblErrorMsg.reset();
 				this.lblErrorMsg.setLabel("Las contraseñas deben coincidir.");
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				return;

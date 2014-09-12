@@ -46,7 +46,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 	private SimpleButton btnLoggin, btnCrearCuenta, btnReintentar;
 	private SimpleTextBox txtUser, txtPass;
 	private TimeLabel lblErrorMsg;
-	private SimpleCheckBox checkBoxUser;
+	private SimpleCheckBox checkBoxUser, checkBoxMusic;
 	
 	/** ---------Flags para enviar mensajes al servidor.--------------- */
 	protected boolean sendLogginRequest= false;
@@ -73,8 +73,9 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		txtUser= new SimpleTextBox(150, 200, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass= new SimpleTextBox(150, 150, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass.setTextboxForPassword(true);
-		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 2.5f, ResourceManager.textures.transition);
-		checkBoxUser= new SimpleCheckBox(100, 200, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
+		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 4f, ResourceManager.textures.transition);
+		checkBoxUser= new SimpleCheckBox(290, 130, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
+		checkBoxMusic= new SimpleCheckBox(130, 35, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
 		SimpleGUI.getInstance().addAreaNoActive(btnLoggin);
 		SimpleGUI.getInstance().addAreaNoActive(btnCrearCuenta);
 		SimpleGUI.getInstance().addAreaNoActive(txtUser);
@@ -82,6 +83,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
 		SimpleGUI.getInstance().addAreaNoActive(btnReintentar);
 		SimpleGUI.getInstance().addAreaNoActive(checkBoxUser);
+		SimpleGUI.getInstance().addAreaNoActive(checkBoxMusic);
 		
 	}//fin constructor
 	
@@ -138,6 +140,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 			SimpleGUI.getInstance().errorMsg.show();
 		}
 		*/
+		
 	}//fin update
 	
 	
@@ -156,9 +159,11 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 			ResourceManager.fonts.defaultFont.draw(batch, "LogginScreen", 10, Gdx.graphics.getHeight() - 50);
 		}
 		
-		//Usuario no loggeado
 		ResourceManager.fonts.defaultFont.draw(batch, "Nick: ", 100, 230);
 		ResourceManager.fonts.defaultFont.draw(batch, "Pass: ", 100, 180);
+		
+		ResourceManager.fonts.defaultFont.draw(batch, "Recordar nombre de usuario", 100, 145);
+		ResourceManager.fonts.defaultFont.draw(batch, "Musica ON", 50, 50);
 		
 		//Graficamos GUi...
 		SimpleGUI.getInstance().render(batch);
@@ -219,7 +224,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		}else{
 			//Loggin falló.
 			GameSession.getInstance().closeSession();
-			
+			lblErrorMsg.reset();
 			lblErrorMsg.setLabel(msg.strings.get(0));
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
@@ -243,6 +248,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 			
 			//Verificamos que ambos campos esten completos
 			if(txtUser.getTextNoConsume().compareTo("")== 0 || txtPass.getTextNoConsume().compareTo("")== 0){
+				lblErrorMsg.reset();
 				lblErrorMsg.setLabel("Campos incompletos.");
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				return;
@@ -281,6 +287,14 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 			TaTeTi.gamePreferences.flush();
 		}
 		
+		if(area.equals(checkBoxMusic)){
+			if(checkBoxMusic.isChecked()){
+				TaTeTi.gamePreferences.putBoolean("musicON", true);
+			}else{
+				TaTeTi.gamePreferences.putBoolean("musicON", false);
+			}
+			TaTeTi.gamePreferences.flush();
+		}
 	}//fin simple gui event
 	
 	@Override
@@ -294,11 +308,16 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		//Mostramos user por defecto (o no)
 		if(TaTeTi.gamePreferences.getBoolean("rememberUserName")){
 			txtUser.putNewStringIntoText(TaTeTi.gamePreferences.getString("userName"));
+			checkBoxUser.setChecked(true);
 		}else{
+			checkBoxUser.setChecked(false);
 			//TODO test code
 			txtUser.putNewStringIntoText("Player");
 			txtPass.putNewStringIntoText("123");
 		}
+		
+		//music On off
+		checkBoxMusic.setChecked(TaTeTi.gamePreferences.getBoolean("musicON"));
 		
 		//Si hay clicks, los limpiamos derecho viejo
 		if(ShukenInput.getInstance().hasBeenClicked(0)){
@@ -312,6 +331,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().turnAreaON(txtPass);
 		SimpleGUI.getInstance().turnAreaON(btnReintentar);
 		SimpleGUI.getInstance().turnAreaON(checkBoxUser);
+		SimpleGUI.getInstance().turnAreaON(checkBoxMusic);
 		
 		//Inicializamos transicion de llegada
 		transitionIn.start();
@@ -326,6 +346,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().turnAreaOFF(txtPass);
 		SimpleGUI.getInstance().turnAreaOFF(btnReintentar);
 		SimpleGUI.getInstance().turnAreaOFF(checkBoxUser);
+		SimpleGUI.getInstance().turnAreaOFF(checkBoxMusic);
 		
 		//Reseteamos transiciones (just in case)
 		for(int i= 0; i < transitions.size(); i++){

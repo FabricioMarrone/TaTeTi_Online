@@ -100,7 +100,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		btnAceptarSolicitud= new SimpleButton("Aceptar", 100, 150, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnRechazarSolicitud= new SimpleButton("Rechazar", 200, 150, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnCancelarSolicitud= new SimpleButton("Cancelar", 200, 150, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		lblErrorMsg= new TimeLabel(" ", 200, 20, ResourceManager.fonts.defaultFont, 2.5f, ResourceManager.textures.transition);
+		lblErrorMsg= new TimeLabel(" ", 200, 20, ResourceManager.fonts.defaultFont, 6f, ResourceManager.textures.transition);
 		txtOpponent= new SimpleTextBox(400, 270, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtOpponent.putStringIntoText("Player");
 		SimpleGUI.getInstance().addAreaNoActive(btnInvitar);
@@ -302,7 +302,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		}else{
 			//El contrincante deseado no se encuentra online o esta ocupado.
 			GameSession.getPlayer().setState(Player.States.IDLE);
-			
+			lblErrorMsg.reset();
 			lblErrorMsg.setLabel(msg.strings.get(0));
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
@@ -325,6 +325,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		if(isForTimeOut) mensaje= "TIME OUT ("+ nick + "): la solicitud fue rechazada automaticamente.";
 		else mensaje= "El jugador " + nick + " ha rechazado tu oferta de jugar.";
 		
+		lblErrorMsg.reset();
 		lblErrorMsg.setLabel(mensaje);
 		SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		
@@ -404,6 +405,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		GameSession.getPlayer().setState(States.IDLE);
 		
 		String opponent= msg.strings.get(0);
+		lblErrorMsg.reset();
 		lblErrorMsg.setLabel(opponent + " ha cancelado la solicitud.");
 		SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 	}//fin se cancelo solicitud
@@ -433,6 +435,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		
 		if(GameSession.getInstance().getLocalPlayer().getNick().compareToIgnoreCase(nickOponente)== 0){
 			//System.out.println("Client-side: No puedes invitarte a ti mismo.");
+			lblErrorMsg.reset();
 			lblErrorMsg.setLabel("No puedes invitarte a ti mismo.");
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}

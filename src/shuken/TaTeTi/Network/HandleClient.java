@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
+import javax.naming.TimeLimitExceededException;
+
 import shuken.TaTeTi.Entities.Ficha;
 import shuken.TaTeTi.Entities.Partida;
 import shuken.TaTeTi.Entities.Player;
@@ -31,6 +33,7 @@ public class HandleClient implements Runnable{
 	
 	/** Cuando se loggea el player, se lo almacena en esta variable. */
 	private Player player= null;
+	private long lastHeartBeatTime;
 	
 	private boolean closeThread= false;
 	
@@ -39,6 +42,7 @@ public class HandleClient implements Runnable{
 		clientSocket= s;
 		
 		try{
+		clientSocket.setSoTimeout(20000);
 		out = new ObjectOutputStream(clientSocket.getOutputStream());
 		out.flush();
 		in = new ObjectInputStream(clientSocket.getInputStream());
@@ -50,28 +54,20 @@ public class HandleClient implements Runnable{
 	@Override
 	public void run() {
 
-		
-		while(!closeThread){
-			try{
+
+		try{
+			while(!closeThread){
 				//Esperamos hasta recibir un mensaje del cliente...
-				//elapsedTime= System.currentTimeMillis();
 				InetMessage msg= (InetMessage)in.readObject();
 
 				//Analizamos el mensaje y enviamos respuesta (si corresponde)...
 				this.analizeInetMessage(msg);
-				//ping= System.currentTimeMillis() - elapsedTime;
-				
-			}catch(SocketException connReset){
-				//Se ha perdido la conexion con este socket. Lo quitamos de la lista de conectados.
-				closeThread= true;
-			}catch(IOException ioException){
-				ioException.printStackTrace();
-			}catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-		}//fin while
-		
-		
+			}//fin while
+		}catch(Exception exception){
+			exception.printStackTrace();
+			closeThread= true;
+		}
+
 		//Cerramos sockets
 		try {
 			clientSocket.close();
@@ -79,6 +75,7 @@ public class HandleClient implements Runnable{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		//Quitamos player de la lista y quitamos tambien la conexion de la lista de conexiones...
 		Server.instance.removeConnection(this);
 		
@@ -115,6 +112,9 @@ public class HandleClient implements Runnable{
 		//Creamos el mensaje...
 		InetMessage msg= new InetMessage(InetMsgType.SaC_heartBeat_response);
 
+		//Guardamos el tiempo
+		lastHeartBeatTime= System.currentTimeMillis();
+		
 		//Lo enviamos...
 		this.sendMessage(msg);
 	}
@@ -609,5 +609,13 @@ public class HandleClient implements Runnable{
 	 */
 	public Player getPlayer(){
 		return player;
+	}
+	
+	public long getLastHeartBeatTime(){
+		return lastHeartBeatTime;
+	}
+	
+	public void closeThread(){
+		closeThread= true;
 	}
 }//fin clase

@@ -32,7 +32,7 @@ public class Server extends JFrame {
 	public static Server instance= null;
 	public static Random random= new Random();
 	
-	private static final String version= "v0.4";
+	private static final String version= "v0.5";
 	
 	/** Socket del servidor. */
 	private ServerSocket serverSocket;
@@ -56,22 +56,7 @@ public class Server extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		/*
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Server serverTaTeTi = new Server();
-					serverTaTeTi.setVisible(true);
-					
-					instance= serverTaTeTi;
-					serverTaTeTi.init();
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		*/
+		//Inicializamos un thread para el server
 		new Thread()
 		{
 		    public void run() {
@@ -83,14 +68,30 @@ public class Server extends JFrame {
 		    }
 		}.start();
 		
-	}
+		//Le damos tiempo a que se inicialice...
+		while(instance == null){
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//Inicializamos un sub-thread para el server loop
+		new Thread()
+		{
+		    public void run() {
+		    	instance.controlLoop();
+		    }
+		}.start();
+	}//end main
 
 	/**
 	 * Create the frame.
 	 */
 	public Server() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 360);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -149,8 +150,8 @@ public class Server extends JFrame {
 							.addGap(23)
 							.addComponent(lblPort)))
 					.addGap(18)
-					.addComponent(tablePlayersOnline, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(62, Short.MAX_VALUE))
+					.addComponent(tablePlayersOnline, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
 		
@@ -176,6 +177,8 @@ public class Server extends JFrame {
 			//Cargamos la data...
 			GameData.loadAll();
 			
+			lblInicializando.setText("ONLINE");
+			
 			//Iniciamos el loop...
 			while(true){
 				this.run();
@@ -192,7 +195,6 @@ public class Server extends JFrame {
 	private void run(){
 		try {
 			//Esperamos a que un cliente se conecte...
-			lblInicializando.setText("ONLINE");
 			Socket socketClientConnected = serverSocket.accept();
 			socketsConnected++;
 			lblCantidadUsuariosConectados.setText("Cantidad de sockets conectados: " + socketsConnected);
@@ -211,6 +213,42 @@ public class Server extends JFrame {
 		
 	}//fin run (recordar que esta dentro de un while)
 	
+	
+	/**
+	 * Loop de control de usuarios conectados.
+	 */
+	private void controlLoop(){
+		lblInicializando.setText("ONLINE & ControlLoop ON");
+		//Loop infinito
+		while(true){
+			try {
+				//Cada 5 segundos...
+				Thread.sleep(2000);
+				
+				//Verificamos heartbeats de todos los players supuestamente conectados
+				if(connections != null){
+					ArrayList<Integer> blackList= new ArrayList<Integer>(); 
+					for(int i= 0; i < connections.size(); i++){
+						if(connections.get(i).getPlayer() != null){
+							//Comparamos su ultimo heartbeat con el tiempo actual. Si transcurrieron más de 2.5 segundos, se lo quita del server.
+							long elapsedTime= System.currentTimeMillis() - connections.get(i).getLastHeartBeatTime();
+							if(elapsedTime > 2500) {
+								blackList.add(i);
+							}
+						}
+					}
+					//Quitamos los que haya que quitar
+					for(int i= 0; i < blackList.size(); i++){
+						connections.get(blackList.get(i)).cerrarSesion();
+						connections.get(blackList.get(i)).closeThread();
+					}
+				}
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+		}
+	}
 	
 	public void updateTablaPlayerOnline(){
 		//Limpiamos tabla

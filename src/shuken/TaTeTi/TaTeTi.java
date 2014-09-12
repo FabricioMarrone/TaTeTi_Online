@@ -32,7 +32,7 @@ public class TaTeTi extends ShukenGame{
 	public static void main(String args[]){
 		//Seteamos variables static...
 		gameTitle= "TaTeTi Online";
-		gameVersion= "v0.4";
+		gameVersion= "v0.5";
 		gameReleaseVersionDate= "";
 		gameAbout= "About this game...";
 		setScreenSize(600, 400, false);
@@ -110,6 +110,7 @@ public class TaTeTi extends ShukenGame{
 			gamePreferences.putBoolean("Created", true);
 			gamePreferences.putBoolean("rememberUserName", false);
 			gamePreferences.putString("userName", "");
+			gamePreferences.putBoolean("musicON", true);
 			gamePreferences.flush();
 		}
 		
