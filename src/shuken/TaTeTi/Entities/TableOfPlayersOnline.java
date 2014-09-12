@@ -81,10 +81,10 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 			float y= ShukenInput.getInstance().getClickY(0);
 			for(int i= 0; i < CANT_OF_ROWS; i++){
 				if(rowsRectangles.get(i).contains(x, y)){
-					//try{
+					try{
 						TaTeTi.getInstance().getMainMenuScreen().invitarAJugar(rows.get(i).nick);
 						ShukenInput.getInstance().consumeClick(0);
-					//}catch(IndexOutOfBoundsException e){ /* Do nothing */}
+					}catch(IndexOutOfBoundsException e){ /* Do nothing */}
 				}
 			}
 		}
