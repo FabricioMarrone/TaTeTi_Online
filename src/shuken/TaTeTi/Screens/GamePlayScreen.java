@@ -1,9 +1,6 @@
 package shuken.TaTeTi.Screens;
 
 import java.util.ArrayList;
-import java.util.Random;
-
-import javax.swing.JOptionPane;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -23,11 +20,8 @@ import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
 import shuken.TaTeTi.Entities.Ficha;
 import shuken.TaTeTi.Entities.Partida;
-import shuken.TaTeTi.Entities.Player;
 import shuken.TaTeTi.Entities.Partida.MatchStates;
-import shuken.TaTeTi.Network.Client;
 import shuken.TaTeTi.Network.InetMessage;
-import shuken.TaTeTi.Network.Data.GameData;
 import shuken.TaTeTi.Transitions.FadeTransition;
 import shuken.TaTeTi.Transitions.Transition;
 

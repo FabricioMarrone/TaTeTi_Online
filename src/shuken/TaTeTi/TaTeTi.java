@@ -26,13 +26,10 @@ public class TaTeTi extends ShukenGame{
 	public ShukenScreen mainMenuScreen;
 	public ShukenScreen gameplay;
 	
-	
-	
-	
 	public static void main(String args[]){
 		//Seteamos variables static...
 		gameTitle= "TaTeTi Online";
-		gameVersion= "v0.5";
+		gameVersion= "v0.6";
 		gameReleaseVersionDate= "";
 		gameAbout= "About this game...";
 		setScreenSize(600, 400, false);

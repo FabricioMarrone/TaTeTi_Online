@@ -8,11 +8,8 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import javax.swing.JOptionPane;
-
 import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
-import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Entities.Ficha;
 import shuken.TaTeTi.Network.InetMessage.InetMsgType;
 

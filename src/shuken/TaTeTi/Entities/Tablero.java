@@ -1,13 +1,9 @@
 package shuken.TaTeTi.Entities;
 
-
-import java.util.ArrayList;
-
 import shuken.Engine.Resources.ResourceManager;
 import shuken.TaTeTi.Renderable;
 import shuken.TaTeTi.Updateable;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;

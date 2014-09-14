@@ -4,8 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-import javax.naming.TimeLimitExceededException;
-
 import shuken.TaTeTi.Entities.Ficha;
 import shuken.TaTeTi.Entities.Partida;
 import shuken.TaTeTi.Entities.Player;

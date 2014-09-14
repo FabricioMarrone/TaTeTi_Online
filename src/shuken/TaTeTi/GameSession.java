@@ -1,14 +1,10 @@
 package shuken.TaTeTi;
 
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
 
 import shuken.Engine.SimpleGUI.SimpleGUI;
 import shuken.TaTeTi.Entities.Ficha;
 import shuken.TaTeTi.Entities.Player;
-import shuken.TaTeTi.Entities.Partida.MatchStates;
 import shuken.TaTeTi.Network.Client;
 import shuken.TaTeTi.Network.InetMessage;
 

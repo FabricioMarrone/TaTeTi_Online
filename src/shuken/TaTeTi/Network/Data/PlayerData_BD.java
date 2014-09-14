@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import shuken.TaTeTi.Entities.Player;
 
 public class PlayerData_BD implements PlayerData {
@@ -113,17 +111,6 @@ public class PlayerData_BD implements PlayerData {
 			e.printStackTrace();
 			connection= null;
 		}	
-	}
-	
-	/**
-	 * Close the connection with the DB.
-	 */
-	private void closeConnection(){
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	/**

@@ -30,6 +30,8 @@ import javax.swing.JTable;
 
 public class Server extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+	
 	/** Instancia singleton del servidor para que los diferentes HandleClient puedan acceder al server. */
 	public static Server instance= null;
 	public static Random random= new Random();

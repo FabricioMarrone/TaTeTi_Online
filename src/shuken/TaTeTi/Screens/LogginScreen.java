@@ -1,10 +1,8 @@
 package shuken.TaTeTi.Screens;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -15,7 +13,6 @@ import shuken.Engine.ShukenInput.ShukenInput;
 import shuken.Engine.SimpleGUI.ClickableArea;
 import shuken.Engine.SimpleGUI.SimpleButton;
 import shuken.Engine.SimpleGUI.SimpleCheckBox;
-import shuken.Engine.SimpleGUI.SimpleErrorMessage;
 import shuken.Engine.SimpleGUI.SimpleGUI;
 import shuken.Engine.SimpleGUI.SimpleTextBox;
 import shuken.Engine.SimpleGUI.TimeLabel;
@@ -23,15 +20,10 @@ import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
-import shuken.TaTeTi.Entities.Ficha;
-import shuken.TaTeTi.Entities.Partida;
 import shuken.TaTeTi.Entities.Player;
-import shuken.TaTeTi.Network.Client;
 import shuken.TaTeTi.Network.InetMessage;
 import shuken.TaTeTi.Transitions.FadeTransition;
 import shuken.TaTeTi.Transitions.Transition;
-
-
 
 public class LogginScreen extends ShukenScreen implements Updateable{
 
