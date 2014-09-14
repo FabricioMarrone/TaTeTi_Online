@@ -1,5 +1,7 @@
 package shuken.TaTeTi.Network.Data;
 
+import shuken.TaTeTi.Network.ServerConfig;
+
 /**
  * Clase singleton que provee acceso a los datos.
  * @author F. Marrone
@@ -7,12 +9,16 @@ package shuken.TaTeTi.Network.Data;
  */
 public class GameData {
 
-	
 	public static PlayerData playerData;
-	//public static PartidaRecordData partidaData;
 	
 	public static void loadAll(){
-		playerData= new PlayerData_Memoria();
-		//partidaData= new PartidaRecordData_memoria();
+		
+		if(ServerConfig.PERSISTANCE_ON_DATABASE){
+			playerData= new PlayerData_BD();
+		}else{
+			playerData= new PlayerData_Memoria();
+		}
+		
+		
 	}
 }//fin clase

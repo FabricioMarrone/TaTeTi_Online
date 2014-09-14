@@ -1,0 +1,6 @@
+#
+#Archivo de configuracion del servidor de TaTeTi Online
+#
+#
+UseDB= true
+port=8081

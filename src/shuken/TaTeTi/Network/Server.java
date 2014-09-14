@@ -2,6 +2,7 @@ package shuken.TaTeTi.Network;
 
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -14,6 +15,7 @@ import shuken.TaTeTi.Entities.Partida;
 import shuken.TaTeTi.Entities.Partida.MatchStates;
 import shuken.TaTeTi.Entities.Player;
 import shuken.TaTeTi.Network.Data.GameData;
+import shuken.TaTeTi.Network.Data.PlayerData_BD;
 import shuken.WhatsMyIP.Get_IP;
 
 import java.awt.Font;
@@ -32,11 +34,11 @@ public class Server extends JFrame {
 	public static Server instance= null;
 	public static Random random= new Random();
 	
-	private static final String version= "v0.5";
+	private static final String version= "v0.6";
 	
 	/** Socket del servidor. */
 	private ServerSocket serverSocket;
-	public final int PORT= 8081;
+	public static int PORT= 8081;	//default
 	
 	/** Total de conexiones establecidas. */
 	public ArrayList<HandleClient> connections;
@@ -46,16 +48,27 @@ public class Server extends JFrame {
 	
 	private JPanel contentPane;
 	protected JLabel lblInicializando;
+	protected JLabel lblConfigLoad;
 	protected JLabel lblPort;
 	protected JLabel lblCantidadUsuariosConectados;
 	protected int socketsConnected= 0;
 	private JTable tablePlayersOnline;
 	private DefaultTableModel tablePlayersOnlineModel;
+	private JLabel lblUsingDatabase;
 	
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		//Cargamos archivo de configuracion
+		ServerConfig.loadConfig();
+		if(ServerConfig.loadOK()){
+			PORT= ServerConfig.PORT;
+		}else{
+			JOptionPane.showMessageDialog(null, "Error al cargar ServerConfig file.");
+			System.exit(0);
+		}
+		
 		//Inicializamos un thread para el server
 		new Thread()
 		{
@@ -90,8 +103,9 @@ public class Server extends JFrame {
 	 * Create the frame.
 	 */
 	public Server() {
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 360);
+		setBounds(100, 100, 450, 397);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -112,23 +126,29 @@ public class Server extends JFrame {
 		tablePlayersOnline.setShowGrid(true);
 		
 		lblPort = new JLabel("Port: " + PORT);
+		
+		lblConfigLoad = new JLabel("Config load: ");
+		
+		lblUsingDatabase = new JLabel("Using Database: ");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(29)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(tablePlayersOnline, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblGlobalIpAddress)
 						.addComponent(lblCantidadUsuariosConectados)
+						.addComponent(tablePlayersOnline, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblTatetiOnlineServer)
-								.addComponent(lblGlobalIpAddress)
-								.addComponent(lblNewLabel))
-							.addGap(18)
+								.addComponent(lblConfigLoad)
+								.addComponent(lblNewLabel)
+								.addComponent(lblTatetiOnlineServer))
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPort)
-								.addComponent(lblInicializando))))
+								.addComponent(lblUsingDatabase)
+								.addComponent(lblInicializando)
+								.addComponent(lblPort))))
 					.addContainerGap(15, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -138,19 +158,23 @@ public class Server extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTatetiOnlineServer)
 						.addComponent(lblInicializando))
+					.addGap(18)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblConfigLoad)
+						.addComponent(lblUsingDatabase))
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(23)
 							.addComponent(lblNewLabel)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblGlobalIpAddress)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGap(18)
 							.addComponent(lblCantidadUsuariosConectados))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(23)
+							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblPort)))
-					.addGap(18)
-					.addComponent(tablePlayersOnline, GroupLayout.DEFAULT_SIZE, 123, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(tablePlayersOnline, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
@@ -178,6 +202,17 @@ public class Server extends JFrame {
 			GameData.loadAll();
 			
 			lblInicializando.setText("ONLINE");
+			
+			String str= "Error";
+			if(ServerConfig.loadOK()){
+				str= "OK";
+				if(ServerConfig.PERSISTANCE_ON_DATABASE){
+					if(((PlayerData_BD)(GameData.playerData)).isConnectionAlive()) str+= " CONNECTED";
+				}
+			}
+			lblConfigLoad.setText("Config load: " + str);
+			
+			lblUsingDatabase.setText("Using Database: " + ServerConfig.PERSISTANCE_ON_DATABASE);
 			
 			//Iniciamos el loop...
 			while(true){
@@ -218,10 +253,11 @@ public class Server extends JFrame {
 	 * Loop de control de usuarios conectados.
 	 */
 	private void controlLoop(){
-		lblInicializando.setText("ONLINE & ControlLoop ON");
 		//Loop infinito
 		while(true){
 			try {
+				lblInicializando.setText("ONLINE & ControlLoop ON");
+				
 				//Cada 5 segundos...
 				Thread.sleep(2000);
 				
@@ -397,7 +433,7 @@ public class Server extends JFrame {
 		for(int i= 0; i < tot; i++){
 			
 			//Buscamos el mejor de los que quedan
-			int max= 0;
+			int max= -10000000;
 			int maxIndex= 0;
 			for(int ii = 0; ii < scores.size(); ii++){
 				if(blackIndexs.contains(ii)) continue;
@@ -431,5 +467,4 @@ public class Server extends JFrame {
 		 
 		 return playersOnline;
 	}//end get players online
-	
 }//end class
