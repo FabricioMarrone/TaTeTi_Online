@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import shuken.TaTeTi.Entities.Player;
 
 public class PlayerData_BD implements PlayerData {

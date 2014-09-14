@@ -101,7 +101,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		btnRechazarSolicitud= new SimpleButton("Rechazar", 200, 150, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnCancelarSolicitud= new SimpleButton("Cancelar", 200, 150, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		lblErrorMsg= new TimeLabel(" ", 200, 20, ResourceManager.fonts.defaultFont, 6f, ResourceManager.textures.transition);
-		txtOpponent= new SimpleTextBox(400, 270, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtOpponent= new SimpleTextBox(400, 270, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtOpponent.putStringIntoText("Player");
 		SimpleGUI.getInstance().addAreaNoActive(btnInvitar);
 		SimpleGUI.getInstance().addAreaNoActive(btnCerrarSesion);

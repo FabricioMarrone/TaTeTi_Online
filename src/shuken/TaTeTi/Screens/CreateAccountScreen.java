@@ -57,10 +57,10 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		btnCrear= new SimpleButton("Crear", 200, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnCancelar= new SimpleButton("Cancelar", 300, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnAceptar= new SimpleButton("Aceptar", 250, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		txtUser= new SimpleTextBox(150, 200, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
-		txtPass1= new SimpleTextBox(150, 150, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtUser= new SimpleTextBox(150, 200, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtPass1= new SimpleTextBox(150, 150, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass1.setTextboxForPassword(true);
-		txtPass2= new SimpleTextBox(150, 100, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtPass2= new SimpleTextBox(150, 100, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass2.setTextboxForPassword(true);
 		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 4.5f, ResourceManager.textures.transition);
 		

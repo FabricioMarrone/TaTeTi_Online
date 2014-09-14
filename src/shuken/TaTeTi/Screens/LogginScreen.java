@@ -70,8 +70,8 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		btnLoggin= new SimpleButton("Loggin", 150, 100, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnCrearCuenta= new SimpleButton("Crear cuenta", 350, 100, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnReintentar= new SimpleButton("Actualizar estado", 350, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		txtUser= new SimpleTextBox(150, 200, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
-		txtPass= new SimpleTextBox(150, 150, 150, 40, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtUser= new SimpleTextBox(150, 200, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtPass= new SimpleTextBox(150, 150, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass.setTextboxForPassword(true);
 		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 4f, ResourceManager.textures.transition);
 		checkBoxUser= new SimpleCheckBox(290, 130, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);

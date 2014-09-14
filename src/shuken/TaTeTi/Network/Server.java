@@ -39,6 +39,7 @@ public class Server extends JFrame {
 	/** Socket del servidor. */
 	private ServerSocket serverSocket;
 	public static int PORT= 8081;	//default
+	public boolean online= false;
 	
 	/** Total de conexiones establecidas. */
 	public ArrayList<HandleClient> connections;
@@ -136,20 +137,21 @@ public class Server extends JFrame {
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(29)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblPort)
 						.addComponent(lblGlobalIpAddress)
 						.addComponent(lblCantidadUsuariosConectados)
 						.addComponent(tablePlayersOnline, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblConfigLoad)
 								.addComponent(lblNewLabel)
 								.addComponent(lblTatetiOnlineServer))
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblUsingDatabase)
-								.addComponent(lblInicializando)
-								.addComponent(lblPort))))
-					.addContainerGap(15, Short.MAX_VALUE))
+							.addComponent(lblInicializando))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblConfigLoad)
+							.addGap(113)
+							.addComponent(lblUsingDatabase)))
+					.addContainerGap(25, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -159,20 +161,17 @@ public class Server extends JFrame {
 						.addComponent(lblTatetiOnlineServer)
 						.addComponent(lblInicializando))
 					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblConfigLoad)
 						.addComponent(lblUsingDatabase))
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(23)
-							.addComponent(lblNewLabel)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblGlobalIpAddress)
-							.addGap(18)
-							.addComponent(lblCantidadUsuariosConectados))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblPort)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblPort)
+					.addGap(3)
+					.addComponent(lblNewLabel)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(lblGlobalIpAddress)
+					.addGap(18)
+					.addComponent(lblCantidadUsuariosConectados)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(tablePlayersOnline, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -201,18 +200,27 @@ public class Server extends JFrame {
 			//Cargamos la data...
 			GameData.loadAll();
 			
-			lblInicializando.setText("ONLINE");
-			
 			String str= "Error";
+			String connected= "";
 			if(ServerConfig.loadOK()){
 				str= "OK";
 				if(ServerConfig.PERSISTANCE_ON_DATABASE){
-					if(((PlayerData_BD)(GameData.playerData)).isConnectionAlive()) str+= " CONNECTED";
+					if(((PlayerData_BD)(GameData.playerData)).isConnectionAlive()){
+						connected= "CONNECTED";
+					}else{
+						//TODO mejorar mensaje
+						JOptionPane.showMessageDialog(this, "Error al conectar a la Base de Datos.\n" +
+								"Si desea utilizar el servidor fuera de localhost,\n " +
+								"coloque \"useDB= false\" en el archivo de configuracion del servidor.");
+						System.exit(0);
+					}
 				}
 			}
-			lblConfigLoad.setText("Config load: " + str);
 			
-			lblUsingDatabase.setText("Using Database: " + ServerConfig.PERSISTANCE_ON_DATABASE);
+			online= true;
+			lblInicializando.setText("ONLINE");
+			lblConfigLoad.setText("Config load: " + str);
+			lblUsingDatabase.setText("Using Database: " + ServerConfig.PERSISTANCE_ON_DATABASE + " [" + connected + "]");
 			
 			//Iniciamos el loop...
 			while(true){
@@ -256,7 +264,8 @@ public class Server extends JFrame {
 		//Loop infinito
 		while(true){
 			try {
-				lblInicializando.setText("ONLINE & ControlLoop ON");
+				if(online) lblInicializando.setText("ONLINE & ControlLoop ON");
+				else lblInicializando.setText("OFFLINE");
 				
 				//Cada 5 segundos...
 				Thread.sleep(2000);
