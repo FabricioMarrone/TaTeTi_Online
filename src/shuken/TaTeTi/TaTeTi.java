@@ -15,12 +15,14 @@ import shuken.Engine.Basic.ShukenScreen;
 import shuken.Engine.ShukenInput.ShukenInput;
 import shuken.TaTeTi.Screens.CreateAccountScreen;
 import shuken.TaTeTi.Screens.GamePlayScreen;
+import shuken.TaTeTi.Screens.LoadingScreen;
 import shuken.TaTeTi.Screens.LogginScreen;
 import shuken.TaTeTi.Screens.MainMenuScreen;
 
 public class TaTeTi extends ShukenGame{
 
 	/** Screens del juego. */
+	public ShukenScreen loadingScreen;
 	public ShukenScreen logginScreen;
 	public ShukenScreen createAccountScreen;
 	public ShukenScreen mainMenuScreen;
@@ -29,10 +31,10 @@ public class TaTeTi extends ShukenGame{
 	public static void main(String args[]){
 		//Seteamos variables static...
 		gameTitle= "TaTeTi Online";
-		gameVersion= "v0.6";
+		gameVersion= "v0.7";
 		gameReleaseVersionDate= "";
 		gameAbout= "About this game...";
-		setScreenSize(600, 400, false);
+		setScreenSize(680, 460, false);
 		//setScreenSize(1440, 900, true);
 		
 		//Creacion primero del config y luego de la aplicacion basada en el config
@@ -115,20 +117,23 @@ public class TaTeTi extends ShukenGame{
 		GameSession.getInstance();
 		
 		//Creamos los screens...
+		loadingScreen= new LoadingScreen();
 		logginScreen= new LogginScreen();
 		createAccountScreen= new CreateAccountScreen();
 		mainMenuScreen= new MainMenuScreen();
 		gameplay= new GamePlayScreen();
 		
 		//Llamamos a sus respectivos post-create por si requieren hacer cosas que interactuan con esta clase u otros screens...
+		loadingScreen.postCreate();
 		logginScreen.postCreate();
 		createAccountScreen.postCreate();
 		mainMenuScreen.postCreate();
 		gameplay.postCreate();
 		
 		//Seteamos el screen inicial...
-		this.setScreen(logginScreen);
-
+		//this.setScreen(logginScreen);
+		this.setScreen(loadingScreen);
 	}//fin create
 
+	
 }//fin clase

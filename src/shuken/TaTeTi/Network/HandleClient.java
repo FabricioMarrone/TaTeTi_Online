@@ -62,7 +62,7 @@ public class HandleClient implements Runnable{
 				this.analizeInetMessage(msg);
 			}//fin while
 		}catch(Exception exception){
-			exception.printStackTrace();
+			//exception.printStackTrace();
 			closeThread= true;
 		}
 

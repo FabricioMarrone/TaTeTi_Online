@@ -51,15 +51,15 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 	
 	public LogginScreen(){
 		//Cargamos todos los recursos...
-		ResourceManager.loadAllResources();
+		//ResourceManager.loadAllResources();
 		//Inicializamos simple GUI...
-		SimpleGUI.getInstance();
+		//SimpleGUI.getInstance();
 		
 		batch= new SpriteBatch();
 		shapeRender= new ShapeRenderer();
 		
 		//Inicializamos componentes de la gui...
-		btnLoggin= new SimpleButton("Loggin", 150, 100, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
+		btnLoggin= new SimpleButton("Login", 150, 100, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnCrearCuenta= new SimpleButton("Crear cuenta", 350, 100, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnReintentar= new SimpleButton("Actualizar estado", 350, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		txtUser= new SimpleTextBox(150, 200, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
@@ -143,6 +143,9 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
+		
+		//Graficamos fondo
+		batch.draw(ResourceManager.textures.backgroundLoggin, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
 		if(Config.DEBUG_MODE){
 			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);

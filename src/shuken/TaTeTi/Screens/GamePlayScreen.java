@@ -148,6 +148,9 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		
 		batch.begin();
 		
+		//Graficamos fondo
+		batch.draw(ResourceManager.textures.backgroundGamePlay, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				
 		if(Config.DEBUG_MODE){
 			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);
 			ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 20);

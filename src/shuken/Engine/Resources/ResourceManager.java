@@ -13,6 +13,8 @@ public class ResourceManager {
 
 	/** Tiempo total que demora el ResourceManager en cargar TODOS los recursos en memoria. */
 	public static long loadTime;
+	public static boolean loadDone= false;
+	public static int porcentajeLoad= 0;
 	
 	//***************** LISTADO DE RESOURCES *******************//
 	
@@ -40,22 +42,30 @@ public class ResourceManager {
 		fonts= FontManager.getInstance();
 		fonts.loadFonts();
 		
+		porcentajeLoad= 15;
+		
 		//Cargamos las texturas...
 		textures= TextureManager.getInstance();
 		textures.loadTextures();
 		
+		porcentajeLoad= 65;
+		
 		//Cargamos la musica y sonidos...
 		audio= AudioManager.getInstance();
 		audio.loadMusic();
+		
+		porcentajeLoad= 80;
+		
 		audio.loadSounds();
 		
-		
+		porcentajeLoad= 100;
 		
 		
 		
 		//System.out.println("RAM usage on resource manager: " + (Runtime.getRuntime().totalMemory())/1024/1024 + "mb");
 		loadTime= System.currentTimeMillis() - loadTime;
 		System.out.println("ResourceManager: Load Complete (" + loadTime + "ms)");
+		loadDone= true;
 	}
 	
 	

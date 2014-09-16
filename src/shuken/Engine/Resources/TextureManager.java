@@ -20,6 +20,7 @@ public class TextureManager {
 	//public Animation playerJumpForward;
 	
 	public Texture tablero, cruz, circulo, button, textbox, transition, checkbox_checked, checkbox_unchecked;
+	public Texture backgroundLoggin, backgroundCreateAccount, backgroundMainMenu, backgroundGamePlay;
 	
 	protected static TextureManager getInstance(){
 		if(instance == null) instance= new TextureManager();
@@ -43,6 +44,11 @@ public class TextureManager {
 		checkbox_checked= new Texture("assets/images/checkbox_check.png");
 		checkbox_unchecked= new Texture("assets/images/checkbox_uncheck.png");
 		
+		backgroundLoggin = new Texture("assets/images/backgroundLoggin.png");
+		backgroundCreateAccount = new Texture("assets/images/backgroundCreateAccount.png");
+		backgroundMainMenu = new Texture("assets/images/backgroundMainMenu.png");
+		backgroundGamePlay  = new Texture("assets/images/backgroundGamePlay.png");
+		
 		tablero.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		cruz.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		circulo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -51,6 +57,11 @@ public class TextureManager {
 		transition.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		checkbox_checked.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		checkbox_unchecked.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		backgroundLoggin.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		backgroundCreateAccount.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		backgroundMainMenu.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		backgroundGamePlay.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
 		/*
 		//Cargamos el atlas del player...
