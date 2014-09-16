@@ -143,7 +143,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 	@Override
 	public void render(float delta) {
 		//Limpiamos screen...
-		Gdx.gl.glClearColor(0f,0f,0f,0f);
+		Gdx.gl.glClearColor(0.88f,0.93f,0.88f,0f);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		
 		batch.begin();
@@ -187,6 +187,10 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 			case RENDICION_O:
 				if(GameSession.getPlayer().equals(partida.getPlayerX())) ResourceManager.fonts.defaultFont.draw(batch, "El contrincante se ha RENDIDO.", 270, Gdx.graphics.getHeight() - 60);
 				else ResourceManager.fonts.defaultFont.draw(batch, "TE HAS RENDIDO.", 270, Gdx.graphics.getHeight() - 60);
+				break;
+			case INCONCLUSO:
+				ResourceManager.fonts.defaultFont.draw(batch, "Ha ocurrido una falla que provocó la finalizacion abrupta de la partida.", 270, Gdx.graphics.getHeight() - 60);
+				ResourceManager.fonts.defaultFont.draw(batch, "La misma no será tenida en cuenta para las estadisticas.", 270, Gdx.graphics.getHeight() - 80);
 				break;
 			}
 			

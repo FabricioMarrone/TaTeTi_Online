@@ -30,13 +30,13 @@ import javax.swing.JTable;
 
 public class Server extends JFrame {
 
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	
 	/** Instancia singleton del servidor para que los diferentes HandleClient puedan acceder al server. */
 	public static Server instance= null;
 	public static Random random= new Random();
 	
-	private static final String version= "v0.6";
+	private static final String version= "v0.7";
 	
 	/** Socket del servidor. */
 	private ServerSocket serverSocket;
@@ -54,6 +54,7 @@ public class Server extends JFrame {
 	protected JLabel lblConfigLoad;
 	protected JLabel lblPort;
 	protected JLabel lblCantidadUsuariosConectados;
+	protected JLabel lblPartidasEnCurso;
 	protected int socketsConnected= 0;
 	private JTable tablePlayersOnline;
 	private DefaultTableModel tablePlayersOnlineModel;
@@ -133,6 +134,8 @@ public class Server extends JFrame {
 		lblConfigLoad = new JLabel("Config load: ");
 		
 		lblUsingDatabase = new JLabel("Using Database: ");
+		
+		lblPartidasEnCurso = new JLabel("Partidas en curso: 0");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -141,7 +144,10 @@ public class Server extends JFrame {
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblPort)
 						.addComponent(lblGlobalIpAddress)
-						.addComponent(lblCantidadUsuariosConectados)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(lblCantidadUsuariosConectados)
+							.addGap(43)
+							.addComponent(lblPartidasEnCurso))
 						.addComponent(tablePlayersOnline, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -173,7 +179,9 @@ public class Server extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(lblGlobalIpAddress)
 					.addGap(18)
-					.addComponent(lblCantidadUsuariosConectados)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCantidadUsuariosConectados)
+						.addComponent(lblPartidasEnCurso))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(tablePlayersOnline, GroupLayout.PREFERRED_SIZE, 181, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -208,7 +216,7 @@ public class Server extends JFrame {
 				str= "OK";
 				if(ServerConfig.PERSISTANCE_ON_DATABASE){
 					if(((PlayerData_BD)(GameData.playerData)).isConnectionAlive()){
-						connected= "CONNECTED";
+						connected= "[CONNECTED]";
 					}else{
 						//TODO mejorar mensaje
 						JOptionPane.showMessageDialog(this, "Error al conectar a la Base de Datos.\n" +
@@ -222,7 +230,7 @@ public class Server extends JFrame {
 			online= true;
 			lblInicializando.setText("ONLINE");
 			lblConfigLoad.setText("Config load: " + str);
-			lblUsingDatabase.setText("Using Database: " + ServerConfig.PERSISTANCE_ON_DATABASE + " [" + connected + "]");
+			lblUsingDatabase.setText("Using Database: " + ServerConfig.PERSISTANCE_ON_DATABASE + " " + connected);
 			
 			//Iniciamos el loop...
 			while(true){
@@ -268,6 +276,8 @@ public class Server extends JFrame {
 			try {
 				if(online) lblInicializando.setText("ONLINE & ControlLoop ON");
 				else lblInicializando.setText("OFFLINE");
+				
+				lblPartidasEnCurso.setText("Partidas en curso: " + partidas.size());
 				
 				//Cada 5 segundos...
 				Thread.sleep(2000);

@@ -27,7 +27,8 @@ public class Partida implements Renderable, Updateable{
 		EMPATE,				//ordinal 2
 		PARTIDA_EN_CURSO,	//ordinal 3
 		RENDICION_X,		//ordinal 4
-		RENDICION_O;		//ordinal 5
+		RENDICION_O,		//ordinal 5
+		INCONCLUSO;			//ordinal 6 Esto ocurre cuando hay una falla
 		
 		public static MatchStates getMatchState(int ordinal){
 			if(ordinal == GANADOR_X.ordinal()) return GANADOR_X;
@@ -36,7 +37,7 @@ public class Partida implements Renderable, Updateable{
 			if(ordinal == PARTIDA_EN_CURSO.ordinal()) return PARTIDA_EN_CURSO;
 			if(ordinal == RENDICION_X.ordinal()) return RENDICION_X;
 			if(ordinal == RENDICION_O.ordinal()) return RENDICION_O;
-			
+			if(ordinal == INCONCLUSO.ordinal()) return INCONCLUSO;
 			return null;
 		}
 	}

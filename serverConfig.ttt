@@ -6,5 +6,5 @@
 #base de datos, siempre es posible optar por guardar los registros en memoria. Obviamente, permite
 #ejecutar y utilizar el servidor, pero los datos se perderán cuando se lo apague.
 #
-UseDB= true
+UseDB= false
 port=8081

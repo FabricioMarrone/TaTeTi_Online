@@ -48,7 +48,7 @@ public class SimpleButton extends ClickableArea{
 	public void render(SpriteBatch batch){
 		//Graficamos skin...
 		if(skin != null){
-			if(this.coordOverArea(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())) batch.setColor(Color.GREEN);
+			if(this.coordOverArea(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())) batch.setColor(1f, 0.93f, 0.86f, 1);
 			
 			batch.draw(skin, zone.x, zone.y, zone.width, zone.height);
 			batch.setColor(Color.WHITE);

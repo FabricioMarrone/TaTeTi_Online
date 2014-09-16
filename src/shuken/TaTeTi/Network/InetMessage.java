@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class InetMessage implements Serializable{
 	
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	
 	/** Tipo de mensaje, dato necesario para tratarlo adecuadamente. */
 	public InetMsgType type;
