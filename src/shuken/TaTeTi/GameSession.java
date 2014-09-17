@@ -308,7 +308,7 @@ public class GameSession implements Updateable{
 		SimpleGUI.getInstance().errorMsg.setText(text);
 		SimpleGUI.getInstance().errorMsg.show();
 				
-		TaTeTi.getInstance().setScreen(TaTeTi.getInstance().logginScreen);
+		TaTeTi.getInstance().setScreen(TaTeTi.getInstance().loginScreen);
 	}
 	
 	/**

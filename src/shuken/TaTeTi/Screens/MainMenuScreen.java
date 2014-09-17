@@ -119,7 +119,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		float transitionTime= 0.45f;
 		
 		transitionIn= new FadeTransition(transitionTime, null, true);
-		transitionToLogginScreen= new FadeTransition(transitionTime, TaTeTi.getInstance().logginScreen, false);
+		transitionToLogginScreen= new FadeTransition(transitionTime, TaTeTi.getInstance().loginScreen, false);
 		transitionToGameplay= new FadeTransition(transitionTime, TaTeTi.getInstance().gameplay, false);
 		
 		transitions.add(transitionIn);
@@ -132,7 +132,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	public void update(float delta) {
 		//Checkeamos por perdida de conexion, en cuyo caso redirigimos al loggin screen que es quien se encarga de reconectar.
 		if(!GameSession.getInstance().isConnectedToServer()){
-			TaTeTi.getInstance().setScreen(TaTeTi.getInstance().logginScreen);
+			TaTeTi.getInstance().setScreen(TaTeTi.getInstance().loginScreen);
 		}
 				
 		//Si se ha cerrado la sesion, nos vamos al loggin screen (esto puede ser intencionado, el usuario presiona el boton CERRAR SESION, por ejemplo)
@@ -205,6 +205,9 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		
 		//Graficamos fondo
 		batch.draw(ResourceManager.textures.backgroundMainMenu, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+				
+		//Graficamos title
+		batch.draw(ResourceManager.textures.mainMenuTitle, 17, 320);
 				
 		if(Config.DEBUG_MODE){
 			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);

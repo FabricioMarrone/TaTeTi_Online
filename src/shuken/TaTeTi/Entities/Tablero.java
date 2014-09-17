@@ -1,12 +1,18 @@
 package shuken.TaTeTi.Entities;
 
+import java.util.Random;
+
 import shuken.Engine.Resources.ResourceManager;
 import shuken.TaTeTi.Renderable;
 import shuken.TaTeTi.Updateable;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
+import com.badlogic.gdx.math.Vector2;
 
 
 /**
@@ -38,6 +44,9 @@ public class Tablero implements Renderable, Updateable{
 	private static final int CELDA_WIDTH= 100;
 	private static final int CELDA_HEIGHT= 100;
 	
+	/** El color del tablero varía en funcion de la posicion del mouse. */
+	private Color boardColor;
+	
 	/**
 	 * Crea un nuevo tablero con todas sus celdas libres.
 	 */
@@ -60,21 +69,43 @@ public class Tablero implements Renderable, Updateable{
 		//celdas[2].setContenidoDeLaCelda(Ficha.CRUZ);
 		//celdas[3].setContenidoDeLaCelda(Ficha.CRUZ);
 		//celdas[8].setContenidoDeLaCelda(Ficha.CIRCULO);
+		
+		boardColor= new Color(Color.WHITE);
 	}
 	
 	
 	@Override
 	public void update(float delta) {
-		// TODO Auto-generated method stub
+		//Obtenemos la posicion actual del mouse
+		//float x= Gdx.input.getX();
+		//float y= Gdx.input.getY();
+		Vector2 mouse= new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
+		Vector2 center= new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		
+		//El ángulo determina r
+		float r= 1- mouse.y/Gdx.graphics.getHeight();
+		//El cateto vertical determina g
+		float g= 1- mouse.x/Gdx.graphics.getWidth();
+		//El cateto horizontal determina b
+		float b= r+g;
+		
+		if(r < 0.1f) r= 0.1f;
+		if(g < 0.1f) g= 0.1f;
+		boardColor.set(r, g, b, 1);
 	}
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRender) {
+		batch.setColor(boardColor);
+		
 		//Se grafica el tablero...
 		batch.draw(ResourceManager.textures.tablero, position.x, position.y);
+		
+		batch.setColor(Color.WHITE);
+		
 		//Se grafican las fichas jugadas (si hay alguna)...
 		for(int i= 1; i < 10; i++) celdas[i].render(batch, shapeRender);
+		
 	}
 
 	

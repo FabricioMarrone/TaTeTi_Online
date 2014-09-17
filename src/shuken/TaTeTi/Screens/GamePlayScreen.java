@@ -112,7 +112,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 	public void update(float delta) {
 		//Checkeamos por perdida de conexion, en cuyo caso redirigimos al loggin screen que es quien se encarga de reconectar.
 		if(!GameSession.getInstance().isConnectedToServer()){
-			TaTeTi.getInstance().setScreen(TaTeTi.getInstance().logginScreen);
+			TaTeTi.getInstance().setScreen(TaTeTi.getInstance().loginScreen);
 		}
 				
 		//Actualizamos gameSession...
@@ -134,6 +134,9 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		case Opponent_Player_playing: updateOpponentPlayerPlaying(delta); break;
 		case Partida_terminada: updatePartidaTerminada(delta); break;
 		}//fin switch
+		
+		//Actualizamos partida (y tablero)
+		partida.update(delta);
 		
 		updateTalkToServer();
 		

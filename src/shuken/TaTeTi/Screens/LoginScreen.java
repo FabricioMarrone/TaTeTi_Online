@@ -25,7 +25,7 @@ import shuken.TaTeTi.Network.InetMessage;
 import shuken.TaTeTi.Transitions.FadeTransition;
 import shuken.TaTeTi.Transitions.Transition;
 
-public class LogginScreen extends ShukenScreen implements Updateable{
+public class LoginScreen extends ShukenScreen implements Updateable{
 
 	private SpriteBatch batch;
 	private ShapeRenderer shapeRender;
@@ -49,7 +49,7 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 	
 	
 	
-	public LogginScreen(){
+	public LoginScreen(){
 		//Cargamos todos los recursos...
 		//ResourceManager.loadAllResources();
 		//Inicializamos simple GUI...
@@ -147,6 +147,9 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 		//Graficamos fondo
 		batch.draw(ResourceManager.textures.backgroundLoggin, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
+		//Graficamos title
+		batch.draw(ResourceManager.textures.gameTitle, 90, 280);
+		
 		if(Config.DEBUG_MODE){
 			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);
 			ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 20);
@@ -154,8 +157,8 @@ public class LogginScreen extends ShukenScreen implements Updateable{
 			ResourceManager.fonts.defaultFont.draw(batch, "LogginScreen", 10, Gdx.graphics.getHeight() - 50);
 		}
 		
-		ResourceManager.fonts.defaultFont.draw(batch, "Nick: ", 100, 230);
-		ResourceManager.fonts.defaultFont.draw(batch, "Pass: ", 100, 180);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 80, 230);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 47, 180);
 		
 		ResourceManager.fonts.defaultFont.draw(batch, "Recordar nombre de usuario", 100, 145);
 		ResourceManager.fonts.defaultFont.draw(batch, "Musica ON", 50, 50);

@@ -21,6 +21,7 @@ public class TextureManager {
 	
 	public Texture tablero, cruz, circulo, button, textbox, transition, checkbox_checked, checkbox_unchecked;
 	public Texture backgroundLoggin, backgroundCreateAccount, backgroundMainMenu, backgroundGamePlay;
+	public Texture gameTitle, createAccountTitle, mainMenuTitle;
 	
 	protected static TextureManager getInstance(){
 		if(instance == null) instance= new TextureManager();
@@ -49,6 +50,10 @@ public class TextureManager {
 		backgroundMainMenu = new Texture("assets/images/backgroundMainMenu.png");
 		backgroundGamePlay  = new Texture("assets/images/backgroundGamePlay.png");
 		
+		gameTitle = new Texture("assets/images/title.png");
+		createAccountTitle= new Texture("assets/images/createAccountTitle.png");
+		mainMenuTitle= new Texture("assets/images/mainMenuTitle.png");
+		
 		tablero.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		cruz.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		circulo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -63,6 +68,9 @@ public class TextureManager {
 		backgroundMainMenu.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		backgroundGamePlay.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
+		gameTitle.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		createAccountTitle.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		mainMenuTitle.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		/*
 		//Cargamos el atlas del player...
 		playerAtlas= new TextureAtlas(Gdx.files.internal("assets/images/playerAtlas.txt"));

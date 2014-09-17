@@ -57,10 +57,10 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		btnCrear= new SimpleButton("Crear", 200, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnCancelar= new SimpleButton("Cancelar", 300, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
 		btnAceptar= new SimpleButton("Aceptar", 250, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		txtUser= new SimpleTextBox(150, 200, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
-		txtPass1= new SimpleTextBox(150, 150, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtUser= new SimpleTextBox(200, 200, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtPass1= new SimpleTextBox(200, 150, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass1.setTextboxForPassword(true);
-		txtPass2= new SimpleTextBox(150, 100, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtPass2= new SimpleTextBox(200, 100, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
 		txtPass2.setTextboxForPassword(true);
 		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 4.5f, ResourceManager.textures.transition);
 		
@@ -82,7 +82,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		float transitionTime= 0.45f;
 				
 		transitionIn= new FadeTransition(transitionTime, null, true);
-		transitionToLogginScreen= new FadeTransition(transitionTime, TaTeTi.getInstance().logginScreen, false);
+		transitionToLogginScreen= new FadeTransition(transitionTime, TaTeTi.getInstance().loginScreen, false);
 		
 		transitions.add(transitionIn);
 		transitions.add(transitionToLogginScreen);
@@ -92,7 +92,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 	public void update(float delta) {
 		//Checkeamos por perdida de conexion, en cuyo caso redirigimos al loggin screen que es quien se encarga de reconectar.
 		if(!GameSession.getInstance().isConnectedToServer()){
-			TaTeTi.getInstance().setScreen(TaTeTi.getInstance().logginScreen);
+			TaTeTi.getInstance().setScreen(TaTeTi.getInstance().loginScreen);
 		}
 		
 		//Actualizamos gameSession...
@@ -124,6 +124,9 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		//Graficamos fondo
 		batch.draw(ResourceManager.textures.backgroundCreateAccount, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 				
+		//Graficamos title
+		batch.draw(ResourceManager.textures.createAccountTitle, 40, 280);
+				
 		if(Config.DEBUG_MODE){
 			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);
 			ResourceManager.fonts.defaultFont.draw(batch, "Latency: " + GameSession.getInstance().getLatency() + "ms", 10, Gdx.graphics.getHeight() - 20);
@@ -133,9 +136,9 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		
 		switch(state){
 		case Normal:
-			ResourceManager.fonts.defaultFont.draw(batch, "Nombre: ", 90, 225);
-			ResourceManager.fonts.defaultFont.draw(batch, "Password: ", 80, 180);
-			ResourceManager.fonts.defaultFont.draw(batch, "Confirmar password: ", 15, 130);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 130, 225);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 97, 175);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONFIRMAR CONTRASEÑA: ", 5, 125);
 			break;
 		case AccountCreated:
 			ResourceManager.fonts.defaultFont.draw(batch, "¡Cuenta creada exitosamente!", 290, 225);

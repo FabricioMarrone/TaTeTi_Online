@@ -1,5 +1,6 @@
 package shuken.Engine.Resources;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.FloatArray;
@@ -10,7 +11,7 @@ public class FontManager {
 	
 	
 	/** Fuente utilizada con propositos generales. */
-	public BitmapFont defaultFont;
+	public BitmapFont defaultFont, UIlabelsFont;
 	
 	//public static BitmapFont in_game_text;
 	//public static BitmapFont harrington_22;
@@ -32,7 +33,9 @@ public class FontManager {
 		defaultFont= new BitmapFont(false);
 		defaultFont.setColor(Color.WHITE);
 		
-		//in_game_text= new BitmapFont(Gdx.files.internal("assets/fonts/in_game_text.fnt"), Gdx.files.internal("assets/fonts/in_game_text_0.png"), false);
+		UIlabelsFont= new BitmapFont(Gdx.files.internal("assets/fonts/UIlabelsFont.fnt"), Gdx.files.internal("assets/fonts/UIlabelsFont_0.png"), false);
+		UIlabelsFont.setColor(Color.WHITE);
+		
 		//harrington_22= new BitmapFont(Gdx.files.internal("res/fonts/harrington_22.fnt"), Gdx.files.internal("res/fonts/harrington_22_0.png"), false);
 	}
 	
