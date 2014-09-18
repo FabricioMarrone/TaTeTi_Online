@@ -10,6 +10,7 @@ import shuken.TaTeTi.Updateable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 
 public class HighScores implements Updateable, Renderable{
@@ -31,7 +32,21 @@ public class HighScores implements Updateable, Renderable{
 	
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRender) {
-		ResourceManager.fonts.defaultFont.draw(batch, "HIGHSCORES", position.x, position.y + ROW_SEPARATION);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "Mejores puntajes", position.x - 10, position.y + ROW_SEPARATION);
+		ResourceManager.fonts.UIlabelsFont.setColor(0, 0.8f, 0, 1);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "G", position.x + 168, position.y + ROW_SEPARATION);
+		ResourceManager.fonts.UIlabelsFont.setColor(0.9f, 0.9f, 0, 1);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "E", position.x + 199, position.y + ROW_SEPARATION);
+		ResourceManager.fonts.UIlabelsFont.setColor(0.8f, 0, 0, 1);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "P", position.x + 230, position.y + ROW_SEPARATION);
+		ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
+		
+		
+		batch.end();
+		shapeRender.begin(ShapeType.Filled);
+		shapeRender.rect(position.x - 10, position.y - 5, 255, 1, Color.WHITE, new Color(0, 0, 0.8f, 1) , new Color(0, 0, 0.8f, 1), Color.WHITE);
+		shapeRender.end();
+		batch.begin();
 		
 		boolean clientIsNotInHighScore= true;
 		
@@ -39,21 +54,25 @@ public class HighScores implements Updateable, Renderable{
 		for(int i= 0; i < records.size(); i++){
 			//Resaltamos player local
 			if(GameSession.getPlayer().getNick().compareToIgnoreCase(records.get(i).nick)== 0){
-				ResourceManager.fonts.defaultFont.setColor(Color.MAGENTA);
+				ResourceManager.fonts.gameText.setColor(0,  0.7f, 0.88f, 1);
 				clientIsNotInHighScore= false;
 			}
 			
-			ResourceManager.fonts.defaultFont.draw(batch, (i+1) + "- " + records.get(i).record, position.x, position.y - (i*ROW_SEPARATION));
-			
-			ResourceManager.fonts.defaultFont.setColor(Color.WHITE);
+			ResourceManager.fonts.gameText.draw(batch, (i+1) + "- " + records.get(i).nick, position.x, position.y - (i*ROW_SEPARATION) - 10);
+			ResourceManager.fonts.gameText.draw(batch, records.get(i).won + "", position.x + 170, position.y - (i*ROW_SEPARATION) - 10);
+			ResourceManager.fonts.gameText.draw(batch, records.get(i).draw + "", position.x + 200, position.y - (i*ROW_SEPARATION) - 10);
+			ResourceManager.fonts.gameText.draw(batch, records.get(i).lose + "", position.x + 230, position.y - (i*ROW_SEPARATION) - 10);
+			ResourceManager.fonts.gameText.setColor(Color.WHITE);
 		}
 		
 		if(clientIsNotInHighScore){
-			ResourceManager.fonts.defaultFont.setColor(Color.MAGENTA);
+			ResourceManager.fonts.gameText.setColor(0.9f, 0, 0, 1);
 			Player p= GameSession.getPlayer();
-			String r= HighScoreRecord.getRecord(p.getNick(), p.getGanados(), p.getPerdidos(), p.getEmpatados());
-			ResourceManager.fonts.defaultFont.draw(batch, "-->" + r, position.x, position.y - ((records.size()+1)*ROW_SEPARATION));
-			ResourceManager.fonts.defaultFont.setColor(Color.WHITE);
+			ResourceManager.fonts.gameText.draw(batch, ">> " + p.getNick(), position.x, position.y - ((records.size()+1)*ROW_SEPARATION));
+			ResourceManager.fonts.gameText.draw(batch, p.getGanados() + "", position.x + 170, position.y - ((records.size()+1)*ROW_SEPARATION));
+			ResourceManager.fonts.gameText.draw(batch, p.getEmpatados() + "", position.x + 200, position.y - ((records.size()+1)*ROW_SEPARATION));
+			ResourceManager.fonts.gameText.draw(batch, p.getPerdidos() + "", position.x + 230, position.y - ((records.size()+1)*ROW_SEPARATION));
+			ResourceManager.fonts.gameText.setColor(Color.WHITE);
 		}
 	}
 

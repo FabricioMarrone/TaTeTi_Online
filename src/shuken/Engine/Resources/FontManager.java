@@ -11,7 +11,7 @@ public class FontManager {
 	
 	
 	/** Fuente utilizada con propositos generales. */
-	public BitmapFont defaultFont, UIlabelsFont;
+	public BitmapFont defaultFont, UIlabelsFont, gameText;
 	
 	//public static BitmapFont in_game_text;
 	//public static BitmapFont harrington_22;
@@ -35,6 +35,9 @@ public class FontManager {
 		
 		UIlabelsFont= new BitmapFont(Gdx.files.internal("assets/fonts/UIlabelsFont.fnt"), Gdx.files.internal("assets/fonts/UIlabelsFont_0.png"), false);
 		UIlabelsFont.setColor(Color.WHITE);
+		
+		gameText= new BitmapFont(Gdx.files.internal("assets/fonts/GameText.fnt"), Gdx.files.internal("assets/fonts/GameText_0.png"), false);
+		gameText.setColor(Color.WHITE);
 		
 		//harrington_22= new BitmapFont(Gdx.files.internal("res/fonts/harrington_22.fnt"), Gdx.files.internal("res/fonts/harrington_22_0.png"), false);
 	}

@@ -3,6 +3,7 @@ package shuken.TaTeTi.Screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -59,15 +60,15 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		shapeRender= new ShapeRenderer();
 		
 		//Inicializamos componentes de la gui...
-		btnLoggin= new SimpleButton("Login", 150, 100, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnCrearCuenta= new SimpleButton("Crear cuenta", 350, 100, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnReintentar= new SimpleButton("Actualizar estado", 350, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		txtUser= new SimpleTextBox(150, 200, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
-		txtPass= new SimpleTextBox(150, 150, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		btnLoggin= new SimpleButton("Ingresar", 310, 60, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnCrearCuenta= new SimpleButton("Crear cuenta", 150, 60, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnReintentar= new SimpleButton("Actualizar estado", 350, 10, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		txtUser= new SimpleTextBox(250, 203, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
+		txtPass= new SimpleTextBox(250, 153, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass.setTextboxForPassword(true);
-		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 4f, ResourceManager.textures.transition);
-		checkBoxUser= new SimpleCheckBox(290, 130, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
-		checkBoxMusic= new SimpleCheckBox(130, 35, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
+		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.gameText, 4f, ResourceManager.textures.transition);
+		checkBoxUser= new SimpleCheckBox(410, 126, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
+		checkBoxMusic= new SimpleCheckBox(410, 103, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
 		SimpleGUI.getInstance().addAreaNoActive(btnLoggin);
 		SimpleGUI.getInstance().addAreaNoActive(btnCrearCuenta);
 		SimpleGUI.getInstance().addAreaNoActive(txtUser);
@@ -157,23 +158,28 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 			ResourceManager.fonts.defaultFont.draw(batch, "LogginScreen", 10, Gdx.graphics.getHeight() - 50);
 		}
 		
-		ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 80, 230);
-		ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 47, 180);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 155, 230);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 112, 180);
 		
-		ResourceManager.fonts.defaultFont.draw(batch, "Recordar nombre de usuario", 100, 145);
-		ResourceManager.fonts.defaultFont.draw(batch, "Musica ON", 50, 50);
+		ResourceManager.fonts.gameText.draw(batch, "Recordar nombre de usuario", 210, 140);
+		ResourceManager.fonts.gameText.draw(batch, "Musica ON", 327, 115);
 		
 		//Graficamos GUi...
 		SimpleGUI.getInstance().render(batch);
 				
 		//Estado del servidor
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "Estado del servidor:", 10, 25);
 		if(GameSession.getInstance().isConnectedToServer()) {
-			ResourceManager.fonts.defaultFont.draw(batch, "Estado del servidor: ONLINE", 10, 20);
+			ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "online", 195, 25);
+			ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
 		}
 		else {
-			ResourceManager.fonts.defaultFont.draw(batch, "Estado del servidor: OFFLINE", 10, 20);
+			ResourceManager.fonts.UIlabelsFont.setColor(0.8f, 0, 0, 1);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "offline", 195, 25);
+			ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
 			batch.setColor(1, 1, 1, 0.5f);
-			batch.draw(ResourceManager.textures.transition, 0, 75, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - 150);
+			batch.draw(ResourceManager.textures.transition, 0, 50, Gdx.graphics.getWidth(), Gdx.graphics.getHeight() - 130);
 			batch.setColor(1, 1, 1, 1);
 		}
 		

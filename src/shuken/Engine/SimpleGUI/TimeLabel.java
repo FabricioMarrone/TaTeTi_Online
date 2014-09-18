@@ -71,7 +71,7 @@ public class TimeLabel extends ClickableArea{
 	
 	@Override
 	public void setLabel(String lbl){
-		this.setLabel(lbl, ResourceManager.fonts.defaultFont);
+		this.setLabel(lbl, font);
 	}
 	
 	public void setLabel(String label, BitmapFont font){

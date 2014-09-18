@@ -3,6 +3,7 @@ package shuken.TaTeTi.Screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -54,15 +55,15 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		batch= new SpriteBatch();
 		shapeRender= new ShapeRenderer();
 		
-		btnCrear= new SimpleButton("Crear", 200, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnCancelar= new SimpleButton("Cancelar", 300, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnAceptar= new SimpleButton("Aceptar", 250, 50, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		txtUser= new SimpleTextBox(200, 200, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
-		txtPass1= new SimpleTextBox(200, 150, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		btnCrear= new SimpleButton("Crear", 325, 50, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnCancelar= new SimpleButton("Cancelar", 180, 50, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnAceptar= new SimpleButton("Aceptar", 280, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		txtUser= new SimpleTextBox(265, 200, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
+		txtPass1= new SimpleTextBox(265, 150, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass1.setTextboxForPassword(true);
-		txtPass2= new SimpleTextBox(200, 100, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		txtPass2= new SimpleTextBox(265, 100, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass2.setTextboxForPassword(true);
-		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.defaultFont, 4.5f, ResourceManager.textures.transition);
+		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.gameText, 4.5f, ResourceManager.textures.transition);
 		
 		SimpleGUI.getInstance().addAreaNoActive(btnCrear);
 		SimpleGUI.getInstance().addAreaNoActive(btnCancelar);
@@ -136,12 +137,16 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		
 		switch(state){
 		case Normal:
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 130, 225);
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 97, 175);
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONFIRMAR CONTRASEÑA: ", 5, 125);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 170, 227);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 127, 178);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONFIRMAR CONTRASEÑA: ", 5, 128);
 			break;
 		case AccountCreated:
-			ResourceManager.fonts.defaultFont.draw(batch, "¡Cuenta creada exitosamente!", 290, 225);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "¡Cuenta", 195, 225);
+			ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "creada", 277, 225);
+			ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "exitosamente!", 350, 225);
 			break;
 		}//end switch
 		

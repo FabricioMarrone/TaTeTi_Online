@@ -49,7 +49,7 @@ public class TaTeTi extends ShukenGame{
 		
 		//Creamos la aplicacion...
 		app= new LwjglApplication(new TaTeTi(), cfg);	//De aca se llama al metodo "create()"
-		
+	
 		System.out.println("LWJGL version: " + Sys.getVersion());
 		System.out.println("LibGDX version: " + Version.VERSION);
 		System.out.println("Game version: " + gameVersion + " (" + gameReleaseVersionDate + ")");

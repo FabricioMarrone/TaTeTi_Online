@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -67,8 +68,8 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		batch= new SpriteBatch();
 		shapeRender= new ShapeRenderer();
 		
-		btnBackToMenu= new SimpleButton("Volver al menu", 200, 75, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnRendirse= new SimpleButton("Rendirse", 200, 10, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
+		btnBackToMenu= new SimpleButton("Volver al menu", 280, 35, ResourceManager.fonts.gameText, ResourceManager.textures.button, true);
+		btnRendirse= new SimpleButton("Rendirse", 303, 10, ResourceManager.fonts.gameText, ResourceManager.textures.button, true);
 		
 		SimpleGUI.getInstance().addAreaNoActive(btnBackToMenu);
 		SimpleGUI.getInstance().addAreaNoActive(btnRendirse);
@@ -140,7 +141,6 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		
 		updateTalkToServer();
 		
-		
 	}//fin update
 	
 	@Override
@@ -164,47 +164,78 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		
 		ResourceManager.fonts.defaultFont.draw(batch, partida.getPlayerX().getNick() + " VS " + partida.getPlayerO().getNick(), 200, Gdx.graphics.getHeight()-20);
 		
+		//Graficamos la partida, tablero y demas...
+		partida.render(batch, shapeRender);
+				
 		switch(currentState){
 		case Local_Player_playing:
-			ResourceManager.fonts.defaultFont.draw(batch, "TU TURNO", 250, Gdx.graphics.getHeight() - 40);
+			ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "JUEGE", 260, 420);
+			ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "SU TURNO", 318, 420);
 			break;
 		case Opponent_Player_playing:
-			ResourceManager.fonts.defaultFont.draw(batch, "ESPERANDO A QUE JUEGUE EL CONTRINCANTE...", 200, Gdx.graphics.getHeight() - 40);
+			ResourceManager.fonts.UIlabelsFont.setColor(0.9f, 0f, 0, 1);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "ESPERE", 260, 420);
+			ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "SU TURNO", 330, 420);
 			break;
 		case Partida_terminada:
-			ResourceManager.fonts.defaultFont.draw(batch, "PARTIDA FINALIZADA", 250, Gdx.graphics.getHeight() - 40);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "PARTIDA FINALIZADA", 240, 430);
 			
 			switch(resultado){
 			case EMPATE:
-				ResourceManager.fonts.defaultFont.draw(batch, "LA PARTIDA FINALIZO EN EMPATE", 230, Gdx.graphics.getHeight() - 60);
+				ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0.88f, 0, 1);
+				ResourceManager.fonts.UIlabelsFont.draw(batch, "\"EMPATE\"", 290, Gdx.graphics.getHeight() - 60);
 				break;
 			case GANADOR_O:
-				if(GameSession.getPlayer().equals(partida.getPlayerO())) ResourceManager.fonts.defaultFont.draw(batch, "¡¡GANASTE!!", 270, Gdx.graphics.getHeight() - 60); 
-				else ResourceManager.fonts.defaultFont.draw(batch, "¡¡PERDISTE!!", 270, Gdx.graphics.getHeight() - 60);
+				if(GameSession.getPlayer().equals(partida.getPlayerO())) {
+					ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
+					ResourceManager.fonts.UIlabelsFont.draw(batch, "¡¡GANASTE!!", 280, Gdx.graphics.getHeight() - 60); 
+				}
+				else {
+					ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0, 0, 1);
+					ResourceManager.fonts.UIlabelsFont.draw(batch, "¡¡PERDISTE!!", 275, Gdx.graphics.getHeight() - 60);
+				}
 				break;
 			case GANADOR_X:
-				if(GameSession.getPlayer().equals(partida.getPlayerX())) ResourceManager.fonts.defaultFont.draw(batch, "¡¡GANASTE!!", 270, Gdx.graphics.getHeight() - 60);
-				else ResourceManager.fonts.defaultFont.draw(batch, "¡¡PERDISTE!!", 270, Gdx.graphics.getHeight() - 60); 
+				if(GameSession.getPlayer().equals(partida.getPlayerX())) {
+					ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
+					ResourceManager.fonts.UIlabelsFont.draw(batch, "¡¡GANASTE!!", 270, Gdx.graphics.getHeight() - 60);
+				}
+				else {
+					ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0, 0, 1);
+					ResourceManager.fonts.UIlabelsFont.draw(batch, "¡¡PERDISTE!!", 275, Gdx.graphics.getHeight() - 60); 
+				}
 				break;	
 			case RENDICION_X:
-				if(GameSession.getPlayer().equals(partida.getPlayerO())) ResourceManager.fonts.defaultFont.draw(batch, "El contrincante se ha RENDIDO.", 270, Gdx.graphics.getHeight() - 60);
-				else ResourceManager.fonts.defaultFont.draw(batch, "TE HAS RENDIDO.", 270, Gdx.graphics.getHeight() - 60);
+				if(GameSession.getPlayer().equals(partida.getPlayerO())){
+					ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0.88f, 0, 1);
+					ResourceManager.fonts.UIlabelsFont.draw(batch, "El contrincante se ha RENDIDO", 200, Gdx.graphics.getHeight() - 60);
+				}
+				else {
+					ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0.88f, 0, 1);
+					ResourceManager.fonts.UIlabelsFont.draw(batch, "TE HAS RENDIDO", 260, Gdx.graphics.getHeight() - 60);
+				}
 				break;
 			case RENDICION_O:
-				if(GameSession.getPlayer().equals(partida.getPlayerX())) ResourceManager.fonts.defaultFont.draw(batch, "El contrincante se ha RENDIDO.", 270, Gdx.graphics.getHeight() - 60);
-				else ResourceManager.fonts.defaultFont.draw(batch, "TE HAS RENDIDO.", 270, Gdx.graphics.getHeight() - 60);
+				if(GameSession.getPlayer().equals(partida.getPlayerX())) {
+					ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0.88f, 0, 1);
+					ResourceManager.fonts.UIlabelsFont.draw(batch, "El contrincante se ha RENDIDO", 200, Gdx.graphics.getHeight() - 60);
+				}
+				else {
+					ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0.88f, 0, 1);
+					ResourceManager.fonts.UIlabelsFont.draw(batch, "TE HAS RENDIDO", 260, Gdx.graphics.getHeight() - 60);
+				}
 				break;
 			case INCONCLUSO:
-				ResourceManager.fonts.defaultFont.draw(batch, "Ha ocurrido una falla que provocó la finalizacion abrupta de la partida.", 270, Gdx.graphics.getHeight() - 60);
-				ResourceManager.fonts.defaultFont.draw(batch, "La misma no será tenida en cuenta para las estadisticas.", 270, Gdx.graphics.getHeight() - 80);
+				ResourceManager.fonts.gameText.draw(batch, "Ha ocurrido una falla que provocó la finalizacion abrupta de la partida.", 100, Gdx.graphics.getHeight() - 60);
+				ResourceManager.fonts.gameText.draw(batch, "La misma no será tenida en cuenta para las estadisticas.", 160, Gdx.graphics.getHeight() - 80);
 				break;
 			}
 			
-			break;
 		}//fin switch
-		
-		//Graficamos la partida...
-		partida.render(batch, shapeRender);
+		ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
 		
 		//Graficamos GUI
 		SimpleGUI.getInstance().render(batch);

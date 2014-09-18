@@ -3,6 +3,7 @@ package shuken.TaTeTi.Screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -43,8 +44,11 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	private ScreenStates state;
 	
 	/** Tiempo limite para responder una solicitud entrante antes de ser rechazada (medido en segundos)*/
-	private static final int TIME_TO_ANSWER= 10;
+	private static final int TIME_TO_ANSWER= 15;
 	private float timeOutCount;
+	
+	/** Variable para generar animacion de flecha circular. */
+	private float angle= 0;
 	
 	/** GUI */
 	private SimpleButton btnInvitar, btnCerrarSesion, btnAceptarSolicitud, btnRechazarSolicitud, btnCancelarSolicitud;
@@ -90,18 +94,19 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		
 		timeOutCount= 0;
 		
-		highScores= new HighScores(300, 200);
-		tableOfPlayersOnline= new TableOfPlayersOnline(100, 220);
+		highScores= new HighScores(370, 230);
+		tableOfPlayersOnline= new TableOfPlayersOnline(45, 310);
 		
 		//Inicializamos componentes de la gui...
-		btnInvitar= new SimpleButton("Invitar a Jugar", 420, 230, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnCerrarSesion= new SimpleButton("Cerrar Sesion", 100, 20, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnAceptarSolicitud= new SimpleButton("Aceptar", 100, 150, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnRechazarSolicitud= new SimpleButton("Rechazar", 200, 150, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		btnCancelarSolicitud= new SimpleButton("Cancelar", 200, 150, ResourceManager.fonts.defaultFont, ResourceManager.textures.button);
-		lblErrorMsg= new TimeLabel(" ", 200, 20, ResourceManager.fonts.defaultFont, 6f, ResourceManager.textures.transition);
-		txtOpponent= new SimpleTextBox(400, 270, 180, 40, 19, ResourceManager.fonts.defaultFont, ResourceManager.textures.textbox);
+		btnInvitar= new SimpleButton("Invitar a Jugar", 220, 54, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnCerrarSesion= new SimpleButton("Cerrar Sesion", 510, 15, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnAceptarSolicitud= new SimpleButton("Aceptar", 360, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnRechazarSolicitud= new SimpleButton("Rechazar", 200, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnCancelarSolicitud= new SimpleButton("Cancelar", 277, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		lblErrorMsg= new TimeLabel(" ", 200, 20, ResourceManager.fonts.gameText, 6f, ResourceManager.textures.transition);
+		txtOpponent= new SimpleTextBox(45, 50, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtOpponent.putStringIntoText("Player");
+		
 		SimpleGUI.getInstance().addAreaNoActive(btnInvitar);
 		SimpleGUI.getInstance().addAreaNoActive(btnCerrarSesion);
 		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
@@ -171,7 +176,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			break;
 			
 		case ESPERANDO_RESPUESTA_DE_OTRO_USUARIO:
-			//Interactuamos con la GUI
+			angle-= delta * 300;
+			if(angle <= 0) angle= 360;
 			break;
 	
 		case RESPONDIENDO_SOLICITUD_ENTRANTE:
@@ -188,8 +194,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		//Actualizamos gui...
 		SimpleGUI.getInstance().update(delta);
 		
-		//TODO test code
-		//this.tableOfPlayersOnline.setPosition(100, 220);
+		
 	}//fin update
 
 	
@@ -219,19 +224,42 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		switch(state){
 		case NORMAL:
 			//Usuario loggeado
-			ResourceManager.fonts.defaultFont.draw(batch, "Bienvenido " + GameSession.getPlayer().getNick() + "!!", 50, 320);
-			ResourceManager.fonts.defaultFont.draw(batch, "Ingrese el nombre del jugador con el que desea jugar: ", 50, 300);
+			//ResourceManager.fonts.UIlabelsFont.draw(batch, "Bienvenido " + GameSession.getPlayer().getNick() + " :)", 50, 320);
+			ResourceManager.fonts.gameText.draw(batch, "Seleccione el", 300, 315);
+			ResourceManager.fonts.gameText.setColor(0,  0.7f, 0.88f, 1);
+			ResourceManager.fonts.gameText.draw(batch, "jugador", 390, 315);
+			ResourceManager.fonts.gameText.setColor(Color.WHITE);
+			ResourceManager.fonts.gameText.draw(batch, "con el que desea jugar.", 447, 315);
+			batch.draw(ResourceManager.textures.arrow, 253, 286);
+			
+			ResourceManager.fonts.gameText.draw(batch, "O bien ingrese el", 40, 140);
+			ResourceManager.fonts.gameText.setColor(0,  0.7f, 0.88f, 1);
+			ResourceManager.fonts.gameText.draw(batch, "nombre", 157, 140);
+			ResourceManager.fonts.gameText.setColor(Color.WHITE);
+			ResourceManager.fonts.gameText.draw(batch, "del jugador con", 215, 140);
+			ResourceManager.fonts.gameText.draw(batch, "el que desea jugar: ", 40, 120);
 			
 			//Graficamos tablas
 			highScores.render(batch, shapeRender);
 			tableOfPlayersOnline.render(batch, shapeRender);
 			break;
 		case RESPONDIENDO_SOLICITUD_ENTRANTE:
-			ResourceManager.fonts.defaultFont.draw(batch, nickSolicitante + " quiere jugar con vos!", 95, 210);
-			ResourceManager.fonts.defaultFont.draw(batch, timeOutCount + "s", 95, 240);
+			ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, nickSolicitante.toUpperCase(), 300, 250);
+			ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
+			ResourceManager.fonts.UIlabelsFont.draw(batch,"¡Quiere jugar con vos!", 235, 210);
+			
+			//ResourceManager.fonts.defaultFont.draw(batch, timeOutCount + "s", 95, 240);
+			batch.setColor(0, 0, 0, 0.5f);
+			batch.draw(ResourceManager.textures.timeBar, 220, 147);
+			float percent= timeOutCount/TIME_TO_ANSWER;
+			int widthToRender= ResourceManager.textures.timeBar.getWidth()-(int)(ResourceManager.textures.timeBar.getWidth() * percent);
+			batch.setColor(1, 1, 1, 1);
+			batch.draw(ResourceManager.textures.timeBar, 220, 147, 0, 0, widthToRender, ResourceManager.textures.timeBar.getHeight());
 			break;
 		case ESPERANDO_RESPUESTA_DE_OTRO_USUARIO:
-			ResourceManager.fonts.defaultFont.draw(batch, "Esperando a que " + nickOponente + " responda a su solicitud...(C - Cancelar)", 50, 130);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "Esperando a que " + nickOponente.toUpperCase() + " responda a su solicitud...", 100, 250);
+			batch.draw(ResourceManager.textures.circleArrow, 320f, 170f, (float)ResourceManager.textures.circleArrow.getRegionWidth()/2f, (float)ResourceManager.textures.circleArrow.getRegionHeight()/2f, ResourceManager.textures.circleArrow.getRegionWidth(), ResourceManager.textures.circleArrow.getRegionHeight(), 1f, 1f, angle, true);
 			break;
 		}//fin switch
 		

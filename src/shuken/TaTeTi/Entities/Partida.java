@@ -41,7 +41,7 @@ public class Partida implements Renderable, Updateable{
 			return null;
 		}
 	}
-	
+	private MatchStates currentState;
 	
 	public Partida(Player pX, Player pO, boolean playerXStarts, boolean forServer){
 		//Creamos el tablero...
@@ -59,6 +59,8 @@ public class Partida implements Renderable, Updateable{
 		playerTurnoActual= null;
 		if(playerXStarts) playerTurnoActual= playerX;
 		else playerTurnoActual= playerO;
+		
+		currentState= MatchStates.PARTIDA_EN_CURSO;
 	}
 	/**
 	 * Crea una nueva partida entre dos jugadores.
@@ -73,7 +75,7 @@ public class Partida implements Renderable, Updateable{
 	@Override
 	public void update(float delta) {
 		tablero.update(delta);
-		
+		currentState= getPartidaState();
 	}
 
 	@Override
@@ -81,19 +83,9 @@ public class Partida implements Renderable, Updateable{
 		//Graficamos el tablero...
 		tablero.render(batch, shapeRender);
 		
-		//Graficamos nombres de los jugadores...
-		/*
-		ResourceManager.fonts.defaultFont.draw(batch, "Jugadores:", 20, Gdx.graphics.getHeight() - 30);
-		
-		String p1Turno= "";
-		String p2Turno= "";
-		if(playerTurnoActual.equals(player1)) p1Turno= " <- TURNO ACTUAL";
-		else if(playerTurnoActual.equals(player2)) p2Turno= " <- TURNO ACTUAL";
-		ResourceManager.fonts.defaultFont.draw(batch, "1- " + player1.getNick() + "(" + player1.getTipoFicha() + ")" + p1Turno, 20, Gdx.graphics.getHeight() - 45);
-		ResourceManager.fonts.defaultFont.draw(batch, "2- " + player2.getNick() + "(" + player2.getTipoFicha() + ")" + p2Turno, 20, Gdx.graphics.getHeight() - 60);
-		*/
-		//Graficamos info variada
-		//ResourceManager.fonts.defaultFont.draw(batch, "Tablero full: " + tablero.isFull(), 20, 40);
+		//Si hay un ganador, le indicamos al tablero que grafique una linea que una las 3 piezas
+		if(currentState == MatchStates.GANADOR_X) tablero.renderWinner(batch, shapeRender, Ficha.CRUZ);
+		if(currentState == MatchStates.GANADOR_O) tablero.renderWinner(batch, shapeRender, Ficha.CIRCULO);
 	}//fin render
 
 	

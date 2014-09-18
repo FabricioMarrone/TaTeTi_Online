@@ -13,6 +13,7 @@ import shuken.TaTeTi.Updateable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
@@ -39,24 +40,38 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRender) {
-		ResourceManager.fonts.defaultFont.draw(batch, "Players Online", position.x, position.y + ROW_SEPARATION);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "Jugadores en línea", position.x, position.y + ROW_SEPARATION);
+		
+		batch.end();
+		shapeRender.begin(ShapeType.Filled);
+		shapeRender.rect(position.x, position.y - 4, 173, 1, new Color(0, 0, 0.8f, 1), Color.WHITE, Color.WHITE , new Color(0, 0, 0.5f, 1));
+		shapeRender.end();
+		batch.begin();
 		
 		int cantToRender= 10;
 		if(rows.size() < 10) cantToRender= rows.size();
 			
 		for(int i= 0; i < cantToRender; i++){	
-			if(SimpleGUI.getInstance().isAreaUnderTheMouse(rowsRectangles.get(i))) ResourceManager.fonts.defaultFont.setColor(Color.GREEN);
+			//Graficamos con color segun estado
+			if(rows.get(i).state.compareToIgnoreCase(Player.States.IDLE.toString())== 0) ResourceManager.fonts.gameText.setColor(0, 0.88f, 0, 1);
+			if(rows.get(i).state.compareToIgnoreCase(Player.States.PLAYING.toString())== 0) ResourceManager.fonts.gameText.setColor(0.85f, 0, 0, 1);
+			if(rows.get(i).state.compareToIgnoreCase(Player.States.RESPONDIENDO_SOLICITUD.toString())== 0 || rows.get(i).state.compareToIgnoreCase(Player.States.WAITING_FOR_OPPONENT.toString())== 0) ResourceManager.fonts.gameText.setColor(Color.YELLOW);
 			
-			ResourceManager.fonts.defaultFont.draw(batch, rows.get(i).toString(), position.x, position.y - (i*ROW_SEPARATION));
-			ResourceManager.fonts.defaultFont.setColor(Color.WHITE);
+			//Si esta el mouse encima
+			if(SimpleGUI.getInstance().isAreaUnderTheMouse(rowsRectangles.get(i))) ResourceManager.fonts.gameText.setColor(Color.GREEN);
+			
+			ResourceManager.fonts.gameText.draw(batch, rows.get(i).toString(), position.x, position.y - (i*ROW_SEPARATION) - 8);
+			ResourceManager.fonts.gameText.setColor(Color.WHITE);
 		}
 		
+		//Si hay mas de 10 players online...
 		if(rows.size() > 10){
-			ResourceManager.fonts.defaultFont.draw(batch, "+" + (rows.size()-10), position.x, position.y - (11*ROW_SEPARATION));
+			ResourceManager.fonts.gameText.draw(batch, "+" + (rows.size()-10), position.x, position.y - (11*ROW_SEPARATION));
 		}
 		
+		//Si no hay players online...
 		if(rows.size() == 0){
-			ResourceManager.fonts.defaultFont.draw(batch, "No players available", position.x, position.y);
+			ResourceManager.fonts.gameText.draw(batch, "No hay jugadores disponibles", position.x, position.y - 10);
 		}
 		
 		//TODO test code
@@ -106,7 +121,7 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 	public void setPosition(float x, float y){
 		this.position.set(x, y);
 		for(int i= 0; i < CANT_OF_ROWS; i++){
-			rowsRectangles.get(i).set(position.x, position.y - (i*ROW_SEPARATION) - ROW_SEPARATION + 1, 150, ROW_SEPARATION-2);
+			rowsRectangles.get(i).set(position.x, position.y - (i*ROW_SEPARATION) - ROW_SEPARATION + 1 - 8, 150, ROW_SEPARATION-2);
 		}
 	}
 }//end class

@@ -108,6 +108,29 @@ public class Tablero implements Renderable, Updateable{
 		
 	}
 
+	public void renderWinner(SpriteBatch batch, ShapeRenderer shapeRender, Ficha ficha){
+		if(ficha == Ficha.CIRCULO) batch.setColor(0, 1, 0, 0.9f);
+		if(ficha == Ficha.CRUZ) batch.setColor(1, 0, 0, 0.9f);
+		
+		//-1
+		if(celdas[1].contains(ficha) && celdas[4].contains(ficha) && celdas[7].contains(ficha)) batch.draw(ResourceManager.textures.lineV, position.x + 20, position.y + 22);
+		//-2
+		if(celdas[2].contains(ficha) && celdas[5].contains(ficha) && celdas[8].contains(ficha)) batch.draw(ResourceManager.textures.lineV, position.x + 120, position.y + 22);
+		//-3
+		if(celdas[3].contains(ficha) && celdas[6].contains(ficha) && celdas[9].contains(ficha)) batch.draw(ResourceManager.textures.lineV, position.x + 220, position.y + 22);
+		//-4
+		if(celdas[1].contains(ficha) && celdas[2].contains(ficha) && celdas[3].contains(ficha)) batch.draw(ResourceManager.textures.lineH, position.x + 20, position.y + 218);
+		//-5
+		if(celdas[4].contains(ficha) && celdas[5].contains(ficha) && celdas[6].contains(ficha)) batch.draw(ResourceManager.textures.lineH, position.x + 20, position.y + 118);
+		//-6
+		if(celdas[7].contains(ficha) && celdas[8].contains(ficha) && celdas[9].contains(ficha)) batch.draw(ResourceManager.textures.lineH, position.x + 20, position.y + 20);
+		//-7
+		if(celdas[3].contains(ficha) && celdas[5].contains(ficha) && celdas[7].contains(ficha)) batch.draw(ResourceManager.textures.lineD1, position.x, position.y + 10);
+		//-8
+		if(celdas[1].contains(ficha) && celdas[5].contains(ficha) && celdas[9].contains(ficha)) batch.draw(ResourceManager.textures.lineD2, position.x + 10, position.y);
+		
+		batch.setColor(Color.WHITE);
+	}
 	
 	/**
 	 * Devuelve true si todas las celdas del tablero se encuentran ocupadas con fichas.

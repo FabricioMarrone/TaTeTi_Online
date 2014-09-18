@@ -18,6 +18,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.FloatArray;
 
 
 public class SimpleTextBox extends ClickableArea {
@@ -61,7 +62,10 @@ public class SimpleTextBox extends ClickableArea {
 	private int marginX= 10;
 	private int marginY= 30;
 	
-	//Contructor...
+	public SimpleTextBox(int posx, int posy, int maxCantChars, BitmapFont font, Texture skin){
+		this(posx, posy, skin.getWidth(), skin.getHeight(), maxCantChars, font, skin);
+	}
+	
 	public SimpleTextBox(int posx, int posy, int width, int height, int maxCantChars, BitmapFont font, Texture skin){
 		super(new Rectangle(posx, posy, width, height));
 		
@@ -91,8 +95,8 @@ public class SimpleTextBox extends ClickableArea {
 		
 
 		//Graficamos el texto introducido hasta el momento...
-		if(textboxForPassword) font.draw(batch, getPasswordText(), zone.x + marginX, zone.y + marginY);
-		else font.draw(batch, getTextNoConsume(), zone.x + marginX, zone.y + marginY);
+		if(textboxForPassword) font.draw(batch, getPasswordText(), zone.x + marginX, zone.y + marginY - 8);
+		else font.draw(batch, getTextNoConsume(), zone.x + marginX, zone.y + marginY - 5);
 
 		//Graficamos el cursor intermitente...
 		this.renderCursor(batch);
@@ -125,11 +129,11 @@ public class SimpleTextBox extends ClickableArea {
 			}
 		}
 		
-				
-		//System.out.println("cursor position: " + this.CursorPosition);
+		//font.draw(batch, textToRenderCursor, 10, 300);
+		
 		//Graficamos cursor...
 		if(showCursor) {
-			font.draw(batch, cursorChar, zone.x + marginX + ResourceManager.fonts.calculateTextWidth(font, textToRenderCursor), zone.y + marginY);
+			font.draw(batch, cursorChar, zone.x + marginX + ResourceManager.fonts.calculateTextWidth(font, textToRenderCursor) - 2, zone.y + marginY - 4);
 		}
 	}//fin rendercursor
 	
@@ -363,7 +367,7 @@ public class SimpleTextBox extends ClickableArea {
 		//Verificamos limites...
 		if(this.CursorPosition < 0) this.CursorPosition= 0;
 		if(this.CursorPosition > this.maxTextLength) this.CursorPosition= this.maxTextLength;
-		//if(this.CursorPosition > this.text.size()) this.CursorPosition= this.text.size();
+		if(this.CursorPosition > this.text.size()) this.CursorPosition= this.text.size();
 		
 		//Movemos el renderCursorPosition...
 		this.renderCursorPosition= this.CursorPosition;

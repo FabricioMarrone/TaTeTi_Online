@@ -27,11 +27,11 @@ public class SimpleButton extends ClickableArea{
 	protected float labelLength;
 	
 	
-	public SimpleButton(String label, float posX, float posY, BitmapFont font){
-		this(label, posX, posY, font, null);
+	public SimpleButton(String label, float posX, float posY, BitmapFont font, boolean adaptSizeToText){
+		this(label, posX, posY, font, null, adaptSizeToText);
 	}
 	
-	public SimpleButton(String label, float posX, float posY, BitmapFont font, Texture skin) {
+	public SimpleButton(String label, float posX, float posY, BitmapFont font, Texture skin, boolean adaptSizeToText) {
 		super(new Rectangle());
 		
 		setFont(font);
@@ -40,8 +40,12 @@ public class SimpleButton extends ClickableArea{
 		this.skin= skin;
 		
 		//Recalculamos el tamaño de la zona en funcion del largo del texto...
-		
-		this.zone.set(posX, posY, labelLength + 20, font.getLineHeight() + 10);
+		if(adaptSizeToText){
+			this.zone.set(posX, posY, labelLength + 20, font.getLineHeight() + 10);
+		}else{
+			if(skin != null) this.zone.set(posX, posY, skin.getWidth(), skin.getHeight());
+			else this.zone.set(posX, posY, 120, 40);
+		}
 	}
 
 	@Override
