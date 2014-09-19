@@ -170,7 +170,6 @@ public class Client {
 			connectedToServer= true;
 			
 		} catch (UnknownHostException e) {
-			//TODO mensaje error aqui (done)
 			connectedToServer= false;
 			GameSession.getInstance().serverNotFoundError(e);
 			
@@ -198,8 +197,6 @@ public class Client {
 			out.writeObject(msg);
 			out.flush();
 		}catch(SocketException s){
-			//Un sockey error puede ser "Connection reset by peer: socket write error", lo que implica que a quien le queremos mandar un mensaje no esta disponible.
-			//TODO test code (mensaje al usuario)
 			connectedToServer= false;
 			GameSession.getInstance().connectionLost(s);
 		}

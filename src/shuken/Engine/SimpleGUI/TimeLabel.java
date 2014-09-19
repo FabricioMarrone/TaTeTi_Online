@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class TimeLabel extends ClickableArea{
@@ -14,7 +15,7 @@ public class TimeLabel extends ClickableArea{
 	/** Fuente con la que se grafica el label. */
 	protected BitmapFont font;
 	
-	protected Texture skin;
+	protected TextureRegion skin;
 	
 	protected float labelLength;
 	
@@ -25,7 +26,7 @@ public class TimeLabel extends ClickableArea{
 	public TimeLabel(String label, float posX, float posY, BitmapFont font, float visibleTime) {
 		this(label, posX, posY, font, visibleTime, null);
 	}
-	public TimeLabel(String label, float posX, float posY, BitmapFont font, float visibleTime, Texture skin) {
+	public TimeLabel(String label, float posX, float posY, BitmapFont font, float visibleTime, TextureRegion skin) {
 		super(new Rectangle(posX, posY, 5, 5));
 
 		this.setLabel(label, font);

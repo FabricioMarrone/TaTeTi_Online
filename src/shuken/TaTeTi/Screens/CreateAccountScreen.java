@@ -63,7 +63,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		txtPass1.setTextboxForPassword(true);
 		txtPass2= new SimpleTextBox(265, 100, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass2.setTextboxForPassword(true);
-		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.gameText, 4.5f, ResourceManager.textures.transition);
+		lblErrorMsg= new TimeLabel("", 200, 100, ResourceManager.fonts.gameText, 4.5f, ResourceManager.textures.transition);
 		
 		SimpleGUI.getInstance().addAreaNoActive(btnCrear);
 		SimpleGUI.getInstance().addAreaNoActive(btnCancelar);
@@ -79,7 +79,6 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 	public void postCreate() {
 		transitions= new ArrayList<Transition>();
 		
-		//TODO testcode
 		float transitionTime= 0.45f;
 				
 		transitionIn= new FadeTransition(transitionTime, null, true);

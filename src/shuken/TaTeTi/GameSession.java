@@ -166,6 +166,9 @@ public class GameSession implements Updateable{
 	@Override
 	public void update(float delta) {
 		
+		//Si estamos conectados al socket del server, entonces no debe haber ningun mensaje de error relacionado
+		if(this.isConnectedToServer()) SimpleGUI.getInstance().turnAreaOFF(SimpleGUI.getInstance().errorMsg);
+		
 		heartBeatTime+= delta;
 		if(heartBeatTime > HEARTBEAT_INTERVAL){
 			heartBeatTime= 0;
@@ -465,6 +468,8 @@ public class GameSession implements Updateable{
 				case SaC_PlayersOnline: TaTeTi.getInstance().getMainMenuScreen().SaC_PlayersOnline(msg); break;
 					
 				case SaC_SeHaCanceladoSolicitudParaJugar: TaTeTi.getInstance().getMainMenuScreen().SaC_SeHaCanceladoSolicitudParaJugar(msg); break;
+				
+				case SaC_ErrorMessage:  TaTeTi.getInstance().getMainMenuScreen().SaC_ErrorMessage(msg); break;
 				//************************************************//
 				
 				

@@ -79,7 +79,6 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 	public void postCreate() {
 		transitions= new ArrayList<Transition>();
 		
-		//TODO testcode
 		float transitionTime= 0.45f;
 				
 		transitionIn= new FadeTransition(transitionTime, null, true);
@@ -266,9 +265,6 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 			ShukenInput.getInstance().consumeClick(0);
 		}
 		
-		//TODO: remove test code. Test only
-		if(ShukenInput.getInstance().isKeyReleased(Keys.SPACE)) partida.clearTablero();
-		
 	}//fin update local player playing
 	
 	
@@ -442,10 +438,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 	}//fin simple gui event
 	
 	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void resize(int width, int height) {}
 
 	@Override
 	public void show() {
@@ -471,22 +464,13 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void pause() {}
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void resume() {}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void dispose() {}
 
 
 	

@@ -50,10 +50,7 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 	public void postCreate() {
 		transitions= new ArrayList<Transition>();
 		
-		//TODO testcode
-		float transitionTime= 0.5f;
-		
-		transitionToLogginScreen= new FadeTransition(transitionTime, TaTeTi.getInstance().loginScreen, false);
+		transitionToLogginScreen= new FadeTransition(0.5f, TaTeTi.getInstance().loginScreen, false);
 		transitions.add(transitionToLogginScreen);
 		
 	}

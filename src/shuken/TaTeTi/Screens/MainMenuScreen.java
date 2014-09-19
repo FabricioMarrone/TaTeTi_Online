@@ -45,7 +45,9 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	
 	/** Tiempo limite para responder una solicitud entrante antes de ser rechazada (medido en segundos)*/
 	private static final int TIME_TO_ANSWER= 15;
+	private static final int MAX_WAITING_TIME= TIME_TO_ANSWER + 5;
 	private float timeOutCount;
+	private float waitingTimeCount;
 	
 	/** Variable para generar animacion de flecha circular. */
 	private float angle= 0;
@@ -114,13 +116,13 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().addAreaNoActive(btnAceptarSolicitud);
 		SimpleGUI.getInstance().addAreaNoActive(btnRechazarSolicitud);
 		SimpleGUI.getInstance().addAreaNoActive(btnCancelarSolicitud);
+		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
 	}//fin constructor
 	
 	@Override
 	public void postCreate() {
 		transitions= new ArrayList<Transition>();
 		
-		//TODO testcode
 		float transitionTime= 0.45f;
 		
 		transitionIn= new FadeTransition(transitionTime, null, true);
@@ -176,6 +178,14 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			break;
 			
 		case ESPERANDO_RESPUESTA_DE_OTRO_USUARIO:
+			waitingTimeCount+= delta;
+			if(waitingTimeCount > MAX_WAITING_TIME){
+				lblErrorMsg.reset();
+				lblErrorMsg.setLabel("El usuario " + nickOponente + " perdió comunicación con el servidor.");
+				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
+				cancelarSolicitud();
+			}
+			
 			angle-= delta * 300;
 			if(angle <= 0) angle= 360;
 			break;
@@ -256,6 +266,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			int widthToRender= ResourceManager.textures.timeBar.getWidth()-(int)(ResourceManager.textures.timeBar.getWidth() * percent);
 			batch.setColor(1, 1, 1, 1);
 			batch.draw(ResourceManager.textures.timeBar, 220, 147, 0, 0, widthToRender, ResourceManager.textures.timeBar.getHeight());
+			
 			break;
 		case ESPERANDO_RESPUESTA_DE_OTRO_USUARIO:
 			ResourceManager.fonts.UIlabelsFont.draw(batch, "Esperando a que " + nickOponente.toUpperCase() + " responda a su solicitud...", 100, 250);
@@ -353,9 +364,11 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		//Datos del mensaje
 		String nick= msg.strings.get(0);
 		boolean isForTimeOut= msg.booleans.get(0);
+		waitingTimeCount= 0;
+		timeOutCount= 0;
 		
 		String mensaje= "";
-		if(isForTimeOut) mensaje= "TIME OUT ("+ nick + "): la solicitud fue rechazada automaticamente.";
+		if(isForTimeOut) mensaje= "El usuario "+ nick + " se ha demorado demasiado en responder.";
 		else mensaje= "El jugador " + nick + " ha rechazado tu oferta de jugar.";
 		
 		lblErrorMsg.reset();
@@ -366,7 +379,17 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		setState_Normal();
 	}
 	
-	
+	public void SaC_ErrorMessage(InetMessage msg){
+		waitingTimeCount=0;
+		timeOutCount= 0;
+		
+		lblErrorMsg.reset();
+		lblErrorMsg.setLabel(msg.strings.get(0));
+		SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
+		
+		GameSession.getPlayer().setState(Player.States.IDLE);
+		setState_Normal();
+	}
 	
 	public void SaC_Start_Match(InetMessage msg){
 		//Obtenemos la data...
@@ -445,6 +468,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	
 	public void setState_Normal(){
 		state= ScreenStates.NORMAL;
+		waitingTimeCount= 0;
+		timeOutCount= 0;
 		hideGUI();
 		showGUI();
 	}
@@ -501,12 +526,10 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		}
 		
 		if(area.equals(btnCancelarSolicitud)){
-			sendCancelarSolicitud= true;
-			sendSolicitudParaJugar= false;
-			setState_Normal();
-			GameSession.getPlayer().setState(States.IDLE);
+			cancelarSolicitud();
 		}
 	}//fin simple gui event
+	
 	
 	protected void aceptarSolicitud(){
 		respuestaSolicitudEntrante= true;
@@ -522,11 +545,16 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		setState_Normal();
 	}
 	
-	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+	protected void cancelarSolicitud(){
+		sendCancelarSolicitud= true;
+		sendSolicitudParaJugar= false;
+		waitingTimeCount= 0;
+		setState_Normal();
+		GameSession.getPlayer().setState(States.IDLE);
 	}
+	
+	@Override
+	public void resize(int width, int height) {}
 
 	@Override
 	public void show() {
@@ -581,22 +609,13 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	}
 	
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void pause() {}
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void resume() {}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void dispose() {}
 
 	
 

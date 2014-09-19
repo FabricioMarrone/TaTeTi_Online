@@ -181,7 +181,8 @@ public class HandleClient implements Runnable{
 		//ESTE cliente ha cancelado una solicitud. Dentro del mensaje esta el nombre del cliente al que le tenemos que avisar de que ESTE canceló.
 		String nickSolicitante= msg.strings.get(0);
 		HandleClient hclientOtro= Server.instance.getHandleClient(nickSolicitante);
-		hclientOtro.sendSeHaCanceladoLaSolicitud(this.player.getNick());
+		
+		if(hclientOtro != null) hclientOtro.sendSeHaCanceladoLaSolicitud(this.player.getNick());
 		
 		//ESTE cliente vuelve al estado IDLE
 		player.setState(Player.States.IDLE);
@@ -220,7 +221,13 @@ public class HandleClient implements Runnable{
 		
 		if(hClientPlayerSolicitante == null){
 			//Error inesperado 002.
-			System.err.println("Server-side: Error inesperado 002.");
+			//System.err.println("Server-side: Error inesperado 002. El cliente solicitante ha crasheado.");
+
+			//Colocamos a este player como disponible
+			player.setState(Player.States.IDLE);
+			Server.instance.updateTablaPlayerOnline();
+			if(resp) this.send_ErrorMessage("El usuario " + nickSolicitante + " ha perdido su conexión con el servidor.");
+			
 			return;
 		}
 		
@@ -444,6 +451,14 @@ public class HandleClient implements Runnable{
 		this.sendMessage(msg);
 	}
 	
+	public void send_ErrorMessage(String error){
+		//Creamos el mensaje...
+		InetMessage msg= new InetMessage(InetMsgType.SaC_ErrorMessage);
+		msg.strings.add(0, new String(error));
+		
+		//Lo enviamos...
+		this.sendMessage(msg);
+	}
 	
 	public void sendAvanzarTurno(){
 		//Creamos el mensaje...

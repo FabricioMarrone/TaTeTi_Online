@@ -77,10 +77,7 @@ public class HighScores implements Updateable, Renderable{
 	}
 
 	@Override
-	public void update(float delta) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(float delta) {}
 	
 	public void addRecord(String nick, int won, int lose, int draw){
 		records.add(new HighScoreRecord(nick, won, lose, draw));

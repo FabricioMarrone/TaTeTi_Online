@@ -218,10 +218,9 @@ public class Server extends JFrame {
 					if(((PlayerData_BD)(GameData.playerData)).isConnectionAlive()){
 						connected= "[CONNECTED]";
 					}else{
-						//TODO mejorar mensaje
 						JOptionPane.showMessageDialog(this, "Error al conectar a la Base de Datos.\n" +
 								"Si desea utilizar el servidor fuera de localhost,\n " +
-								"coloque \"useDB= false\" en el archivo de configuracion del servidor.");
+								"coloque \"useDB= false\" en el archivo de configuracion.");
 						System.exit(0);
 					}
 				}
@@ -237,7 +236,6 @@ public class Server extends JFrame {
 				this.run();
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

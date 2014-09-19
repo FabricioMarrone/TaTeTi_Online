@@ -8,15 +8,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class SimpleErrorMessage extends ClickableArea {
 
 	private BitmapFont font;
 	private ArrayList<String> text;
-	private Texture skin;
+	private TextureRegion skin;
 	
-	public SimpleErrorMessage(ArrayList<String> text, BitmapFont font, Texture skin) {
+	public SimpleErrorMessage(ArrayList<String> text, BitmapFont font, TextureRegion skin) {
 		super(defineZone(text, font));
 		
 		this.text= text;
@@ -34,7 +35,7 @@ public class SimpleErrorMessage extends ClickableArea {
 		float height= text.size() * font.getLineHeight();
 		
 		float x= (Gdx.graphics.getWidth() - width)/2;
-		float y= Gdx.graphics.getHeight() - height;
+		float y= Gdx.graphics.getHeight() - height - 5;
 		
 		return new Rectangle(x, y, width, height);
 	}
@@ -42,7 +43,11 @@ public class SimpleErrorMessage extends ClickableArea {
 	
 	@Override
 	public void render(SpriteBatch batch) {
-		if(skin != null) batch.draw(skin, zone.x, zone.y, zone.width, zone.height);
+		if(skin != null) {
+			batch.setColor(0, 0, 0.2f, 0.8f);
+			batch.draw(skin, zone.x, zone.y, zone.width, zone.height + 3);
+			batch.setColor(1, 1, 1, 1);
+		}
 			
 		for(int i= 0; i < text.size(); i++){
 			font.draw(batch, text.get(i), zone.x, (zone.y + zone.height) - (i*font.getLineHeight()));
@@ -51,10 +56,7 @@ public class SimpleErrorMessage extends ClickableArea {
 	}
 
 	@Override
-	public void update(float delta) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void update(float delta) { }
 
 	public void setText(ArrayList<String> text){
 		this.text= text;

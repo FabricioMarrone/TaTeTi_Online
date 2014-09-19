@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
@@ -22,7 +23,7 @@ public class SimpleButton extends ClickableArea{
 	protected BitmapFont font;
 	
 	/** Aspecto del boton. */
-	protected Texture skin;
+	protected TextureRegion skin;
 	
 	protected float labelLength;
 	
@@ -31,7 +32,7 @@ public class SimpleButton extends ClickableArea{
 		this(label, posX, posY, font, null, adaptSizeToText);
 	}
 	
-	public SimpleButton(String label, float posX, float posY, BitmapFont font, Texture skin, boolean adaptSizeToText) {
+	public SimpleButton(String label, float posX, float posY, BitmapFont font, TextureRegion skin, boolean adaptSizeToText) {
 		super(new Rectangle());
 		
 		setFont(font);
@@ -43,7 +44,7 @@ public class SimpleButton extends ClickableArea{
 		if(adaptSizeToText){
 			this.zone.set(posX, posY, labelLength + 20, font.getLineHeight() + 10);
 		}else{
-			if(skin != null) this.zone.set(posX, posY, skin.getWidth(), skin.getHeight());
+			if(skin != null) this.zone.set(posX, posY, skin.getRegionWidth(), skin.getRegionHeight());
 			else this.zone.set(posX, posY, 120, 40);
 		}
 	}

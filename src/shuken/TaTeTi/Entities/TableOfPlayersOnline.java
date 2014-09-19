@@ -74,8 +74,8 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 			ResourceManager.fonts.gameText.draw(batch, "No hay jugadores disponibles", position.x, position.y - 10);
 		}
 		
-		//TODO test code
 		/*
+		//Graficando rectangulos, testing only
 		batch.end();
 		shapeRender.begin(ShapeType.Line);
 		for(int i= 0; i < CANT_OF_ROWS; i++){

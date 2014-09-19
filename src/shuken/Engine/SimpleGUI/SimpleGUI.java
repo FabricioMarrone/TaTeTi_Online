@@ -38,7 +38,7 @@ public class SimpleGUI {
 		
 		ArrayList<String> text= new ArrayList<String>();
 		text.add("(Click para quitar mensaje)");
-		errorMsg= new SimpleErrorMessage(text,  ResourceManager.fonts.defaultFont, ResourceManager.textures.transition);
+		errorMsg= new SimpleErrorMessage(text,  ResourceManager.fonts.gameText, ResourceManager.textures.transition);
 		addAreaNoActive(errorMsg);
 	}
 	

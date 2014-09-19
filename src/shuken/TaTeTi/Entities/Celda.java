@@ -33,9 +33,9 @@ public class Celda implements Renderable {
 			batch.draw(ResourceManager.textures.circulo, zone.x, zone.y);
 		}
 		
-		//FIXME: testing code
-		//Only for testing
+		
 		/*
+		//Only for testing
 		batch.end();
 		shapeRender.begin(ShapeType.Line);
 		shapeRender.setColor(Color.GREEN);

@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.FloatArray;
 
@@ -26,7 +27,7 @@ public class SimpleTextBox extends ClickableArea {
 	protected boolean textboxForPassword= false;
 	
 	/** Aspecto del textbox. */
-	protected Texture skin;
+	protected TextureRegion skin;
 	
 	/** Fuente con la que se grafica el texto. */
 	protected BitmapFont font;
@@ -62,11 +63,11 @@ public class SimpleTextBox extends ClickableArea {
 	private int marginX= 10;
 	private int marginY= 30;
 	
-	public SimpleTextBox(int posx, int posy, int maxCantChars, BitmapFont font, Texture skin){
-		this(posx, posy, skin.getWidth(), skin.getHeight(), maxCantChars, font, skin);
+	public SimpleTextBox(int posx, int posy, int maxCantChars, BitmapFont font, TextureRegion skin){
+		this(posx, posy, skin.getRegionWidth(), skin.getRegionHeight(), maxCantChars, font, skin);
 	}
 	
-	public SimpleTextBox(int posx, int posy, int width, int height, int maxCantChars, BitmapFont font, Texture skin){
+	public SimpleTextBox(int posx, int posy, int width, int height, int maxCantChars, BitmapFont font, TextureRegion skin){
 		super(new Rectangle(posx, posy, width, height));
 		
 		//Inicializamos array...

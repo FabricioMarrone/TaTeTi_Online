@@ -1,7 +1,9 @@
 package shuken.Engine.Resources;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
@@ -20,11 +22,11 @@ public class TextureManager {
 	//public Animation playerRunning;
 	//public Animation playerJumpForward;
 	
-	public Texture tablero, cruz, circulo, button, textbox, transition, checkbox_checked, checkbox_unchecked;
+	public TextureRegion tablero, cruz, circulo, button, textbox, transition, checkbox_checked, checkbox_unchecked;
 	public Texture backgroundLoggin, backgroundCreateAccount, backgroundMainMenu, backgroundGamePlay;
-	public Texture gameTitle, createAccountTitle, mainMenuTitle;
-	public Texture lineV, lineH, lineD1, lineD2, arrow, timeBar;
-	public TextureRegion circleArrow;
+	public TextureRegion gameTitle, createAccountTitle, mainMenuTitle;
+	public TextureRegion lineV, lineH, lineD1, lineD2, arrow, circleArrow;
+	public Texture timeBar;	//no usar TextureRegion en esta
 	
 	protected static TextureManager getInstance(){
 		if(instance == null) instance= new TextureManager();
@@ -39,34 +41,37 @@ public class TextureManager {
 	protected void loadTextures(){
 		
 		
-		tablero= new Texture("assets/images/tablero.png");
-		cruz= new Texture("assets/images/cruz.png");
-		circulo= new Texture("assets/images/circulo.png");
-		button= new Texture("assets/images/button.png");
-		textbox= new Texture("assets/images/textbox.png");
-		transition= new Texture("assets/images/transition.png");
-		checkbox_checked= new Texture("assets/images/checkbox_check.png");
-		checkbox_unchecked= new Texture("assets/images/checkbox_uncheck.png");
+		tablero= new TextureRegion(new Texture("assets/images/tablero.png"));
+		cruz= new TextureRegion(new Texture("assets/images/cruz.png"));
+		circulo= new TextureRegion(new Texture("assets/images/circulo.png"));
+		button= new TextureRegion(new Texture("assets/images/button.png"));
+		textbox= new TextureRegion(new Texture("assets/images/textbox.png"));
+		transition= new TextureRegion(new Texture("assets/images/transition.png"));
+		checkbox_checked= new TextureRegion(new Texture("assets/images/checkbox_check.png"));
+		checkbox_unchecked= new TextureRegion(new Texture("assets/images/checkbox_uncheck.png"));
 		
 		backgroundLoggin = new Texture("assets/images/backgroundLoggin.png");
 		backgroundCreateAccount = new Texture("assets/images/backgroundCreateAccount.png");
 		backgroundMainMenu = new Texture("assets/images/backgroundMainMenu.png");
 		backgroundGamePlay  = new Texture("assets/images/backgroundGamePlay.png");
 		
-		gameTitle = new Texture("assets/images/title.png");
-		createAccountTitle= new Texture("assets/images/createAccountTitle.png");
-		mainMenuTitle= new Texture("assets/images/mainMenuTitle.png");
+		gameTitle = new TextureRegion(new Texture("assets/images/title.png"));
+		createAccountTitle= new TextureRegion(new Texture("assets/images/createAccountTitle.png"));
+		mainMenuTitle= new TextureRegion(new Texture("assets/images/mainMenuTitle.png"));
 		
-		lineV = new Texture("assets/images/lineV.png");
-		lineH = new Texture("assets/images/lineH.png");
-		lineD1 = new Texture("assets/images/lineD1.png");
-		lineD2 = new Texture("assets/images/lineD2.png");
-		arrow = new Texture("assets/images/arrow.png");
+		lineV = new TextureRegion(new Texture("assets/images/lineV.png"));
+		lineH = new TextureRegion(new Texture("assets/images/lineH.png"));
+		lineD1 = new TextureRegion(new Texture("assets/images/lineD1.png"));
+		lineD2 = new TextureRegion(new Texture("assets/images/lineD2.png"));
+		arrow = new TextureRegion(new Texture("assets/images/arrow.png"));
 		Texture circleArr= new Texture("assets/images/circlearrow.png");
 		circleArr.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		circleArrow= new TextureRegion(circleArr);
 		timeBar = new Texture("assets/images/timeBar.png");
 		
+		
+		
+		/*
 		tablero.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		cruz.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		circulo.setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -91,6 +96,7 @@ public class TextureManager {
 		lineD2.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		arrow.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		timeBar.setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		*/
 		
 		/*
 		//Cargamos el atlas del player...

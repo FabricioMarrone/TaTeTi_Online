@@ -45,7 +45,7 @@ public class Partida implements Renderable, Updateable{
 	
 	public Partida(Player pX, Player pO, boolean playerXStarts, boolean forServer){
 		//Creamos el tablero...
-		if(!forServer) tablero= new Tablero((Gdx.graphics.getWidth() - ResourceManager.textures.tablero.getWidth())/2, (Gdx.graphics.getHeight() - ResourceManager.textures.tablero.getHeight())/2);
+		if(!forServer) tablero= new Tablero((Gdx.graphics.getWidth() - ResourceManager.textures.tablero.getRegionWidth())/2, (Gdx.graphics.getHeight() - ResourceManager.textures.tablero.getRegionHeight())/2);
 		else tablero= new Tablero(40, 40);
 		
 		rendicion_x= false;

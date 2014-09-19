@@ -33,6 +33,7 @@ public class InetMessage implements Serializable{
 		SaC_MejoresPuntajes,
 		SaC_PlayersOnline,
 		SaC_SeHaCanceladoSolicitudParaJugar,
+		SaC_ErrorMessage,
 		
 		//Del cliente al server (CaS)
 		CaS_HeartBeat,

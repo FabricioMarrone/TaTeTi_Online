@@ -66,17 +66,17 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		txtUser= new SimpleTextBox(250, 203, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass= new SimpleTextBox(250, 153, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass.setTextboxForPassword(true);
-		lblErrorMsg= new TimeLabel("", 200, 70, ResourceManager.fonts.gameText, 4f, ResourceManager.textures.transition);
-		checkBoxUser= new SimpleCheckBox(410, 126, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
-		checkBoxMusic= new SimpleCheckBox(410, 103, 16, 16, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
+		checkBoxUser= new SimpleCheckBox(410, 126, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
+		checkBoxMusic= new SimpleCheckBox(410, 103, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
+		lblErrorMsg= new TimeLabel("", 200, 100, ResourceManager.fonts.gameText, 4f, ResourceManager.textures.transition);
 		SimpleGUI.getInstance().addAreaNoActive(btnLoggin);
 		SimpleGUI.getInstance().addAreaNoActive(btnCrearCuenta);
 		SimpleGUI.getInstance().addAreaNoActive(txtUser);
 		SimpleGUI.getInstance().addAreaNoActive(txtPass);
-		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
 		SimpleGUI.getInstance().addAreaNoActive(btnReintentar);
 		SimpleGUI.getInstance().addAreaNoActive(checkBoxUser);
 		SimpleGUI.getInstance().addAreaNoActive(checkBoxMusic);
+		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
 		
 	}//fin constructor
 	
@@ -84,7 +84,6 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 	public void postCreate() {
 		transitions= new ArrayList<Transition>();
 		
-		//TODO testcode
 		float transitionTime= 0.45f;
 		
 		transitionIn= new FadeTransition(transitionTime, null, true);
@@ -122,17 +121,6 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		
 		//Actualizamos gui...
 		SimpleGUI.getInstance().update(delta);
-		
-		//TODO test code
-		/*
-		if(ShukenInput.getInstance().isKeyReleased(Keys.E)){
-			ArrayList<String> text= new ArrayList<String>();
-			text.add("Error inventado en logginnnnnnn");
-			text.add("(Click para quitar mensaje)");
-			SimpleGUI.getInstance().errorMsg.setText(text);
-			SimpleGUI.getInstance().errorMsg.show();
-		}
-		*/
 		
 	}//fin update
 	
@@ -302,10 +290,7 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 	}//fin simple gui event
 	
 	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void resize(int width, int height) {}
 
 	@Override
 	public void show() {
@@ -315,7 +300,7 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 			checkBoxUser.setChecked(true);
 		}else{
 			checkBoxUser.setChecked(false);
-			//TODO test code
+			//TODO test code TEXTBOXS EN LOGIN
 			txtUser.putNewStringIntoText("Player");
 			txtPass.putNewStringIntoText("123");
 		}
@@ -359,22 +344,13 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 	}
 
 	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void pause() {}
 
 	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void resume() {}
 
 	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void dispose() {}
 
 
 
