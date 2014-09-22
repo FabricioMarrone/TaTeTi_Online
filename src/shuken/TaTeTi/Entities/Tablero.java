@@ -110,7 +110,7 @@ public class Tablero implements Renderable, Updateable{
 
 	public void renderWinner(SpriteBatch batch, ShapeRenderer shapeRender, Ficha ficha){
 		if(ficha == Ficha.CIRCULO) batch.setColor(0, 1, 0, 0.9f);
-		if(ficha == Ficha.CRUZ) batch.setColor(1, 0, 0, 0.9f);
+		if(ficha == Ficha.CRUZ) batch.setColor(0, 0, 1, 0.9f);
 		
 		//-1
 		if(celdas[1].contains(ficha) && celdas[4].contains(ficha) && celdas[7].contains(ficha)) batch.draw(ResourceManager.textures.lineV, position.x + 20, position.y + 22);

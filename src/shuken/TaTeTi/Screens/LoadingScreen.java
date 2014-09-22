@@ -59,7 +59,7 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 	public void update(float delta) {
 		
 		if(ResourceManager.loadDone){
-			//TaTeTi.getInstance().setScreen(TaTeTi.getInstance().logginScreen);
+			//TaTeTi.getInstance().setScreen(TaTeTi.getInstance().loginScreen);
 			if(!transitionToLogginScreen.isRunning()) transitionToLogginScreen.start();
 		}
 		
@@ -75,11 +75,11 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 	@Override
 	public void render(float delta) {
 		//Limpiamos screen...
-		Gdx.gl.glClearColor(0.88f,0.93f,0.88f,0f);
+		Gdx.gl.glClearColor(0f,0f, 0.15f,0f);
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
 		batch.begin();
-		batch.draw(loadingTex, 300, 100);
+		batch.draw(loadingTex, 183, 200);
 		font.draw(batch, ResourceManager.porcentajeLoad + "%", 100, 100);
 		
 		//Graficamos transiciones (si hay)

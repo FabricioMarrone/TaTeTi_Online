@@ -161,8 +161,6 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 			ResourceManager.fonts.defaultFont.draw(batch, "Match State: " + partida.getPartidaState(), 10, Gdx.graphics.getHeight() - 65);
 		}
 		
-		ResourceManager.fonts.defaultFont.draw(batch, partida.getPlayerX().getNick() + " VS " + partida.getPlayerO().getNick(), 200, Gdx.graphics.getHeight()-20);
-		
 		//Graficamos la partida, tablero y demas...
 		partida.render(batch, shapeRender);
 				

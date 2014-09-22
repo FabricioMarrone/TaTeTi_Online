@@ -86,6 +86,12 @@ public class Partida implements Renderable, Updateable{
 		//Si hay un ganador, le indicamos al tablero que grafique una linea que una las 3 piezas
 		if(currentState == MatchStates.GANADOR_X) tablero.renderWinner(batch, shapeRender, Ficha.CRUZ);
 		if(currentState == MatchStates.GANADOR_O) tablero.renderWinner(batch, shapeRender, Ficha.CIRCULO);
+		
+		//Graficamos nombres de los jugadores
+		ResourceManager.fonts.UIlabelsFont.draw(batch, getPlayerX().getNick(), 60, 400);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, getPlayerO().getNick(), 530, 400);
+		if(this.getFichaPlayerActual() == Ficha.CRUZ) batch.draw(ResourceManager.textures.cruz, 70, 320, 50, 50);
+		else batch.draw(ResourceManager.textures.circulo, 540, 320, 50, 50);
 	}//fin render
 
 	
