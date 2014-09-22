@@ -142,14 +142,14 @@ public abstract class ShukenGame extends Game {
 	 * Checks if the screen is the "current screen".
 	 * @return 
 	 */
-	public boolean isActualScreen(ShukenScreen screen){
+	public boolean isCurrentScreen(ShukenScreen screen){
 		if(this.getCurrentScreen().equals(screen)) return true;
 		else return false;
 	}
 	
 	
 	/**
-	 * Almacena la información del tamaño de la pantalla y calcula el "screenSize".
+	 * Saves the screen info and calculates the "screenSize".
 	 * @param width
 	 * @param height
 	 * @param fullscreen
@@ -164,8 +164,7 @@ public abstract class ShukenGame extends Game {
 	}
 	
 	/**
-	 * Toma el valor del delta pasado como parámetro y lo devuelve corregido luego de aplicar el limite de maxDelta. Si el delta es menor
-	 * al limite maximo, entonces se devuelve sin cambios.
+	 * Takes the delta parameter and returns a delta witch is not greater than "maxDelta".
 	 * @param delta
 	 * @return
 	 */
@@ -177,8 +176,7 @@ public abstract class ShukenGame extends Game {
 	
 	
 	/**
-	 * Setea el maximo valor de delta que se pasara a la logica del juego. Antes de cada update, el delta debe pasar por el metodo
-	 *<code> confirmDelta(float delta)</code> de la clase ShukenGame para que devuelva un delta que respete los limites.
+	 * Sets the max delta value. So, before every update, the delta value must be confirmed by <code> confirmDelta(float delta)</code> method.
 	 * @param max
 	 */
 	protected void setMaxDelta(float max){

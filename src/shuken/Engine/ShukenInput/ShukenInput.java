@@ -7,37 +7,38 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 
 /**
- * Input solamente empleado para hacer una especie de polling.
+ * Customized class to support a kind of "polling".
  * 
- * @author Shuken
+ * @author F. Marrone
  *
  */
 public class ShukenInput implements InputProcessor{
 	
 	private static ShukenInput instance= null;
 	
-	/** Keys presionadas actualmente. */
+	/** Keys currently pressed */
 	public boolean[] keysPressed;
 	
-	/** Keys liberadas recientemente. */
+	/** Keys recently released */
 	public boolean[] keysReleased;
 	
-	/** Clicks del mouse. Cada click contiene información acerca de si se trata de un press o un release. */
-	public MouseClick[] clicks;			//clicks[0] button IZQ
-										//clicks[1] button DER
-										//clicks[2] button del medio
+	/** Mouse clicks */
+	public MouseClick[] clicks;			//clicks[0] button LEFT
+										//clicks[1] button RIGHT
+										//clicks[2] button MIDLE
 	
-	/** Ultimo keyCode enviado como parametro en el metodo keyDown. Se lo guarda para utilizarlo luego en keyTyped junto a su char asociado. */
-	private int lastKeyCode;	//podriamos decir q es una variable auxiliar cuyo valor cambia todo el tiempo y nunca debe ser accedida directamente.
-	
-	/** Ultimo valor enviado desde el metodo "scroll" cuando se hace girar la rueda del mouse. -1 o 1 dependiendo la direccion. 0 si no se ha
-	 * realizado ningun movimiento (valor por defecto).*/
-	private int lastScrollAmount= 0; 
-	
+	/** Last keyCode dispatched by the keyDown method. */
+	private int lastKeyCode;	//its an aux var, it changes all the time and never must be used directly
 	
 	/**
-	 * Constructor privado. Clase singleton.
-	 * @param game
+	 * Last value dispatched by the scroll method. 
+	 * -1 and 1 depending of the direction
+	 * 0 no movement (default value)
+	 */
+	private int lastScrollAmount= 0; 
+	
+	/**
+	 * Singleton class.
 	 */
 	private ShukenInput(){
 		clicks= new MouseClick[3];
@@ -45,11 +46,10 @@ public class ShukenInput implements InputProcessor{
 		clicks[1]= new MouseClick();
 		clicks[2]= new MouseClick();
 		
-		keysPressed= new boolean[600];		//el indice se determina por los KeyCode (son int de 0 a 600 mas o menos)
+		keysPressed= new boolean[600];
 		keysReleased= new boolean[600];
 		
 	}
-	
 	
 	public static ShukenInput getInstance(){
 		if(instance == null) instance= new ShukenInput();
@@ -59,7 +59,7 @@ public class ShukenInput implements InputProcessor{
 	
 	@Override
 	public boolean keyDown(int keycode) {
-		//Guardamos el keycode para usarlo luego en keyTyped junto a su char asociado. En este metodo no hacemos nada con la tecla.
+		//We save the keyCode to be used later on the keyTyped method.
 		this.lastKeyCode= keycode;
 		return false;
 	}
@@ -76,15 +76,13 @@ public class ShukenInput implements InputProcessor{
 	public boolean keyTyped(char character) {
 		//Si esta activado el Keyboard.enableRepeatEvents(true) este metodo se llama continuamente mientras una tecla este presionada.
 		
-		//Enviamos la tecla a la GUI por si algun componente la utiliza...
+		//We send the key to the GUI first...
 		boolean consumed= SimpleGUI.getInstance().keyTyped(lastKeyCode, character);
 		
-
-		//Si no ha sido consumida por la GUI, se almacena por si algun state del juego la utiliza.
+		//if the GUI didn't use the key, then is saved for the gameplay.
 		if(!consumed){
 			if(keysPressed[this.lastKeyCode]== false) keysPressed[this.lastKeyCode]= true;
 		}
-		
 		
 		//System.out.println("TYPED: (keycode)" + this.lastKeyCode + "           que es la letra: " + character);
 		return false;
@@ -92,7 +90,7 @@ public class ShukenInput implements InputProcessor{
 
 	
 	
-	//************************ INPUTS DEL MOUSE ***********************//
+	//************************ MOUSE INPUTS ***********************//
 	
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
@@ -129,35 +127,28 @@ public class ShukenInput implements InputProcessor{
 	}
 
 	/**
-	 * Devuelve true si la tecla pasada como parámetro está siendo presionada.
 	 * @param keyCode (Gdx.Input."keycodes") 
-	 * @return
+	 * @return Returns true if the parameter is being pressed.
 	 */
 	public boolean isKeyPressed(int keyCode){
 		return this.keysPressed[keyCode];
 	}
 	
 	/**
-	 * Si una key ha sido "released" y se llama a este metodo, la respuesta es true pero además se limpia el registro del "release". Esto es para
-	 * que un release se gestione solo 1 vez. Por lo tanto, llamar a este método implica limpiar tambien el registro. Se lo debe llamar especificamente
-	 * cuando va a gestionarse el input.
+	 * If the key has been released, this method returns true but also cleans the release. So, this method must be called specifically when the input
+	 * its going to be processed.
 	 * 
 	 * @param keyCode (Gdx.Input."keycodes") 
-	 * @return true si la tecla ha sido recientemente liberada
+	 * @return true if the key hass been recently released
 	 */
 	public boolean isKeyReleased(int keyCode){
 		if(this.keysReleased[keyCode]){
-			//Limpiamos el release para que sólo sea utilizado una vez...
 			this.keysReleased[keyCode]= false;
 			return true;
 		}
 		return false;
 	}
 	
-	
-	/**
-	 * Limpia el input en su totalidad (polling, obvio).
-	 */
 	public void cleanAll(){
 		//Limpia las teclas...
 		for(int i=0; i < 600; i++){
@@ -171,7 +162,7 @@ public class ShukenInput implements InputProcessor{
 	}
 	
 	/**
-	 * Guarda el click para su uso posterior.
+	 * Saves the click for later use.
 	 * @param button
 	 * @param x
 	 * @param y
@@ -183,83 +174,60 @@ public class ShukenInput implements InputProcessor{
 		this.clicks[button].setCoords(x, y);
 	}
 	
-	
-	/**
-	 * Devuelve true si ha habido un click con el boton del mouse especificado.
-	 * @param button
-	 * @return
-	 */
 	public boolean hasBeenClicked(int button){
 		if(clicks[button].clicked) return true;
 		else return false;
 	}
 	
 	/**
-	 * Devuelve la coordenada x del ultimo click del boton del mouse especificado. Notar que para un buen uso de este metodo, es 
-	 * recomendable verificar primero de que haya habido un click, mediante el metodo <code>hasBeenClicked(int button)</code>.</br>
-	 * Se recomienda limpiar el click luego de su uso.</br>
+	 * Returns the last X-coord of a mouse click. Note that for a good use of this method its recommended to check if 
+	 * <code>hasBeenClicked(int button)</code> returns true. And finally, clean up the click to be not processed again in the next frame.</br>
 	 * 
-	 * La forma correcta de utilizarlo es:</br></br>
+	 * Example:</br></br>
 	 * 
-	 * if(Cavern.input.hasBeenClicked(0)){</br>
-			x= Cavern.input.getClickX(0);</br>
-			y= Cavern.input.getClickY(0);</br>
-			Cavern.input.consumeClick(0);</br>
+	 * if(Game.input.hasBeenClicked(0)){</br>
+			x= Game.input.getClickX(0);</br>
+			y= Game.input.getClickY(0);</br>
+			//Do what you want here...</br>
+			Game.input.consumeClick(0);</br>
 		}</br>
-	 * @param button
-	 * @return
 	 */
 	public float getClickX(int button){
 		return clicks[button].x;
 	}
 	
 	/**
-	 * Devuelve la coordenada y (fixed al canvas del juego) del ultimo click del boton del mouse especificado. Notar que para un buen 
-	 * uso de este metodo, es recomendable verificar primero de que haya habido un click, mediante el metodo 
-	 * <code>hasBeenClicked(int button)</code>.</br>
-	 *
-	 * Se recomienda limpiar el click luego de su uso.</br>
-	 * La forma correcta de utilizarlo es:</br></br>
+	 * Returns the last Y-coord of a mouse click. Note that for a good use of this method its recommended to check if 
+	 * <code>hasBeenClicked(int button)</code> returns true. And finally, clean up the click to be not processed again in the next frame.</br>
 	 * 
-	 * if(Cavern.input.hasBeenClicked(0)){</br>
-			x= Cavern.input.getClickX(0);</br>
-			y= Cavern.input.getClickY(0);</br>
-			Cavern.input.consumeClick(0);</br>
+	 * Example:</br></br>
+	 * 
+	 * if(Game.input.hasBeenClicked(0)){</br>
+			x= Game.input.getClickX(0);</br>
+			y= Game.input.getClickY(0);</br>
+			//Do what you want here...</br>
+			Game.input.consumeClick(0);</br>
 		}</br>
-	 * @param button
-	 * @return
 	 */
 	public float getClickY(int button){
 		return clicks[button].y;
 	}
-	/**
-	 * Consume la tecla para que ya no figure como presionada.
-	 * @param keyCode
-	 */
+	
 	public void consumeKey(int keyCode){
 		this.keysPressed[keyCode]= false;
 		this.keysReleased[keyCode]= false;
 	}
 	
-	/**
-	 * COnsume el click asociado al boton.
-	 * @param button
-	 */
 	public void consumeClick(int button){
 		clicks[button].cleanAll();
 	}
 	
-	/**
-	 * Devuelve el valor del scroll del mouse. -1 (hacia arriba), 1 (hacia abajo) o 0 si no hubo movimiento.</br>
-	 * 
-	 * @return
-	 */
 	public int getScrollValue(){
 		return lastScrollAmount;
 	}
 	
 	/**
-	 * Devuelve true si ha habido un scroll del mouse, sea cual sea la direccion. Falso si no hubo movimientos.
+	 * Returns true if the scroll of the mouse has been moved. False otherwise.
 	 * @return
 	 */
 	public boolean hasBeenMouseScrolled(){

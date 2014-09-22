@@ -22,7 +22,7 @@ public class AudioManager {
 
 	private static AudioManager instance= null;
 	
-	/** Indica si los sonidos o musica estan activados.*/
+	/** Indicates if audio should be played */
 	public boolean audioON;
 	
 	/** ------------------- SOUNDS --------------------- */
@@ -32,13 +32,13 @@ public class AudioManager {
 	public Music song;
 	
 	public AudioManager(){
-		//Cargamos las configuraciones...
+		//Loading config...
 		audioON= TaTeTi.gamePreferences.getBoolean("musicON");
 
 	}
 	
 	/**
-	 * Devuelve la instancia del AudioManager.
+	 * Returns an instance of AudioManager.
 	 * @return
 	 */
 	protected static AudioManager getInstance(){
@@ -49,7 +49,7 @@ public class AudioManager {
 
 	
 	/**
-	 * Carga todos los archivos de musica.
+	 * Load into memory all the music songs.
 	 */
 	protected void loadMusic(){
 		//song= Gdx.audio.newMusic(Gdx.files.internal("assets/Audio/Music/back to the future.mp3"));
@@ -67,7 +67,7 @@ public class AudioManager {
 	
 	
 	/**
-	 * Carga todos los archivos de sonido.
+	 * Load into memory all the sounds of the game.
 	 */
 	protected void loadSounds(){
 	
@@ -82,10 +82,10 @@ public class AudioManager {
 	
 	
 	public void disposeAll(){
-		//Liberamos todos los sonidos...
+		//Dispose music...
 		
 		
-		//Liberamos toda la musica...
+		//Dispose sounds...
 		
 	}
 }//fin de clase

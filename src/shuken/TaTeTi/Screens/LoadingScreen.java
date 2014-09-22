@@ -80,7 +80,7 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 
 		batch.begin();
 		batch.draw(loadingTex, 183, 200);
-		font.draw(batch, ResourceManager.porcentajeLoad + "%", 100, 100);
+		font.draw(batch, ResourceManager.percentLoad + "%", 100, 100);
 		
 		//Graficamos transiciones (si hay)
 		for(int i= 0; i < transitions.size(); i++){

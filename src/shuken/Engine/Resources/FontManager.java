@@ -10,15 +10,8 @@ public class FontManager {
 	private static FontManager instance= null;
 	
 	
-	/** Fuente utilizada con propositos generales. */
+	/** Fonts of the game */
 	public BitmapFont defaultFont, UIlabelsFont, gameText;
-	
-	//public static BitmapFont in_game_text;
-	//public static BitmapFont harrington_22;
-	
-	
-	
-	
 	
 	public static FontManager getInstance(){
 		if(instance==null) instance= new FontManager();
@@ -26,10 +19,11 @@ public class FontManager {
 		return instance;
 	}
 	
-	
-	
+	/**
+	 * Load all the fonts into memory.
+	 */
 	protected void loadFonts(){
-		//Cargamos todas las fuentes para tenerlas disponibles cuando sean requeridas...
+		
 		defaultFont= new BitmapFont(false);
 		defaultFont.setColor(Color.WHITE);
 		
@@ -39,7 +33,6 @@ public class FontManager {
 		gameText= new BitmapFont(Gdx.files.internal("assets/fonts/GameText.fnt"), Gdx.files.internal("assets/fonts/GameText_0.png"), false);
 		gameText.setColor(Color.WHITE);
 		
-		//harrington_22= new BitmapFont(Gdx.files.internal("res/fonts/harrington_22.fnt"), Gdx.files.internal("res/fonts/harrington_22_0.png"), false);
 	}
 	
 	
@@ -52,11 +45,11 @@ public class FontManager {
 	
 	
 	/**
-	 * Calcula la distancia en pixeles de un texto dado en una determinada fuente. </br>
+	 * Calculate the length of the text (in pixels) for the given font.
 	 *
-	 * @param font tipo de letra
-	 * @param text cadena de texto
-	 * @return longitud del texto, en pixeles.
+	 * @param font 
+	 * @param text 
+	 * @return length of the text (in pixels)
 	 */
 	public float calculateTextWidth(BitmapFont font, String text){
 		FloatArray f1= new FloatArray();

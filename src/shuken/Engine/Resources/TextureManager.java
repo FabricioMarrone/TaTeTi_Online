@@ -8,19 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
 /**
- * Clase singleton que contiene todas las texturas necesarias.
- * @author Shuken
+ * Singleton class that contains all the textures of the game.
+ * @author F. Marrone
  *
  */
 public class TextureManager {
 
 	private static TextureManager instance= null;
-	
-	
-	
-	//private TextureAtlas playerAtlas;
-	//public Animation playerRunning;
-	//public Animation playerJumpForward;
 	
 	public TextureRegion tablero, cruz, circulo, button, textbox, transition, checkbox_checked, checkbox_unchecked;
 	public Texture backgroundLoggin, backgroundCreateAccount, backgroundMainMenu, backgroundGamePlay;
@@ -36,10 +30,9 @@ public class TextureManager {
 	
 	
 	/**
-	 * Carga en memoria todas las texturas requeridas por el juego.
+	 * Load all the textures into the memory.
 	 */
 	protected void loadTextures(){
-		
 		
 		tablero= new TextureRegion(new Texture("assets/images/tablero.png"));
 		cruz= new TextureRegion(new Texture("assets/images/cruz.png"));
@@ -126,13 +119,11 @@ public class TextureManager {
 		*/
 		
 		
-		
-		
-	}//fin load
+	}//end load
 	
 	
 	
 	public void disposeAll(){
-		
+		//TODO dispose textures
 	}
 }//fin clase

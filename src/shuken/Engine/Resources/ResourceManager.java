@@ -1,66 +1,59 @@
 package shuken.Engine.Resources;
 
 /**
- * El Resource Manager es una clase q concentra toda la carga de imagenes, sonidos, etc, de una sola vez y las hace accesibles a cualquier
- * clase en cualquier momento.
+ * The ResourceManager class contains all the resources of the game (textures, sounds, etc) so they can be accesed by any class in any moment.
  * 
- * No es una clase que se pueda instanciar, y todos sus atributos son public static.
+ * Its a public Singleton class.
  * 
- * @author Shuken
+ * @author F. Marrone
  *
  */
 public class ResourceManager {
 
-	/** Tiempo total que demora el ResourceManager en cargar TODOS los recursos en memoria. */
+	/** Total time required to load all the resources into memory. */
 	public static long loadTime;
 	public static boolean loadDone= false;
-	public static int porcentajeLoad= 0;
+	public static int percentLoad= 0;
 	
-	//***************** LISTADO DE RESOURCES *******************//
-	
-	/** Acceso a las texturas cargadas. */
+	//***************** LIST OF RESOURCES *******************//
 	public static TextureManager textures;
-	/** Acceso a las musicas y sonidos cargados. */
 	public static AudioManager audio;
-	/** Acceso a tipos de letras cargadas. */
 	public static FontManager fonts;
-	//**********************************************************//
+	//*******************************************************//
 	
 	
-	
-	//Constructor privado. Clase singleton.
+	//Singleton class.
 	private ResourceManager(){};
 	
 	/**
-	 * Carga TODOS los recursos (imagenes, audio, etc.)
+	 * Load ALL the resources into memory.
 	 */
 	public static void loadAllResources(){
-		//Iniciamos carga...
+		//Start load...
 		loadTime= System.currentTimeMillis();
 		
-		//Cargamos las fuentes...
+		//Fonts...
 		fonts= FontManager.getInstance();
 		fonts.loadFonts();
 		
-		porcentajeLoad= 15;
+		percentLoad= 15;
 		
-		//Cargamos las texturas...
+		//Textures...
 		textures= TextureManager.getInstance();
 		textures.loadTextures();
 		
-		porcentajeLoad= 65;
+		percentLoad= 65;
 		
-		//Cargamos la musica y sonidos...
+		//Music...
 		audio= AudioManager.getInstance();
 		audio.loadMusic();
 		
-		porcentajeLoad= 80;
+		percentLoad= 80;
 		
+		//Sounds...
 		audio.loadSounds();
 		
-		porcentajeLoad= 100;
-		
-		
+		percentLoad= 100;
 		
 		//System.out.println("RAM usage on resource manager: " + (Runtime.getRuntime().totalMemory())/1024/1024 + "mb");
 		loadTime= System.currentTimeMillis() - loadTime;
@@ -71,9 +64,8 @@ public class ResourceManager {
 	public static boolean isAudioOn(){
 		return audio.audioON;
 	}
-	/**
-	 * Libera todos los recursos utilizados.
-	 */
+	
+
 	public static void disposeAllResources(){
 		textures.disposeAll();
 		audio.disposeAll();
