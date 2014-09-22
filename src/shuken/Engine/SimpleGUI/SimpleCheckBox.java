@@ -1,5 +1,7 @@
 package shuken.Engine.SimpleGUI;
 
+import shuken.Engine.Resources.ResourceManager;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -52,6 +54,8 @@ public class SimpleCheckBox extends ClickableArea{
 	public void clickOn() {
 		if(isChecked()) setChecked(false);
 		else setChecked(true);
+		
+		if(ResourceManager.isAudioOn()) ResourceManager.audio.checkbox.play();
 	}
 	
 	

@@ -7,43 +7,44 @@ import com.badlogic.gdx.math.Rectangle;
 
 
 /**
- * Clase base que todo juego posee. Implementa datos y metodos básicos. Esta clase debe extenderse para formar lo que es el juego en si
- * mismo. Están comentados los metodos main() y create() para que puedan colocarse facilmente en la clase extendida.
- * @author Shuken
+ * Base class that every game will extend. Implements basic data and methods. 
+ * Methods main() and create() are commented to be easily moved into the extended class.
+ * 
+ * @author F. Marrone
  *
  */
 public abstract class ShukenGame extends Game {
 	
 	
-	/** Nombre del Juego */
+	/** Name of the game */
 	public static String gameTitle;
-	/** Version actual del juego. */
+	/** Game current version */
 	public static String gameVersion;
-	/** Fecha de lanzamiento de la version actual. */
+	/** Release date (current version) */
 	public static String gameReleaseVersionDate;
-	/** Acerca de... */
+	/** About...(optional, of course) */
 	public static String gameAbout;
 	
-	/** Instancia del juego. */
+	/** Instance of the game */
 	private static ShukenGame instanceOfGame;
 	
-	/** LWJGL Aplication. */
+	/** LWJGL Application. */
 	public static LwjglApplication app;
 	
-	/** Preferencias del juego. */
+	/** Game preferences (are located on "c:/users/<name>/prefs/") */
 	public static Preferences gamePreferences;
 	
-	/** Delta max limit. Este es el maximo valor de delta que se pasara como parametro a los screens que llamen a "confirmDelta". */
+	/** This is the maximum value of delta that will be passed to the update if the screen calls to "confirmDelta". Prevents tunneling. */
 	protected static float maxDelta= 0.05f;	//50ms
 	
-	/** Tamaño de la pantalla. */
+	/** Screen size and mode */
 	public static int width;
     public static int height;
     public static boolean fullscreen;
     
-    /** Rectangulo con el tamaño exacto de la pantalla. */
+    /** Rectangle of the size of the screen */
     public static Rectangle screenSize;
-    /** Rectangulo con un tamaño un poco mayor al de la pantalla, utilizado fundamentalmente en la emision de particulas fuera de pantalla. */
+    /** Rectangle a little bit greater than the size of the screen (usefully for particles outside screen) */
     public static Rectangle screenOffSize;
     protected static int offSize= 50;	//auxiliar, tamaño extra que tiene el screenOffSize con relacion a screenSize.
 	
@@ -59,7 +60,7 @@ public abstract class ShukenGame extends Game {
     }
     
 	/**
-	 * El metodo main debe ser quitado de aqui e implementado por la clase que extienda a ShukenGame.
+	 * The main method must be implemented by the extended class.
 	 * @param args
 	 */
 	/*
@@ -131,20 +132,18 @@ public abstract class ShukenGame extends Game {
 	*/
 	
 	/**
-	 * Devuelve el ShukenScreen actual.
-	 * @return
+	 * Returns the actual screen.
 	 */
-	public ShukenScreen getActualScreen(){
+	public ShukenScreen getCurrentScreen(){
 		return (ShukenScreen)this.getScreen();
 	}
 	
 	/**
-	 * Verifica si el screen pasado como parámetro es el "actual screen" del juego. En cuyo caso devuelve true, false otherwise.
-	 * @param screen Algun ShukenScreen del juego
-	 * @return
+	 * Checks if the screen is the "current screen".
+	 * @return 
 	 */
 	public boolean isActualScreen(ShukenScreen screen){
-		if(this.getActualScreen().equals(screen)) return true;
+		if(this.getCurrentScreen().equals(screen)) return true;
 		else return false;
 	}
 	

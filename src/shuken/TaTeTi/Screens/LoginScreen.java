@@ -282,8 +282,10 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		if(area.equals(checkBoxMusic)){
 			if(checkBoxMusic.isChecked()){
 				TaTeTi.gamePreferences.putBoolean("musicON", true);
+				ResourceManager.audio.audioON= true;
 			}else{
 				TaTeTi.gamePreferences.putBoolean("musicON", false);
+				ResourceManager.audio.audioON= false;
 			}
 			TaTeTi.gamePreferences.flush();
 		}
@@ -336,6 +338,7 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().turnAreaOFF(btnReintentar);
 		SimpleGUI.getInstance().turnAreaOFF(checkBoxUser);
 		SimpleGUI.getInstance().turnAreaOFF(checkBoxMusic);
+		SimpleGUI.getInstance().turnAreaOFF(lblErrorMsg);
 		
 		//Reseteamos transiciones (just in case)
 		for(int i= 0; i < transitions.size(); i++){

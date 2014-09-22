@@ -313,6 +313,7 @@ public class SimpleTextBox extends ClickableArea {
 
 		}//fin switch	
 			
+		if(ResourceManager.isAudioOn() && keyConsumed) ResourceManager.audio.key.play();
 		
 		return keyConsumed;
 	}//fin keyPressed

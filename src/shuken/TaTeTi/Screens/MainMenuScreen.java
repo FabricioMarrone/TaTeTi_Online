@@ -592,6 +592,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	public void hide() {
 		//Ocultamos GUi
 		hideGUI();
+		SimpleGUI.getInstance().turnAreaOFF(lblErrorMsg);
 		
 		//Reseteamos transiciones
 		for(int i= 0; i < transitions.size(); i++){

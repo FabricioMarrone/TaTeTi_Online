@@ -68,7 +68,9 @@ public class ResourceManager {
 		loadDone= true;
 	}
 	
-	
+	public static boolean isAudioOn(){
+		return audio.audioON;
+	}
 	/**
 	 * Libera todos los recursos utilizados.
 	 */

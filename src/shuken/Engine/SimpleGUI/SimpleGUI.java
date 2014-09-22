@@ -73,7 +73,7 @@ public class SimpleGUI {
 						if(areas.get(i).consumeClick){
 							areas.get(i).clickOn();
 							
-							ShukenGame.getInstance().getActualScreen().simpleGUI_Event(areas.get(i));
+							ShukenGame.getInstance().getCurrentScreen().simpleGUI_Event(areas.get(i));
 							
 							//Consumimos click...
 							ShukenInput.getInstance().consumeClick(0);

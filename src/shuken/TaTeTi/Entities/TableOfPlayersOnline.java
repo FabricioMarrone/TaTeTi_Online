@@ -98,6 +98,8 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 					try{
 						TaTeTi.getInstance().getMainMenuScreen().invitarAJugar(rows.get(i).nick);
 						ShukenInput.getInstance().consumeClick(0);
+						if(ResourceManager.isAudioOn()) ResourceManager.audio.select.play();
+						
 					}catch(IndexOutOfBoundsException e){ /* Do nothing */}
 				}
 			}

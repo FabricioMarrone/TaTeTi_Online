@@ -120,6 +120,8 @@ public class Partida implements Renderable, Updateable{
 	
 	
 	public void putFichaOnCelda(int nroCelda, Ficha tipoFicha){
+		if(ResourceManager.isAudioOn()) ResourceManager.audio.ficha.play();
+		
 		tablero.putFichaOnCelda(nroCelda, tipoFicha);
 	}
 	

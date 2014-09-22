@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import shuken.TaTeTi.Config;
+import shuken.TaTeTi.TaTeTi;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
@@ -19,44 +23,18 @@ public class AudioManager {
 	private static AudioManager instance= null;
 	
 	/** Indica si los sonidos o musica estan activados.*/
-	public boolean soundON, musicON;
-	
-	
-	
-	
-	
+	public boolean audioON;
 	
 	/** ------------------- SOUNDS --------------------- */
-	/** Acceso a sonidos mediante keys. Se utilizan hashmaps para acelerar la busqueda.*/
-	private HashMap<String, Sound> sounds= null;
-	
-	/** Sonidos de prueba. */
-	public Sound cuak, groundTouch;
-	
-	
-	
-	
+	public Sound select, ficha, checkbox, key;
 	
 	/** ------------------- MUSIC --------------------- */
-	/** Acceso a musica mediante keys. Se utilizan hashmaps para acelerar la busqueda.*/
-	private HashMap<String, Music> songs= null;
-	
-	/** Musica de prueba. */
 	public Music song;
-	
-	public Music menuMusic, gameplayMusic;
-	
 	
 	public AudioManager(){
 		//Cargamos las configuraciones...
-		//soundON= Config.soundON;
-		//musicON= Config.musicON;
-		soundON= true;
-		musicON= true;
-		
-		//Inicializamos hashmaps...
-		sounds= new HashMap<String, Sound>();
-		songs= new HashMap<String, Music>();
+		audioON= TaTeTi.gamePreferences.getBoolean("musicON");
+
 	}
 	
 	/**
@@ -68,8 +46,7 @@ public class AudioManager {
 		
 		return instance;
 	}
-	
-	
+
 	
 	/**
 	 * Carga todos los archivos de musica.
@@ -89,54 +66,26 @@ public class AudioManager {
 	
 	
 	
-	
-	
-	
-	
 	/**
 	 * Carga todos los archivos de sonido.
 	 */
 	protected void loadSounds(){
-		
-		
-		//cuak= Gdx.audio.newSound(Gdx.files.internal("assets/Audio/SFX/cuak.mp3"));
-		//sounds.put("cuak", cuak);
-		
-		//groundTouch= Gdx.audio.newSound(Gdx.files.internal("assets/Audio/SFX/groundTouch.mp3"));
-		//sounds.put("groundTouch", groundTouch);
+	
+		select= Gdx.audio.newSound(Gdx.files.internal("assets/sounds/select.mp3"));
+		checkbox= Gdx.audio.newSound(Gdx.files.internal("assets/sounds/check.mp3"));
+		ficha= Gdx.audio.newSound(Gdx.files.internal("assets/sounds/ficha.mp3"));
+		key= Gdx.audio.newSound(Gdx.files.internal("assets/sounds/key.mp3"));
 	}
 	
 	
-	
-	
-	
-	/**
-	 * Devuelve el sonido asociado al key. Esto permite que scripts, por ejemplo, obtengan un sonido en particular para utilizarlo.
-	 * @param key
-	 * @return
-	 */
-	public Sound getSound(String key){
-		return sounds.get(key);
-	}
-	
-	/**
-	 * Devuelve la musica asociada al key. Esto permite que scripts, por ejemplo, obtengan una canción en particular para utilizarla.
-	 * @param key
-	 * @return
-	 */
-	public Music getSong(String key){
-		return songs.get(key);
-	}
 	
 	
 	
 	public void disposeAll(){
 		//Liberamos todos los sonidos...
-		Iterator<Map.Entry<String, Sound>> soundIterator= sounds.entrySet().iterator();
-		while(soundIterator.hasNext()) soundIterator.next().getValue().dispose();
+		
 		
 		//Liberamos toda la musica...
-		Iterator<Map.Entry<String, Music>> musicIterator= songs.entrySet().iterator();
-		while(musicIterator.hasNext()) musicIterator.next().getValue().dispose();
+		
 	}
 }//fin de clase

@@ -31,7 +31,7 @@ public class TaTeTi extends ShukenGame{
 	public static void main(String args[]){
 		//Seteamos variables static...
 		gameTitle= "TaTeTi Online";
-		gameVersion= "v0.7";
+		gameVersion= "v0.8";
 		gameReleaseVersionDate= "";
 		gameAbout= "About this game...";
 		setScreenSize(680, 460, false);

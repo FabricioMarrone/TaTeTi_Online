@@ -58,12 +58,12 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		btnCrear= new SimpleButton("Crear", 325, 50, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		btnCancelar= new SimpleButton("Cancelar", 180, 50, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		btnAceptar= new SimpleButton("Aceptar", 280, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
-		txtUser= new SimpleTextBox(265, 200, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
-		txtPass1= new SimpleTextBox(265, 150, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
+		txtUser= new SimpleTextBox(265, 230, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
+		txtPass1= new SimpleTextBox(265, 180, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass1.setTextboxForPassword(true);
-		txtPass2= new SimpleTextBox(265, 100, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
+		txtPass2= new SimpleTextBox(265, 130, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass2.setTextboxForPassword(true);
-		lblErrorMsg= new TimeLabel("", 200, 100, ResourceManager.fonts.gameText, 4.5f, ResourceManager.textures.transition);
+		lblErrorMsg= new TimeLabel("", 200, 90, ResourceManager.fonts.gameText, 4.5f, ResourceManager.textures.transition);
 		
 		SimpleGUI.getInstance().addAreaNoActive(btnCrear);
 		SimpleGUI.getInstance().addAreaNoActive(btnCancelar);
@@ -136,9 +136,9 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		
 		switch(state){
 		case Normal:
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 170, 227);
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 127, 178);
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONFIRMAR CONTRASEÑA: ", 5, 128);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 170, 257);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 127, 208);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONFIRMAR CONTRASEÑA: ", 5, 158);
 			break;
 		case AccountCreated:
 			ResourceManager.fonts.UIlabelsFont.draw(batch, "¡Cuenta", 195, 225);

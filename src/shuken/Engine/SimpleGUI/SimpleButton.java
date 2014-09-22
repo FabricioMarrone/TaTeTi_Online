@@ -81,5 +81,11 @@ public class SimpleButton extends ClickableArea{
 		this.font= font;
 	}
 
+	@Override
+	public void clickOn() {
+		if(ResourceManager.isAudioOn()) ResourceManager.audio.select.play();
+	}
+
+	
 	
 }//fin clase
