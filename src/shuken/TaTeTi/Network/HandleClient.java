@@ -324,7 +324,7 @@ public class HandleClient implements Runnable{
 			System.err.println("Error inesperado 005");
 			return;
 		}
-		partida.putFichaOnCelda(nroCelda, ficha);
+		partida.putFichaOnCeldaServerSide(nroCelda, ficha);
 		MatchStates resultado= partida.getPartidaState();
 		
 		//Obtenemos el handleClient del OTRO cliente...

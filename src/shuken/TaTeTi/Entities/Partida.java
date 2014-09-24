@@ -125,6 +125,12 @@ public class Partida implements Renderable, Updateable{
 		tablero.putFichaOnCelda(nroCelda, tipoFicha);
 	}
 	
+	public void putFichaOnCeldaServerSide(int nroCelda, Ficha tipoFicha){
+		//if(ResourceManager.isAudioOn()) ResourceManager.audio.ficha.play();
+		
+		tablero.putFichaOnCelda(nroCelda, tipoFicha);
+	}
+	
 	/**
 	 * Actualiza el player del turno actual. Pasa al siguiente que corresponda.
 	 */
