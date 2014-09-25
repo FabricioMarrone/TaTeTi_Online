@@ -88,10 +88,10 @@ public class Partida implements Renderable, Updateable{
 		if(currentState == MatchStates.GANADOR_O) tablero.renderWinner(batch, shapeRender, Ficha.CIRCULO);
 		
 		//Graficamos nombres de los jugadores
-		ResourceManager.fonts.UIlabelsFont.draw(batch, getPlayerX().getNick(), 60, 400);
-		ResourceManager.fonts.UIlabelsFont.draw(batch, getPlayerO().getNick(), 530, 400);
-		if(this.getFichaPlayerActual() == Ficha.CRUZ) batch.draw(ResourceManager.textures.cruz, 70, 320, 50, 50);
-		else batch.draw(ResourceManager.textures.circulo, 540, 320, 50, 50);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, getPlayerX().getNick(), 60, 360);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, getPlayerO().getNick(), 530, 360);
+		if(this.getFichaPlayerActual() == Ficha.CRUZ) batch.draw(ResourceManager.textures.cruz, 70, 280, 50, 50);
+		else batch.draw(ResourceManager.textures.circulo, 540, 280, 50, 50);
 	}//fin render
 
 	

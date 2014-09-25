@@ -11,7 +11,7 @@ public class FontManager {
 	
 	
 	/** Fonts of the game */
-	public BitmapFont defaultFont, UIlabelsFont, gameText;
+	public BitmapFont defaultFont, UIlabelsFont, UIlabelsBIGFont, gameText;
 	
 	public static FontManager getInstance(){
 		if(instance==null) instance= new FontManager();
@@ -29,6 +29,9 @@ public class FontManager {
 		
 		UIlabelsFont= new BitmapFont(Gdx.files.internal("assets/fonts/UIlabelsFont.fnt"), Gdx.files.internal("assets/fonts/UIlabelsFont_0.png"), false);
 		UIlabelsFont.setColor(Color.WHITE);
+		
+		UIlabelsBIGFont= new BitmapFont(Gdx.files.internal("assets/fonts/UIlabelsBIGFont.fnt"), Gdx.files.internal("assets/fonts/UIlabelsBIGFont_0.png"), false);
+		UIlabelsBIGFont.setColor(Color.WHITE);
 		
 		gameText= new BitmapFont(Gdx.files.internal("assets/fonts/GameText.fnt"), Gdx.files.internal("assets/fonts/GameText_0.png"), false);
 		gameText.setColor(Color.WHITE);

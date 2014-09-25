@@ -60,7 +60,9 @@ public class SimpleButton extends ClickableArea{
 		}
 		
 		//Graficamos el texto del boton...
+		font.setColor(Color.DARK_GRAY);
 		font.draw(batch, label, zone.x + (zone.width - labelLength)/2, zone.y + font.getXHeight() + zone.height/2);
+		font.setColor(Color.WHITE);
 	}
 	
 	

@@ -182,27 +182,27 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 			
 			switch(resultado){
 			case EMPATE:
-				ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0.88f, 0, 1);
-				ResourceManager.fonts.UIlabelsFont.draw(batch, "\"EMPATE\"", 290, Gdx.graphics.getHeight() - 60);
+				ResourceManager.fonts.UIlabelsBIGFont.setColor(0.88f, 0.88f, 0, 1);
+				ResourceManager.fonts.UIlabelsBIGFont.draw(batch, "\"EMPATE\"", 255, Gdx.graphics.getHeight() - 160);
 				break;
 			case GANADOR_O:
 				if(GameSession.getPlayer().equals(partida.getPlayerO())) {
-					ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
-					ResourceManager.fonts.UIlabelsFont.draw(batch, "　GANASTE!!", 280, Gdx.graphics.getHeight() - 60); 
+					ResourceManager.fonts.UIlabelsBIGFont.setColor(0, 0.88f, 0, 1);
+					ResourceManager.fonts.UIlabelsBIGFont.draw(batch, "　GANASTE!!", 235, Gdx.graphics.getHeight() - 160); 
 				}
 				else {
-					ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0, 0, 1);
-					ResourceManager.fonts.UIlabelsFont.draw(batch, "　PERDISTE!!", 275, Gdx.graphics.getHeight() - 60);
+					ResourceManager.fonts.UIlabelsBIGFont.setColor(0.88f, 0, 0, 1);
+					ResourceManager.fonts.UIlabelsBIGFont.draw(batch, "　PERDISTE!!", 235, Gdx.graphics.getHeight() - 160);
 				}
 				break;
 			case GANADOR_X:
 				if(GameSession.getPlayer().equals(partida.getPlayerX())) {
-					ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
-					ResourceManager.fonts.UIlabelsFont.draw(batch, "　GANASTE!!", 270, Gdx.graphics.getHeight() - 60);
+					ResourceManager.fonts.UIlabelsBIGFont.setColor(0, 0.88f, 0, 1);
+					ResourceManager.fonts.UIlabelsBIGFont.draw(batch, "　GANASTE!!", 235, Gdx.graphics.getHeight() - 160);
 				}
 				else {
-					ResourceManager.fonts.UIlabelsFont.setColor(0.88f, 0, 0, 1);
-					ResourceManager.fonts.UIlabelsFont.draw(batch, "　PERDISTE!!", 275, Gdx.graphics.getHeight() - 60); 
+					ResourceManager.fonts.UIlabelsBIGFont.setColor(0.88f, 0, 0, 1);
+					ResourceManager.fonts.UIlabelsBIGFont.draw(batch, "　PERDISTE!!", 235, Gdx.graphics.getHeight() - 160); 
 				}
 				break;	
 			case RENDICION_X:
@@ -232,6 +232,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 			}
 			
 		}//fin switch
+		ResourceManager.fonts.UIlabelsBIGFont.setColor(Color.WHITE);
 		ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
 		
 		//Graficamos GUI
