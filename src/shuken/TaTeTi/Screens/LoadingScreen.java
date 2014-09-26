@@ -38,7 +38,7 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 		
 		//Cargamos los recursos necesarios para este screen
 		loadingTex= new Texture("assets/images/loading.png");
-		font= new BitmapFont(false);
+		font= new BitmapFont(Gdx.files.internal("assets/fonts/UIlabelsFont.fnt"), Gdx.files.internal("assets/fonts/UIlabelsFont_0.png"), false);
 		font.setColor(Color.WHITE);
 		
 		//Comenzamos a cargar el resto de recursos que va a utilizar el juego
@@ -59,7 +59,6 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 	public void update(float delta) {
 		
 		if(ResourceManager.loadDone){
-			//TaTeTi.getInstance().setScreen(TaTeTi.getInstance().loginScreen);
 			if(!transitionToLogginScreen.isRunning()) transitionToLogginScreen.start();
 		}
 		
@@ -80,7 +79,7 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 
 		batch.begin();
 		batch.draw(loadingTex, 183, 200);
-		font.draw(batch, ResourceManager.percentLoad + "%", 100, 100);
+		font.draw(batch, ResourceManager.percentLoad + "%", 315, 50);
 		
 		//Graficamos transiciones (si hay)
 		for(int i= 0; i < transitions.size(); i++){
