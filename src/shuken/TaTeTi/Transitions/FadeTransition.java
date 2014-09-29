@@ -1,6 +1,7 @@
 package shuken.TaTeTi.Transitions;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
@@ -17,13 +18,12 @@ public class FadeTransition extends Transition{
 	private float alpha;
 	private boolean fadeIn;
 	private float velocity;
-	
+
 	public FadeTransition(float duration, ShukenScreen destiny, boolean fadeIn) {
 		super(duration, destiny);
 
 		this.setFadeIn(fadeIn);
 	}
-
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRender) {
@@ -49,7 +49,8 @@ public class FadeTransition extends Transition{
 				alpha= 1;
 			}
 		}
-	}
+		
+	}//end internal update
 
 	
 
@@ -59,6 +60,13 @@ public class FadeTransition extends Transition{
 		this.setInitialAlpha();
 	}
 
+
+	
+	
+	@Override
+	public void stop() {
+		super.stop();
+	}
 
 	@Override
 	public void setDuration(float duration) {

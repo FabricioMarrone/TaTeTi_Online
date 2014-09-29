@@ -29,7 +29,7 @@ public class AudioManager {
 	public Sound select, ficha, checkbox, key;
 	
 	/** ------------------- MUSIC --------------------- */
-	public Music song;
+	public Music loginScreenMusic, mainMenuMusic;
 	
 	public AudioManager(){
 		//Loading config...
@@ -52,16 +52,12 @@ public class AudioManager {
 	 * Load into memory all the music songs.
 	 */
 	protected void loadMusic(){
-		//song= Gdx.audio.newMusic(Gdx.files.internal("assets/Audio/Music/back to the future.mp3"));
-		//songs.put("back to the", song);
+		loginScreenMusic= Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/loginScreenMusic_lostVillage.mp3"));
+		loginScreenMusic.setLooping(true);
 		
-		//menuMusic= Gdx.audio.newMusic(Gdx.files.internal("assets/music/menu.mp3"));
-		//menuMusic.setLooping(true);
-		//songs.put("menu", menuMusic);
+		mainMenuMusic= Gdx.audio.newMusic(Gdx.files.internal("assets/sounds/mainMenuMusic_interface.mp3"));
+		mainMenuMusic.setLooping(true);
 		
-		//gameplayMusic= Gdx.audio.newMusic(Gdx.files.internal("assets/music/gameplayMusic.mp3"));
-		//gameplayMusic.setLooping(true);
-		//songs.put("gameplay", gameplayMusic);
 	}
 	
 	

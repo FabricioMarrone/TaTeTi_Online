@@ -55,7 +55,7 @@ public class SimpleCheckBox extends ClickableArea{
 		if(isChecked()) setChecked(false);
 		else setChecked(true);
 		
-		if(ResourceManager.isAudioOn()) ResourceManager.audio.checkbox.play();
+		if(ResourceManager.isAudioOn()) ResourceManager.audio.checkbox.play(0.3f);
 	}
 	
 	

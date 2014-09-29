@@ -85,7 +85,7 @@ public class SimpleButton extends ClickableArea{
 
 	@Override
 	public void clickOn() {
-		if(ResourceManager.isAudioOn()) ResourceManager.audio.select.play();
+		if(ResourceManager.isAudioOn()) ResourceManager.audio.select.play(0.2f);
 	}
 
 	

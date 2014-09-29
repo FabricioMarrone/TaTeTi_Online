@@ -31,6 +31,8 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 	private SpriteBatch batch;
 	private ShapeRenderer shapeRender;
 	
+	private float volume= 1f;
+	
 	/** Transitions */
 	private ArrayList<Transition> transitions;
 	private Transition transitionIn, transitionToCreateAccount, transitionToMainMenu;
@@ -115,6 +117,12 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 				transitions.get(i).update(delta);
 				return;
 			}
+		}
+		
+		if(transitionToMainMenu.isRunning()){
+			volume-= delta * 0.1f;
+			if(volume < 0) volume= 0;
+			if(ResourceManager.isAudioOn()) ResourceManager.audio.loginScreenMusic.setVolume(volume);
 		}
 		
 		updateTalkToServer();
@@ -283,9 +291,11 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 			if(checkBoxMusic.isChecked()){
 				TaTeTi.gamePreferences.putBoolean("musicON", true);
 				ResourceManager.audio.audioON= true;
+				ResourceManager.audio.loginScreenMusic.play();
 			}else{
 				TaTeTi.gamePreferences.putBoolean("musicON", false);
 				ResourceManager.audio.audioON= false;
+				ResourceManager.audio.loginScreenMusic.stop();
 			}
 			TaTeTi.gamePreferences.flush();
 		}
@@ -326,6 +336,16 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		
 		//Inicializamos transicion de llegada
 		transitionIn.start();
+		
+		//Cortamos musica de otro screen...
+		ResourceManager.audio.mainMenuMusic.stop();
+		//Inicializamos musica de fondo...
+		if(!ResourceManager.audio.loginScreenMusic.isPlaying() && ResourceManager.isAudioOn()){
+			volume= 0.4f;
+			ResourceManager.audio.loginScreenMusic.setVolume(volume);
+			ResourceManager.audio.loginScreenMusic.play();
+		}
+		
 	}
 
 	@Override
@@ -344,6 +364,9 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		for(int i= 0; i < transitions.size(); i++){
 			transitions.get(i).clear();
 		}
+		
+		//Cortamos musica...(no lo hacemos aca, dejamos que el otro screen la corte)
+		//ResourceManager.audio.loginScreenMusic.stop();
 	}
 
 	@Override

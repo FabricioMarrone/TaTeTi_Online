@@ -579,6 +579,14 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		
 		//Inicializamos transicion de llegada
 		transitionIn.start();
+		
+		//Cortamos musica del otro screen
+		ResourceManager.audio.loginScreenMusic.stop();
+		//Iniciamos musica de este screen
+		if(!ResourceManager.audio.mainMenuMusic.isPlaying() && ResourceManager.isAudioOn()) {
+			ResourceManager.audio.mainMenuMusic.setVolume(0.4f);
+			ResourceManager.audio.mainMenuMusic.play();
+		}
 	}
 
 	public void showGUI(){
