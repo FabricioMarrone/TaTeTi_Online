@@ -1,9 +1,13 @@
 #
-#Archivo de configuracion del TaTeTi Online
+#Archivo de configuracion del TaTeTi Online (cliente)
+#
+# Establezca la direccion IP y puerto en la que se encuentra el servidor. Si está montando su propio servidor,
+#utilice las direcciones IP que el mismo le provee.
+#
+# Puerto por defecto: 8081
 #
 #local 192.168.0.100
 #global 200.81.120.231
-#
 #
 serverIP= 192.168.0.101
 port=8081

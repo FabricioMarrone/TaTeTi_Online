@@ -100,13 +100,13 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		tableOfPlayersOnline= new TableOfPlayersOnline(45, 310);
 		
 		//Inicializamos componentes de la gui...
-		btnInvitar= new SimpleButton("Invitar a Jugar", 220, 54, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnInvitar= new SimpleButton("Invitar a Jugar", 220, 39, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		btnCerrarSesion= new SimpleButton("Cerrar Sesion", 510, 15, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		btnAceptarSolicitud= new SimpleButton("Aceptar", 360, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		btnRechazarSolicitud= new SimpleButton("Rechazar", 200, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		btnCancelarSolicitud= new SimpleButton("Cancelar", 277, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		lblErrorMsg= new TimeLabel(" ", 200, 220, ResourceManager.fonts.gameText, 8.5f, ResourceManager.textures.transition);
-		txtOpponent= new SimpleTextBox(45, 50, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
+		txtOpponent= new SimpleTextBox(45, 35, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtOpponent.putStringIntoText("Player");
 		
 		SimpleGUI.getInstance().addAreaNoActive(btnInvitar);
@@ -242,12 +242,14 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			ResourceManager.fonts.gameText.draw(batch, "con el que desea jugar.", 447, 315);
 			batch.draw(ResourceManager.textures.arrow, 253, 286);
 			
-			ResourceManager.fonts.gameText.draw(batch, "O bien ingrese el", 40, 140);
-			ResourceManager.fonts.gameText.setColor(0,  0.7f, 0.88f, 1);
-			ResourceManager.fonts.gameText.draw(batch, "nombre", 157, 140);
-			ResourceManager.fonts.gameText.setColor(Color.WHITE);
-			ResourceManager.fonts.gameText.draw(batch, "del jugador con", 215, 140);
-			ResourceManager.fonts.gameText.draw(batch, "el que desea jugar: ", 40, 120);
+			if(tableOfPlayersOnline.getCantOfPlayersOnline() >= 11){
+				ResourceManager.fonts.gameText.draw(batch, "O bien ingrese el", 40, 120);
+				ResourceManager.fonts.gameText.setColor(0,  0.7f, 0.88f, 1);
+				ResourceManager.fonts.gameText.draw(batch, "nombre", 157, 120);
+				ResourceManager.fonts.gameText.setColor(Color.WHITE);
+				ResourceManager.fonts.gameText.draw(batch, "del jugador con", 215, 120);
+				ResourceManager.fonts.gameText.draw(batch, "el que desea jugar: ", 40, 100);
+			}
 			
 			//Graficamos tablas
 			highScores.render(batch, shapeRender);
@@ -437,6 +439,15 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			String state= msg.strings.get((i*2)+1);
 			tableOfPlayersOnline.addRow(nick, state);
 		}
+		
+		//Mostramos u ocultamos GUI segun corresponda
+		if(tableOfPlayersOnline.getCantOfPlayersOnline() >= 11 && state == ScreenStates.NORMAL && TaTeTi.getInstance().getCurrentScreen().equals(this)){
+			SimpleGUI.getInstance().turnAreaON(txtOpponent);
+			SimpleGUI.getInstance().turnAreaON(btnInvitar);
+		}else{
+			SimpleGUI.getInstance().turnAreaOFF(txtOpponent);
+			SimpleGUI.getInstance().turnAreaOFF(btnInvitar);
+		}
 	}
 	
 	public void SaC_MejoresPuntajes(InetMessage msg){
@@ -590,9 +601,9 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	}
 
 	public void showGUI(){
-		SimpleGUI.getInstance().turnAreaON(btnInvitar);
+		//SimpleGUI.getInstance().turnAreaON(btnInvitar);
+		//SimpleGUI.getInstance().turnAreaON(txtOpponent);
 		SimpleGUI.getInstance().turnAreaON(btnCerrarSesion);
-		SimpleGUI.getInstance().turnAreaON(txtOpponent);
 	}
 	
 	
@@ -624,7 +635,9 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	public void resume() {}
 
 	@Override
-	public void dispose() {}
+	public void dispose() {
+		System.out.println("Main menu dispose");
+	}
 
 	
 

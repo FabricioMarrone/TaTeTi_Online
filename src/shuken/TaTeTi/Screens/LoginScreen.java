@@ -309,13 +309,16 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		//Mostramos user por defecto (o no)
 		if(TaTeTi.gamePreferences.getBoolean("rememberUserName")){
 			txtUser.putNewStringIntoText(TaTeTi.gamePreferences.getString("userName"));
+			txtPass.clickOn();
 			checkBoxUser.setChecked(true);
 		}else{
 			checkBoxUser.setChecked(false);
-			//TODO test code TEXTBOXS EN LOGIN
-			txtUser.putNewStringIntoText("Player");
-			txtPass.putNewStringIntoText("123");
+			txtUser.putNewStringIntoText("");
+			txtUser.clickOn();
 		}
+		
+		//Valor por defecto y con foco
+		txtPass.putNewStringIntoText("");
 		
 		//music On off
 		checkBoxMusic.setChecked(TaTeTi.gamePreferences.getBoolean("musicON"));
@@ -376,7 +379,11 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 	public void resume() {}
 
 	@Override
-	public void dispose() {}
+	public void dispose() {
+		System.out.println("Login screen dispose...");
+		batch.dispose();
+		shapeRender.dispose();
+	}
 
 
 

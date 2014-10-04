@@ -2,9 +2,11 @@
 #Archivo de configuracion del servidor de TaTeTi Online
 #------------------------------------------------------
 #
-# Para utilizar la Base de Datos la misma debe estar alojada en localhost. Si no se cuenta con la
-#base de datos, siempre es posible optar por guardar los registros en memoria. Obviamente, permite
-#ejecutar y utilizar el servidor, pero los datos se perderán cuando se lo apague.
+# El servidor utiliza en localhost una base de datos para almacenar las cuentas de usuario y sus estadísticas.
+# Pero si se desea ejecutar el servidor cuando no se posee la base de datos (para mostrar su funcionamiento en
+#algún lugar publico o similar) es posible seteando "useDB=false". 
+# De esta manera, el servidor va a trabajar en memoria unicamente. Toda la información se perderá cuando se
+#cierre el servidor.
 #
-UseDB= false
+UseDB= true
 port=8081

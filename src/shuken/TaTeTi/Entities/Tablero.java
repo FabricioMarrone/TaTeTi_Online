@@ -1,14 +1,11 @@
 package shuken.TaTeTi.Entities;
 
-import java.util.Random;
-
 import shuken.Engine.Resources.ResourceManager;
 import shuken.TaTeTi.Renderable;
 import shuken.TaTeTi.Updateable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
@@ -80,7 +77,7 @@ public class Tablero implements Renderable, Updateable{
 		//float x= Gdx.input.getX();
 		//float y= Gdx.input.getY();
 		Vector2 mouse= new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-		Vector2 center= new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+		//Vector2 center= new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
 		
 		//El ángulo determina r
 		float r= 1- mouse.y/Gdx.graphics.getHeight();

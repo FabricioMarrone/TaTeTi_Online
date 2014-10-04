@@ -182,4 +182,5 @@ public abstract class ShukenGame extends Game {
 	protected void setMaxDelta(float max){
 		maxDelta= max;
 	}
+	
 }//fin clase

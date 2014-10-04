@@ -3,7 +3,6 @@ package shuken.TaTeTi.Screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -469,7 +468,11 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 	public void resume() {}
 
 	@Override
-	public void dispose() {}
+	public void dispose() {
+		System.out.println("Gameplay screen dispose...");
+		batch.dispose();
+		shapeRender.dispose();
+	}
 
 
 	

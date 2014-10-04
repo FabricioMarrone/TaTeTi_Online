@@ -66,7 +66,7 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 		
 		//Si hay mas de 10 players online...
 		if(rows.size() > 10){
-			ResourceManager.fonts.gameText.draw(batch, "+" + (rows.size()-10), position.x, position.y - (11*ROW_SEPARATION));
+			ResourceManager.fonts.gameText.draw(batch, "(+" + (rows.size()-10) + ")", position.x, position.y - (11*ROW_SEPARATION));
 		}
 		
 		//Si no hay players online...
@@ -125,5 +125,9 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 		for(int i= 0; i < CANT_OF_ROWS; i++){
 			rowsRectangles.get(i).set(position.x, position.y - (i*ROW_SEPARATION) - ROW_SEPARATION + 1 - 8, 150, ROW_SEPARATION-2);
 		}
+	}
+	
+	public int getCantOfPlayersOnline(){
+		return rows.size();
 	}
 }//end class

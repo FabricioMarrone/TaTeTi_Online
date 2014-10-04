@@ -1,9 +1,7 @@
 package shuken.Engine.Resources;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 
@@ -124,6 +122,27 @@ public class TextureManager {
 	
 	
 	public void disposeAll(){
-		//TODO dispose textures
+		tablero.getTexture().dispose();
+		cruz.getTexture().dispose();
+		circulo.getTexture().dispose();
+		button.getTexture().dispose();
+		textbox.getTexture().dispose();
+		transition.getTexture().dispose();
+		checkbox_checked.getTexture().dispose();
+		checkbox_unchecked.getTexture().dispose();
+		backgroundLoggin.dispose();
+		backgroundCreateAccount.dispose();
+		backgroundMainMenu.dispose();
+		backgroundGamePlay.dispose();
+		gameTitle.getTexture().dispose();
+		createAccountTitle.getTexture().dispose();
+		mainMenuTitle.getTexture().dispose();
+		lineV.getTexture().dispose();
+		lineH.getTexture().dispose();
+		lineD1.getTexture().dispose();
+		lineD2.getTexture().dispose();
+		arrow.getTexture().dispose();
+		circleArrow.getTexture().dispose();
+		timeBar.dispose();
 	}
 }//fin clase

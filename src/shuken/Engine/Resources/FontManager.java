@@ -42,7 +42,9 @@ public class FontManager {
 	
 	public void disposeAll(){
 		defaultFont.dispose();
-		
+		UIlabelsFont.dispose();
+		UIlabelsBIGFont.dispose();
+		gameText.dispose();
 	}
 	
 	

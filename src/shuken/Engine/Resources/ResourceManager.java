@@ -67,6 +67,7 @@ public class ResourceManager {
 	
 
 	public static void disposeAllResources(){
+		System.out.println("Disposing resources...");
 		textures.disposeAll();
 		audio.disposeAll();
 		fonts.disposeAll();

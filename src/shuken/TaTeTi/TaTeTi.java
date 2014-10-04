@@ -12,6 +12,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 
 import shuken.Engine.Basic.ShukenGame;
 import shuken.Engine.Basic.ShukenScreen;
+import shuken.Engine.Resources.ResourceManager;
 import shuken.Engine.ShukenInput.ShukenInput;
 import shuken.TaTeTi.Screens.CreateAccountScreen;
 import shuken.TaTeTi.Screens.GamePlayScreen;
@@ -134,6 +135,19 @@ public class TaTeTi extends ShukenGame{
 		//this.setScreen(logginScreen);
 		this.setScreen(loadingScreen);
 	}//fin create
+
+
+
+	@Override
+	public void dispose() {
+		ResourceManager.disposeAllResources();
+		
+		loadingScreen.dispose();
+		loginScreen.dispose();
+		createAccountScreen.dispose();
+		mainMenuScreen.dispose();
+		gameplay.dispose();
+	}
 
 	
 }//fin clase

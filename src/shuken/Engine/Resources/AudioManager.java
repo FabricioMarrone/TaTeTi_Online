@@ -1,10 +1,5 @@
 package shuken.Engine.Resources;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import shuken.TaTeTi.Config;
 import shuken.TaTeTi.TaTeTi;
 
 import com.badlogic.gdx.Gdx;
@@ -79,9 +74,13 @@ public class AudioManager {
 	
 	public void disposeAll(){
 		//Dispose music...
-		
+		loginScreenMusic.dispose();
+		mainMenuMusic.dispose();
 		
 		//Dispose sounds...
-		
+		select.dispose();
+		checkbox.dispose();
+		ficha.dispose();
+		key.dispose();
 	}
 }//fin de clase

@@ -212,7 +212,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			passIngresado1= txtPass1.getTextNoConsume();
 			passIngresado2= txtPass2.getTextNoConsume();
 			
-			//Verificamos validez de campos completados
+			//Verificamos nullidez de campos completados
 			if(nickIngresado.compareTo("")== 0 || passIngresado1.compareTo("")== 0 || passIngresado2.compareTo("")== 0){
 				//Mostramos mensaje
 				lblErrorMsg.reset();
@@ -221,11 +221,29 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 				return;
 			}
 			
-			//Verificamos validez de contraseñas
+			//Verificamos longitud del nombre de usuario (no debe ser menor a 4 caracteres)
+			if(nickIngresado.length() < 4){
+				//Mostramos mensaje
+				lblErrorMsg.reset();
+				this.lblErrorMsg.setLabel("El nombre de usuario debe contener como mínimo 4 caracteres.");
+				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
+				return;
+			}
+			
+			//Verificamos si contraseñas coinciden
 			if(passIngresado1.compareTo(passIngresado2)!= 0){
 				//Mostramos mensaje
 				lblErrorMsg.reset();
 				this.lblErrorMsg.setLabel("Las contraseñas deben coincidir.");
+				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
+				return;
+			}
+			
+			//Verificamos si la contraseña tiene mas de 6 caracteres
+			if(passIngresado1.length() < 6){
+				//Mostramos mensaje
+				lblErrorMsg.reset();
+				this.lblErrorMsg.setLabel("La contraseña debe contener como mínimo 6 caracteres.");
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				return;
 			}
@@ -252,6 +270,9 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		txtUser.getText();
 		txtPass1.getText();
 		txtPass2.getText();
+		
+		//Hacemos foco
+		txtUser.clickOn();
 		
 		//Inicializamos transicion de llegada
 		transitionIn.start();
@@ -297,6 +318,9 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 
 	@Override
 	public void dispose() {	
+		System.out.println("Create account screen dispose...");
+		batch.dispose();
+		shapeRender.dispose();
 	}
 
 
