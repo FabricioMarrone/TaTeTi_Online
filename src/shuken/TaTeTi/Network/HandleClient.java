@@ -52,7 +52,6 @@ public class HandleClient implements Runnable{
 	@Override
 	public void run() {
 
-
 		try{
 			while(!closeThread){
 				//Esperamos hasta recibir un mensaje del cliente...
@@ -93,7 +92,13 @@ public class HandleClient implements Runnable{
 		
 	}//fin de run
 
-	
+	/**
+	 * Returns the ip of the client connected (and handled) to this instance.
+	 * @return
+	 */
+	public String getClientIP(){
+		return clientSocket.getInetAddress().getHostAddress();
+	}
 	
 	private void analizeInetMessage(InetMessage msg){
 		
@@ -388,6 +393,13 @@ public class HandleClient implements Runnable{
 		if(p.getPassword().compareToIgnoreCase(pass)!= 0){
 			//El password es incorrecto.
 			sendRespuestaLogginRequest(false, "La clave es incorrecta.");
+			return;
+		}
+		
+		//Verificamos que no exista ya una conexion con esta ip (sólo una conexion por maquina)...
+		if(!ServerConfig.ALLOW_MULTIPLES_CLIENT && Server.instance.isThisMachineConnected(this.getClientIP())){
+			//Ya hay una sesion iniciada con esa ip...
+			sendRespuestaLogginRequest(false, "Ya existe una sesión iniciada en esta máquina (sólo se permite una sesión por PC).");
 			return;
 		}
 		

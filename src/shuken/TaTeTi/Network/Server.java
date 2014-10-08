@@ -55,6 +55,7 @@ public class Server extends JFrame {
 	protected JLabel lblPort;
 	protected JLabel lblCantidadUsuariosConectados;
 	protected JLabel lblPartidasEnCurso;
+	protected JLabel lblAllowMultipleClients;
 	protected int socketsConnected= 0;
 	private JTable tablePlayersOnline;
 	private DefaultTableModel tablePlayersOnlineModel;
@@ -136,13 +137,14 @@ public class Server extends JFrame {
 		lblUsingDatabase = new JLabel("Using Database: ");
 		
 		lblPartidasEnCurso = new JLabel("Partidas en curso: 0");
+		
+		lblAllowMultipleClients = new JLabel("Allow Multiple Clients:");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(29)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblPort)
 						.addComponent(lblGlobalIpAddress)
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(lblCantidadUsuariosConectados)
@@ -156,9 +158,13 @@ public class Server extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblInicializando))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblConfigLoad)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblConfigLoad)
+								.addComponent(lblPort))
 							.addGap(113)
-							.addComponent(lblUsingDatabase)))
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblAllowMultipleClients)
+								.addComponent(lblUsingDatabase))))
 					.addContainerGap(25, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -173,7 +179,9 @@ public class Server extends JFrame {
 						.addComponent(lblConfigLoad)
 						.addComponent(lblUsingDatabase))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblPort)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblPort)
+						.addComponent(lblAllowMultipleClients))
 					.addGap(3)
 					.addComponent(lblNewLabel)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -230,6 +238,7 @@ public class Server extends JFrame {
 			lblInicializando.setText("ONLINE");
 			lblConfigLoad.setText("Config load: " + str);
 			lblUsingDatabase.setText("Using Database: " + ServerConfig.PERSISTANCE_ON_DATABASE + " " + connected);
+			lblAllowMultipleClients.setText("Allow Multiple Clients: " + ServerConfig.ALLOW_MULTIPLES_CLIENT);
 			
 			//Iniciamos el loop...
 			while(true){
@@ -361,6 +370,20 @@ public class Server extends JFrame {
 		return null;
 	}
 	
+	/**
+	 * Returns true if there is an existing connection (handleclient) for the ip specified.
+	 * @param ip
+	 * @return
+	 */
+	public boolean isThisMachineConnected(String ip){
+		for(int i= 0; i < connections.size(); i++){
+			String ip_temp= connections.get(i).getClientIP();
+			if(ip_temp != null){
+				if(ip_temp.compareToIgnoreCase(ip) == 0 && connections.get(i).getPlayer() != null) return true;
+			}
+		}
+		return false;
+	}
 	
 	public void nuevaPartida(Player pX, Player pO, boolean pXStarts){
 		partidas.add(new Partida(pX, pO, pXStarts, true));

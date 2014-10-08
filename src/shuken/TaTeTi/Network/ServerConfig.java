@@ -9,7 +9,7 @@ public class ServerConfig {
 private static boolean loadOK;
 	
 	public static boolean PERSISTANCE_ON_DATABASE;
-	
+	public static boolean ALLOW_MULTIPLES_CLIENT;
 	public static int PORT;
 	
 	public static void loadConfig(){
@@ -34,6 +34,10 @@ private static boolean loadOK;
 				if(line.startsWith("UseDB")){
 					PERSISTANCE_ON_DATABASE= false;
 					if(line.substring(line.indexOf("=")+1).trim().compareToIgnoreCase("true")== 0) PERSISTANCE_ON_DATABASE= true;
+				}
+				if(line.startsWith("AllowMultipleClients")){
+					ALLOW_MULTIPLES_CLIENT= false;
+					if(line.substring(line.indexOf("=")+1).trim().compareToIgnoreCase("true")== 0) ALLOW_MULTIPLES_CLIENT= true;
 				}
 				if(line.startsWith("port")){
 					PORT= Integer.parseInt(line.substring(line.indexOf("=")+1).trim());

@@ -385,10 +385,4 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		shapeRender.dispose();
 	}
 
-
-
-	
-
-	
-
 }//fin clase

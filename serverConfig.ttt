@@ -9,4 +9,5 @@
 #cierre el servidor.
 #
 UseDB= true
+AllowMultipleClients= true
 port=8081
