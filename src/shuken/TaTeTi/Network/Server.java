@@ -14,6 +14,7 @@ import shuken.TaTeTi.Entities.HighScores;
 import shuken.TaTeTi.Entities.Partida;
 import shuken.TaTeTi.Entities.Partida.MatchStates;
 import shuken.TaTeTi.Entities.Player;
+import shuken.TaTeTi.Network.Data.Connector;
 import shuken.TaTeTi.Network.Data.GameData;
 import shuken.TaTeTi.Network.Data.PlayerData_BD;
 import shuken.WhatsMyIP.Get_IP;
@@ -36,7 +37,7 @@ public class Server extends JFrame {
 	public static Server instance= null;
 	public static Random random= new Random();
 	
-	private static final String version= "v0.7";
+	private static final String version= "v0.8";
 	
 	/** Socket del servidor. */
 	private ServerSocket serverSocket;
@@ -223,7 +224,7 @@ public class Server extends JFrame {
 			if(ServerConfig.loadOK()){
 				str= "OK";
 				if(ServerConfig.PERSISTANCE_ON_DATABASE){
-					if(((PlayerData_BD)(GameData.playerData)).isConnectionAlive()){
+					if(Connector.isConnectionAlive()){
 						connected= "[CONNECTED]";
 					}else{
 						JOptionPane.showMessageDialog(this, "Error al conectar a la Base de Datos.\n" +
@@ -415,7 +416,7 @@ public class Server extends JFrame {
 		//Obtenemos resultado...
 		MatchStates resultado= p.getPartidaState();
 		
-		//Registramos
+		//Registramos estadisticas del jugador
 		switch(resultado){
 		case EMPATE:
 			GameData.playerData.incrementDraw(p.getPlayerX());
@@ -439,7 +440,11 @@ public class Server extends JFrame {
 			//Salimos del registro porque evidentemente no hay que registrar aun. En teoria, nunca se va a llegar a este punto.
 			return;
 		}//fin switch
-	}
+		
+		//Registramos la partida propiamente dicha...
+		if(ServerConfig.PERSISTANCE_ON_DATABASE) GameData.matchData.saveMatch(p);
+		
+	}//end save match
 	
 	
 	

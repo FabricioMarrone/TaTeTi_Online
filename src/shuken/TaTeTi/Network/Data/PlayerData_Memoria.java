@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import shuken.TaTeTi.Entities.Player;
 
-public class PlayerData_Memoria implements PlayerData{
+public class PlayerData_Memoria implements IPlayerData{
 
 	private ArrayList<Player> players= null;
 	

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import shuken.TaTeTi.Entities.Player;
 
-public interface PlayerData {
+public interface IPlayerData {
 
 	public void loadAllData();
 	
