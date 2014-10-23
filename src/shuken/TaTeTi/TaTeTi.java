@@ -99,6 +99,8 @@ public class TaTeTi extends ShukenGame{
 			JOptionPane.showMessageDialog(null, "El archivo de configuracion esta dañado o no existe.", "Config File Error", JOptionPane.ERROR_MESSAGE);
 			app.exit();
 		}
+		//We load the localization profile...
+		Localization.loadLanguage(Config.LANGUAGE);
 		
 		//Cargamos archivo de preferencias (o lo crea si es que no existe)...
 		gamePreferences= app.getPreferences(".ttt");

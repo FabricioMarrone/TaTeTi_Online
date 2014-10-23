@@ -14,11 +14,12 @@ import java.io.FileReader;
 public class Config {
 
 	public static boolean DEBUG_MODE;
-	
 	public static boolean TRANSITIONS_ON= true;
 	
 	public static String SERVER_IP;
 	public static int PORT;
+	
+	public static String LANGUAGE;
 	
 	private static boolean loadOK;
 	
@@ -53,6 +54,10 @@ public class Config {
 					DEBUG_MODE= false;
 					if(line.substring(line.indexOf("=")+1).trim().compareToIgnoreCase("true")== 0) DEBUG_MODE= true;
 					System.out.println("DEBUG_MODE: " + DEBUG_MODE);
+				}
+				if(line.startsWith("language")){
+					LANGUAGE= line.substring(line.indexOf("=")+1).trim();
+					System.out.println("LANGUAGE: " + LANGUAGE);
 				}
 			}
 			loadOK= true;

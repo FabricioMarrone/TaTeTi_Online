@@ -1,5 +1,7 @@
 package shuken.Engine.Resources;
 
+import shuken.TaTeTi.Localization;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -46,9 +48,9 @@ public class TextureManager {
 		backgroundMainMenu = new Texture("assets/images/backgroundMainMenu.png");
 		backgroundGamePlay  = new Texture("assets/images/backgroundGamePlay.png");
 		
-		gameTitle = new TextureRegion(new Texture("assets/images/title.png"));
-		createAccountTitle= new TextureRegion(new Texture("assets/images/createAccountTitle.png"));
-		mainMenuTitle= new TextureRegion(new Texture("assets/images/mainMenuTitle.png"));
+		gameTitle = new TextureRegion(new Texture("assets/images/title"+Localization.getCurrentLanguage()+".png"));
+		createAccountTitle= new TextureRegion(new Texture("assets/images/createAccountTitle"+Localization.getCurrentLanguage()+".png"));
+		mainMenuTitle= new TextureRegion(new Texture("assets/images/mainMenuTitle"+Localization.getCurrentLanguage()+".png"));
 		
 		lineV = new TextureRegion(new Texture("assets/images/lineV.png"));
 		lineH = new TextureRegion(new Texture("assets/images/lineH.png"));

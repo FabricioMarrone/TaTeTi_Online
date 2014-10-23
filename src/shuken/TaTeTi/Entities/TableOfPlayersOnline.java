@@ -6,9 +6,11 @@ import shuken.Engine.Resources.ResourceManager;
 import shuken.Engine.ShukenInput.ShukenInput;
 import shuken.Engine.SimpleGUI.SimpleGUI;
 import shuken.TaTeTi.GameSession;
+import shuken.TaTeTi.Localization;
 import shuken.TaTeTi.Renderable;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
+import shuken.TaTeTi.Localization.Languages;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -40,7 +42,12 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRender) {
-		ResourceManager.fonts.UIlabelsFont.draw(batch, "Jugadores en línea", position.x, position.y + ROW_SEPARATION);
+		int offsetX=0, offsetX2=0;
+		if(Localization.getCurrentLanguage() == Languages.EN){
+			offsetX=25;
+			offsetX2=15;
+		}
+		ResourceManager.fonts.UIlabelsFont.draw(batch, Localization.JugadoresEnLinea, position.x + offsetX, position.y + ROW_SEPARATION);
 		
 		batch.end();
 		shapeRender.begin(ShapeType.Filled);
@@ -60,18 +67,18 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 			//Si esta el mouse encima
 			if(SimpleGUI.getInstance().isAreaUnderTheMouse(rowsRectangles.get(i))) ResourceManager.fonts.gameText.setColor(Color.GREEN);
 			
-			ResourceManager.fonts.gameText.draw(batch, rows.get(i).toString(), position.x, position.y - (i*ROW_SEPARATION) - 8);
+			ResourceManager.fonts.gameText.draw(batch, rows.get(i).toString(), position.x + offsetX2, position.y - (i*ROW_SEPARATION) - 8);
 			ResourceManager.fonts.gameText.setColor(Color.WHITE);
 		}
 		
 		//Si hay mas de 10 players online...
 		if(rows.size() > 10){
-			ResourceManager.fonts.gameText.draw(batch, "(+" + (rows.size()-10) + ")", position.x, position.y - (11*ROW_SEPARATION));
+			ResourceManager.fonts.gameText.draw(batch, "(+" + (rows.size()-10) + ")", position.x + offsetX2, position.y - (11*ROW_SEPARATION));
 		}
 		
 		//Si no hay players online...
 		if(rows.size() == 0){
-			ResourceManager.fonts.gameText.draw(batch, "No hay jugadores disponibles", position.x, position.y - 10);
+			ResourceManager.fonts.gameText.draw(batch, Localization.NoHayJugadoresEnLinea, position.x + offsetX2, position.y - 10);
 		}
 		
 		/*

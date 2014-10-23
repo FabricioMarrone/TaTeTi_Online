@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import shuken.Engine.Resources.ResourceManager;
 import shuken.TaTeTi.GameSession;
+import shuken.TaTeTi.Localization;
 import shuken.TaTeTi.Renderable;
 import shuken.TaTeTi.Updateable;
 
@@ -32,7 +33,7 @@ public class HighScores implements Updateable, Renderable{
 	
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRender) {
-		ResourceManager.fonts.UIlabelsFont.draw(batch, "Mejores puntajes", position.x - 10, position.y + ROW_SEPARATION);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, Localization.MejoresPuntajes, position.x - 10, position.y + ROW_SEPARATION);
 		ResourceManager.fonts.UIlabelsFont.setColor(0, 0.8f, 0, 1);
 		ResourceManager.fonts.UIlabelsFont.draw(batch, "G", position.x + 168, position.y + ROW_SEPARATION);
 		ResourceManager.fonts.UIlabelsFont.setColor(0.9f, 0.9f, 0, 1);

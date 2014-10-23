@@ -14,6 +14,7 @@ import shuken.Engine.Basic.ShukenScreen;
 import shuken.Engine.Resources.ResourceManager;
 import shuken.Engine.SimpleGUI.ClickableArea;
 import shuken.Engine.SimpleGUI.SimpleGUI;
+import shuken.TaTeTi.Localization;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
 import shuken.TaTeTi.Transitions.FadeTransition;
@@ -35,7 +36,7 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 		shapeRender= new ShapeRenderer();
 		
 		//Cargamos los recursos necesarios para este screen
-		loadingTex= new Texture("assets/images/loading.png");
+		loadingTex= new Texture("assets/images/loading"+Localization.getCurrentLanguage()+".png");
 		font= new BitmapFont(Gdx.files.internal("assets/fonts/UIlabelsFont.fnt"), Gdx.files.internal("assets/fonts/UIlabelsFont_0.png"), false);
 		font.setColor(Color.WHITE);
 		

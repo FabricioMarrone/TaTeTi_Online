@@ -3,6 +3,7 @@ package shuken.TaTeTi.Screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 import shuken.Engine.Basic.ShukenScreen;
 import shuken.Engine.Resources.ResourceManager;
+import shuken.Engine.ShukenInput.ShukenInput;
 import shuken.Engine.SimpleGUI.ClickableArea;
 import shuken.Engine.SimpleGUI.SimpleButton;
 import shuken.Engine.SimpleGUI.SimpleGUI;
@@ -17,6 +19,8 @@ import shuken.Engine.SimpleGUI.SimpleTextBox;
 import shuken.Engine.SimpleGUI.TimeLabel;
 import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
+import shuken.TaTeTi.Localization;
+import shuken.TaTeTi.Localization.Languages;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
 import shuken.TaTeTi.Network.InetMessage;
@@ -51,13 +55,16 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 	
 	/** --------------------------------------------------------------- */
 	
+	private int tab_index= 0;
+	private int tab_index_max= 2;
+	
 	public CreateAccountScreen(){
 		batch= new SpriteBatch();
 		shapeRender= new ShapeRenderer();
 		
-		btnCrear= new SimpleButton("Crear", 325, 50, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
-		btnCancelar= new SimpleButton("Cancelar", 180, 50, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
-		btnAceptar= new SimpleButton("Aceptar", 280, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnCrear= new SimpleButton(Localization.Crear, 325, 50, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnCancelar= new SimpleButton(Localization.Cancelar, 180, 50, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnAceptar= new SimpleButton(Localization.Aceptar, 280, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		txtUser= new SimpleTextBox(265, 230, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass1= new SimpleTextBox(265, 180, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtPass1.setTextboxForPassword(true);
@@ -108,6 +115,22 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 				
 		updateTalkToServer();
 		
+		//tab index
+		if(ShukenInput.getInstance().isKeyReleased(Keys.TAB)){
+			tab_index++;
+			if(tab_index > tab_index_max) tab_index= 0;
+			
+			txtUser.clickOff();
+			txtPass1.clickOff();
+			txtPass2.clickOff();
+			
+			switch(tab_index){
+			case 0: txtUser.clickOn(); break;
+			case 1: txtPass1.clickOn(); break;
+			case 2: txtPass2.clickOn(); break;
+			}
+		}
+		
 		//Actualizamos gui...
 		SimpleGUI.getInstance().update(delta);
 		
@@ -136,16 +159,23 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		
 		switch(state){
 		case Normal:
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "USUARIO: ", 170, 257);
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONTRASEÑA: ", 127, 208);
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "CONFIRMAR CONTRASEÑA: ", 5, 158);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, Localization.Usuario_dp, 170, 257);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, Localization.Contraseña_dp, 127, 208);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, Localization.ConfirmarContraseña_dp, 5, 158);
 			break;
 		case AccountCreated:
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "¡Cuenta", 195, 225);
+			int posX1=0, posX2=0, posX3=0;
+			if(Localization.getCurrentLanguage() == Languages.ES){
+				posX1= 195; posX2= 277; posX3= 350;
+			}
+			if(Localization.getCurrentLanguage() == Languages.EN){
+				posX1= 190; posX2= 283; posX3= 363;
+			}
+			ResourceManager.fonts.UIlabelsFont.draw(batch, "¡"+Localization.Cuenta, posX1, 225);
 			ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "creada", 277, 225);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, Localization.Creada, posX2, 225);
 			ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "exitosamente!", 350, 225);
+			ResourceManager.fonts.UIlabelsFont.draw(batch, Localization.Exitosamente+"!", posX3, 225);
 			break;
 		}//end switch
 		
@@ -195,7 +225,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		if(succes){
 			this.setState_AccountCreated();
 		}else{
-			//Mostramos mensaje
+			//TODO mensaje entrante del servidor!
 			lblErrorMsg.reset();
 			this.lblErrorMsg.setLabel(mensaje);
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
@@ -216,7 +246,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			if(nickIngresado.compareTo("")== 0 || passIngresado1.compareTo("")== 0 || passIngresado2.compareTo("")== 0){
 				//Mostramos mensaje
 				lblErrorMsg.reset();
-				this.lblErrorMsg.setLabel("Debes completar todos los campos para crearte una cuenta.");
+				this.lblErrorMsg.setLabel(Localization.ErrorMSg_DebesCompletarTodosLosCampos);
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				return;
 			}
@@ -225,7 +255,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			if(nickIngresado.length() < 4){
 				//Mostramos mensaje
 				lblErrorMsg.reset();
-				this.lblErrorMsg.setLabel("El nombre de usuario debe contener como mínimo 4 caracteres.");
+				this.lblErrorMsg.setLabel(Localization.ErrorMsg_NombreUsuarioDebeTenerCantCaracateres);
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				return;
 			}
@@ -234,7 +264,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			if(passIngresado1.compareTo(passIngresado2)!= 0){
 				//Mostramos mensaje
 				lblErrorMsg.reset();
-				this.lblErrorMsg.setLabel("Las contraseñas deben coincidir.");
+				this.lblErrorMsg.setLabel(Localization.ErrorMsg_ContraseñasDebenCoincidir);
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				return;
 			}
@@ -243,7 +273,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			if(passIngresado1.length() < 6){
 				//Mostramos mensaje
 				lblErrorMsg.reset();
-				this.lblErrorMsg.setLabel("La contraseña debe contener como mínimo 6 caracteres.");
+				this.lblErrorMsg.setLabel(Localization.ErrorMsg_ContraseñasDebenCantCaracteres);
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				return;
 			}
@@ -273,6 +303,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		
 		//Hacemos foco
 		txtUser.clickOn();
+		tab_index= 0;
 		
 		//Inicializamos transicion de llegada
 		transitionIn.start();

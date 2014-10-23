@@ -18,6 +18,7 @@ import shuken.Engine.SimpleGUI.SimpleTextBox;
 import shuken.Engine.SimpleGUI.TimeLabel;
 import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
+import shuken.TaTeTi.Localization;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
 import shuken.TaTeTi.Entities.Ficha;
@@ -26,6 +27,7 @@ import shuken.TaTeTi.Entities.Partida;
 import shuken.TaTeTi.Entities.Player;
 import shuken.TaTeTi.Entities.TableOfPlayersOnline;
 import shuken.TaTeTi.Entities.Player.States;
+import shuken.TaTeTi.Localization.Languages;
 import shuken.TaTeTi.Network.InetMessage;
 import shuken.TaTeTi.Transitions.FadeTransition;
 import shuken.TaTeTi.Transitions.Transition;
@@ -100,11 +102,11 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		tableOfPlayersOnline= new TableOfPlayersOnline(45, 310);
 		
 		//Inicializamos componentes de la gui...
-		btnInvitar= new SimpleButton("Invitar a Jugar", 220, 39, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
-		btnCerrarSesion= new SimpleButton("Cerrar Sesion", 510, 15, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
-		btnAceptarSolicitud= new SimpleButton("Aceptar", 360, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
-		btnRechazarSolicitud= new SimpleButton("Rechazar", 200, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
-		btnCancelarSolicitud= new SimpleButton("Cancelar", 277, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnInvitar= new SimpleButton(Localization.InvitarAjugar, 220, 39, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnCerrarSesion= new SimpleButton(Localization.CerrarSesion, 510, 15, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnAceptarSolicitud= new SimpleButton(Localization.Aceptar, 360, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnRechazarSolicitud= new SimpleButton(Localization.Rechazar, 200, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
+		btnCancelarSolicitud= new SimpleButton(Localization.Cancelar, 277, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		lblErrorMsg= new TimeLabel(" ", 200, 220, ResourceManager.fonts.gameText, 8.5f, ResourceManager.textures.transition);
 		txtOpponent= new SimpleTextBox(45, 35, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtOpponent.putStringIntoText("Player");
@@ -181,7 +183,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			waitingTimeCount+= delta;
 			if(waitingTimeCount > MAX_WAITING_TIME){
 				lblErrorMsg.reset();
-				lblErrorMsg.setLabel("El usuario " + nickOponente + " perdió comunicación con el servidor.");
+				lblErrorMsg.setLabel(Localization.ElUsuario + nickOponente + Localization.PerdioComunicacion);
 				SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 				cancelarSolicitud();
 			}
@@ -222,7 +224,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		batch.draw(ResourceManager.textures.backgroundMainMenu, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 				
 		//Graficamos title
-		batch.draw(ResourceManager.textures.mainMenuTitle, 17, 320);
+		batch.draw(ResourceManager.textures.mainMenuTitle, (Gdx.graphics.getWidth()-ResourceManager.textures.mainMenuTitle.getRegionWidth())/2, 320);
 				
 		if(Config.DEBUG_MODE){
 			ResourceManager.fonts.defaultFont.draw(batch, "DEBUG MODE", 10, Gdx.graphics.getHeight()-5);
@@ -235,20 +237,29 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		case NORMAL:
 			//Usuario loggeado
 			//ResourceManager.fonts.UIlabelsFont.draw(batch, "Bienvenido " + GameSession.getPlayer().getNick() + " :)", 50, 320);
-			ResourceManager.fonts.gameText.draw(batch, "Seleccione el", 300, 315);
+			int posX1=0, posX2=0, arrowWidth= 0, pos2X1=0, pos2X2=0, pos2X3=0;
+			if(Localization.getCurrentLanguage() == Languages.ES){
+				posX1= 390; posX2= 447; arrowWidth= ResourceManager.textures.arrow.getRegionWidth();
+				pos2X1= 157; pos2X2= 215; pos2X3= 40;
+			}
+			if(Localization.getCurrentLanguage() == Languages.EN){
+				posX1= 370; posX2= 415; arrowWidth= 305;
+				pos2X1= 140; pos2X2= 185; pos2X3= 50;
+			}
+			ResourceManager.fonts.gameText.draw(batch, Localization.SeleccioneEl, 300, 315);
 			ResourceManager.fonts.gameText.setColor(0,  0.7f, 0.88f, 1);
-			ResourceManager.fonts.gameText.draw(batch, "jugador", 390, 315);
+			ResourceManager.fonts.gameText.draw(batch, Localization.Jugador, posX1, 315);
 			ResourceManager.fonts.gameText.setColor(Color.WHITE);
-			ResourceManager.fonts.gameText.draw(batch, "con el que desea jugar.", 447, 315);
-			batch.draw(ResourceManager.textures.arrow, 253, 286);
+			ResourceManager.fonts.gameText.draw(batch, Localization.ConElQueDeseajugar, posX2, 315);
+			batch.draw(ResourceManager.textures.arrow, 253, 286, arrowWidth, ResourceManager.textures.arrow.getRegionHeight());
 			
 			if(tableOfPlayersOnline.getCantOfPlayersOnline() >= 11){
-				ResourceManager.fonts.gameText.draw(batch, "O bien ingrese el", 40, 120);
+				ResourceManager.fonts.gameText.draw(batch, Localization.ObienIngrese, pos2X3, 120);
 				ResourceManager.fonts.gameText.setColor(0,  0.7f, 0.88f, 1);
-				ResourceManager.fonts.gameText.draw(batch, "nombre", 157, 120);
+				ResourceManager.fonts.gameText.draw(batch, Localization.Nombre, pos2X1, 120);
 				ResourceManager.fonts.gameText.setColor(Color.WHITE);
-				ResourceManager.fonts.gameText.draw(batch, "del jugador con", 215, 120);
-				ResourceManager.fonts.gameText.draw(batch, "el que desea jugar: ", 40, 100);
+				ResourceManager.fonts.gameText.draw(batch, Localization.DelJugadorCon, pos2X2, 120);
+				ResourceManager.fonts.gameText.draw(batch, Localization.DeseaJugar, pos2X3, 100);
 			}
 			
 			//Graficamos tablas
@@ -259,7 +270,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			ResourceManager.fonts.UIlabelsFont.setColor(0, 0.88f, 0, 1);
 			ResourceManager.fonts.UIlabelsFont.draw(batch, nickSolicitante.toUpperCase(), 300, 250);
 			ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
-			ResourceManager.fonts.UIlabelsFont.draw(batch,"¡Quiere jugar con vos!", 235, 210);
+			ResourceManager.fonts.UIlabelsFont.draw(batch,Localization.QuiereJugarConVos, 235, 210);
 			
 			//ResourceManager.fonts.defaultFont.draw(batch, timeOutCount + "s", 95, 240);
 			batch.setColor(0, 0, 0, 0.5f);
@@ -271,7 +282,10 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			
 			break;
 		case ESPERANDO_RESPUESTA_DE_OTRO_USUARIO:
-			ResourceManager.fonts.UIlabelsFont.draw(batch, "Esperando a que " + nickOponente.toUpperCase() + " responda a su solicitud...", 100, 250);
+			int posX=0;
+			if(Localization.getCurrentLanguage() == Languages.ES) posX= 100;
+			if(Localization.getCurrentLanguage() == Languages.EN) posX= 230;
+			ResourceManager.fonts.UIlabelsFont.draw(batch, Localization.EsperandoAque + nickOponente.toUpperCase() + Localization.RespondaAsuSolicitud, posX, 250);
 			batch.draw(ResourceManager.textures.circleArrow, 320f, 170f, (float)ResourceManager.textures.circleArrow.getRegionWidth()/2f, (float)ResourceManager.textures.circleArrow.getRegionHeight()/2f, ResourceManager.textures.circleArrow.getRegionWidth(), ResourceManager.textures.circleArrow.getRegionHeight(), 1f, 1f, angle, true);
 			break;
 		}//fin switch
@@ -348,6 +362,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		}else{
 			//El contrincante deseado no se encuentra online o esta ocupado.
 			GameSession.getPlayer().setState(Player.States.IDLE);
+			//TODO mensaje entrante del servidor!
 			lblErrorMsg.reset();
 			lblErrorMsg.setLabel(msg.strings.get(0));
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
@@ -370,8 +385,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		timeOutCount= 0;
 		
 		String mensaje= "";
-		if(isForTimeOut) mensaje= "El usuario "+ nick + " se ha demorado demasiado en responder.";
-		else mensaje= "El jugador " + nick + " ha rechazado tu oferta de jugar.";
+		if(isForTimeOut) mensaje= Localization.ElUsuario+ nick + Localization.DemoroEnResponder;
+		else mensaje= Localization.ElUsuario + nick + Localization.RechazoOfertaDejugar;
 		
 		lblErrorMsg.reset();
 		lblErrorMsg.setLabel(mensaje);
@@ -385,6 +400,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		waitingTimeCount=0;
 		timeOutCount= 0;
 		
+		//TODO mensaje entrante del servidor!
 		lblErrorMsg.reset();
 		lblErrorMsg.setLabel(msg.strings.get(0));
 		SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
@@ -435,6 +451,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		//Obtenemos data y cargamos la tala
 		int rows= msg.ints.get(0);
 		for(int i=0; i < rows; i++){
+			//TODO state de los players viene desde el servidor en castellano!!
 			String nick= msg.strings.get(i*2);
 			String state= msg.strings.get((i*2)+1);
 			tableOfPlayersOnline.addRow(nick, state);
@@ -473,7 +490,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		
 		String opponent= msg.strings.get(0);
 		lblErrorMsg.reset();
-		lblErrorMsg.setLabel(opponent + " ha cancelado la solicitud.");
+		lblErrorMsg.setLabel(opponent + Localization.CanceloSolicitud);
 		SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 	}//fin se cancelo solicitud
 	
@@ -505,7 +522,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		if(GameSession.getInstance().getLocalPlayer().getNick().compareToIgnoreCase(nickOponente)== 0){
 			//System.out.println("Client-side: No puedes invitarte a ti mismo.");
 			lblErrorMsg.reset();
-			lblErrorMsg.setLabel("No puedes invitarte a ti mismo.");
+			lblErrorMsg.setLabel(Localization.NoPuedesInvATiMismo);
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
 		else {
