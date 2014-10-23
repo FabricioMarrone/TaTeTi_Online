@@ -9,6 +9,6 @@
 #local 192.168.0.100
 #global 200.81.120.231
 #
-serverIP= 192.168.0.101
+serverIP= 192.168.0.100
 port=8081
 debug= false

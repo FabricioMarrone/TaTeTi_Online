@@ -34,7 +34,7 @@ public class Client {
 
 	/** Mensaje que se recibe del server.*/
 	InetMessage message;
-
+	
 	public void sendHeartBeat(){
 		//Creamos el mensaje...
 		InetMessage msg= new InetMessage(InetMsgType.CaS_HeartBeat);
@@ -161,7 +161,9 @@ public class Client {
 			//1. Intentamos conectar...
 			clientSocket = new Socket(Config.SERVER_IP, Config.PORT);
 			clientSocket.setTcpNoDelay(true);
-
+			clientSocket.setKeepAlive(true);
+			clientSocket.setSoTimeout(0);
+			
 			//2. get Input and Output streams
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
 			out.flush();
@@ -199,9 +201,10 @@ public class Client {
 		}catch(SocketException s){
 			connectedToServer= false;
 			GameSession.getInstance().connectionLost(s);
-		}
-		catch(IOException ioException){
+		}catch(IOException ioException){
 			ioException.printStackTrace();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 	}//fin sendMessage
 
@@ -217,6 +220,9 @@ public class Client {
 		} catch(NullPointerException e){
 			return null;
 		}catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}catch(Exception e){
 			e.printStackTrace();
 			return null;
 		}

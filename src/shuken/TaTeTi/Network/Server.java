@@ -215,6 +215,7 @@ public class Server extends JFrame {
 		try {
 			//Creamos el socket del server...
 			serverSocket = new ServerSocket(PORT, 10);
+			serverSocket.setSoTimeout(0);
 			
 			//Cargamos la data...
 			GameData.loadAll();
@@ -304,8 +305,9 @@ public class Server extends JFrame {
 					}
 					//Quitamos los que haya que quitar
 					for(int i= 0; i < blackList.size(); i++){
-						connections.get(blackList.get(i)).cerrarSesion();
-						connections.get(blackList.get(i)).closeThread();
+						//connections.get(blackList.get(i)).clientDisconnected();
+						//connections.get(blackList.get(i)).cerrarSesion();
+						//connections.get(blackList.get(i)).closeThread();
 					}
 				}
 			} catch (InterruptedException e) {

@@ -8,6 +8,6 @@
 # De esta manera, el servidor va a trabajar en memoria unicamente. Toda la información se perderá cuando se
 #cierre el servidor.
 #
-UseDB= true
+UseDB= false
 AllowMultipleClients= true
 port=8081

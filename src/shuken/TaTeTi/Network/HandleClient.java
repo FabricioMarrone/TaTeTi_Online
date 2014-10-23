@@ -65,31 +65,14 @@ public class HandleClient implements Runnable{
 			closeThread= true;
 		}
 
+		clientDisconnected();
+		
 		//Cerramos sockets
 		try {
 			clientSocket.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-		//Verificamos si este cliente se encontraba en una partida, en cuyo caso se elimina la misma y se le avisa al otro cliente de la finalizacion
-		if(player != null){
-			Partida partida= Server.instance.getPartida(player.getNick());
-			if(partida != null){
-				String otroNick= "";
-				if(player.getNick().compareTo(partida.getPlayerO().getNick())== 0) otroNick= partida.getPlayerX().getNick();
-				else otroNick= partida.getPlayerO().getNick();
-				HandleClient otroClient= Server.instance.getHandleClient(otroNick);
-				if(otroClient != null){
-					otroClient.sendFinDePartida(MatchStates.INCONCLUSO);
-					//Eliminamos la partida del array de partidas
-					Server.instance.partidas.remove(partida);
-				}
-			}
-		}
-		//Quitamos player de la lista y quitamos tambien la conexion de la lista de conexiones...
-		Server.instance.removeConnection(this);
-		
 	}//fin de run
 
 	/**
@@ -337,6 +320,8 @@ public class HandleClient implements Runnable{
 		if(hClient == null){
 			//Error inesperado 003.
 			System.err.println("Server-side: Error inesperado 003.");
+			this.sendFinDePartida(MatchStates.INCONCLUSO);
+			Server.instance.partidas.remove(partida);
 			return;
 		}
 		
@@ -638,7 +623,28 @@ public class HandleClient implements Runnable{
 		}
 		catch(IOException ioException){
 			ioException.printStackTrace();
+			clientDisconnected();
 		}
+	}
+	
+	public void clientDisconnected(){
+		//Verificamos si este cliente se encontraba en una partida, en cuyo caso se elimina la misma y se le avisa al otro cliente de la finalizacion
+		if(player != null){
+			Partida partida= Server.instance.getPartida(player.getNick());
+			if(partida != null){
+				String otroNick= "";
+				if(player.getNick().compareTo(partida.getPlayerO().getNick())== 0) otroNick= partida.getPlayerX().getNick();
+				else otroNick= partida.getPlayerO().getNick();
+				HandleClient otroClient= Server.instance.getHandleClient(otroNick);
+				if(otroClient != null){
+					otroClient.sendFinDePartida(MatchStates.INCONCLUSO);
+					//Eliminamos la partida del array de partidas
+					Server.instance.partidas.remove(partida);
+				}
+			}
+		}
+		//Quitamos player de la lista y quitamos tambien la conexion de la lista de conexiones...
+		Server.instance.removeConnection(this);
 	}
 	
 	/**
