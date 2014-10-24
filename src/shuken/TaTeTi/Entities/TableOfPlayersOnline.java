@@ -60,9 +60,16 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 			
 		for(int i= 0; i < cantToRender; i++){	
 			//Graficamos con color segun estado
-			if(rows.get(i).state.compareToIgnoreCase(Player.States.IDLE.toString())== 0) ResourceManager.fonts.gameText.setColor(0, 0.88f, 0, 1);
-			if(rows.get(i).state.compareToIgnoreCase(Player.States.PLAYING.toString())== 0) ResourceManager.fonts.gameText.setColor(0.85f, 0, 0, 1);
-			if(rows.get(i).state.compareToIgnoreCase(Player.States.RESPONDIENDO_SOLICITUD.toString())== 0 || rows.get(i).state.compareToIgnoreCase(Player.States.WAITING_FOR_OPPONENT.toString())== 0) ResourceManager.fonts.gameText.setColor(Color.YELLOW);
+			if(Localization.getCurrentLanguage() == Languages.ES){
+				if(rows.get(i).state.compareToIgnoreCase(Player.States.IDLE.toString())== 0) ResourceManager.fonts.gameText.setColor(0, 0.88f, 0, 1);
+				if(rows.get(i).state.compareToIgnoreCase(Player.States.PLAYING.toString())== 0) ResourceManager.fonts.gameText.setColor(0.85f, 0, 0, 1);
+				if(rows.get(i).state.compareToIgnoreCase(Player.States.RESPONDIENDO_SOLICITUD.toString())== 0 || rows.get(i).state.compareToIgnoreCase(Player.States.WAITING_FOR_OPPONENT.toString())== 0) ResourceManager.fonts.gameText.setColor(Color.YELLOW);
+			}
+			if(Localization.getCurrentLanguage() == Languages.EN){
+				if(rows.get(i).state.compareToIgnoreCase("Available")== 0) ResourceManager.fonts.gameText.setColor(0, 0.88f, 0, 1);
+				if(rows.get(i).state.compareToIgnoreCase("Playing")== 0) ResourceManager.fonts.gameText.setColor(0.85f, 0, 0, 1);
+				if(rows.get(i).state.compareToIgnoreCase("Answering solicitude")== 0 || rows.get(i).state.compareToIgnoreCase("Waiting for answer")== 0) ResourceManager.fonts.gameText.setColor(Color.YELLOW);
+			}
 			
 			//Si esta el mouse encima
 			if(SimpleGUI.getInstance().isAreaUnderTheMouse(rowsRectangles.get(i))) ResourceManager.fonts.gameText.setColor(Color.GREEN);

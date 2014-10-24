@@ -21,6 +21,7 @@ import shuken.Engine.SimpleGUI.TimeLabel;
 import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.Localization;
+import shuken.TaTeTi.ServerMessages;
 import shuken.TaTeTi.Localization.Languages;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
@@ -246,10 +247,10 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 			transitionToMainMenu.start();
 		}else{
 			//Loggin falló.
-			//TODO mensaje entrante del servidor!
 			GameSession.getInstance().closeSession();
 			lblErrorMsg.reset();
-			lblErrorMsg.setLabel(msg.strings.get(0));
+			String cod= msg.strings.get(0);
+			lblErrorMsg.setLabel(ServerMessages.getMessage(cod));
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
 	}

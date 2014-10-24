@@ -215,7 +215,7 @@ public class Server extends JFrame {
 		try {
 			//Creamos el socket del server...
 			serverSocket = new ServerSocket(PORT, 10);
-			serverSocket.setSoTimeout(0);
+			//serverSocket.setSoTimeout(0);
 			
 			//Cargamos la data...
 			GameData.loadAll();

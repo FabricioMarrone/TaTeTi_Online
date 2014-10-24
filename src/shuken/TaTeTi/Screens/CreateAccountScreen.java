@@ -21,6 +21,7 @@ import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.Localization;
 import shuken.TaTeTi.Localization.Languages;
+import shuken.TaTeTi.ServerMessages;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
 import shuken.TaTeTi.Network.InetMessage;
@@ -225,9 +226,8 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		if(succes){
 			this.setState_AccountCreated();
 		}else{
-			//TODO mensaje entrante del servidor!
 			lblErrorMsg.reset();
-			this.lblErrorMsg.setLabel(mensaje);
+			this.lblErrorMsg.setLabel(ServerMessages.getMessage(mensaje));
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
 	}

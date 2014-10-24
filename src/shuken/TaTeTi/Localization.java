@@ -10,6 +10,13 @@ public class Localization {
 	private static Languages language;
 	
 	//**********************************//
+	public static String SePerdioComServer1;
+	public static String SePerdioComServer2;
+	public static String ServerNoEncontrado1;
+	public static String ServerNoEncontrado2;
+	public static String ServerNoEncontrado3;
+	public static String ServerNoEncontrado4;
+	
 	//-Login screen
 	public static String Ingresar;
 	public static String CrearCuenta;
@@ -55,6 +62,20 @@ public class Localization {
 	public static String RechazoOfertaDejugar;
 	public static String CanceloSolicitud;
 	public static String NoPuedesInvATiMismo;
+	//-gameplay
+	public static String VolverAlMenu;
+	public static String Rendirse;
+	public static String Juege;
+	public static String SuTurno;
+	public static String Espere;
+	public static String PartidaFinalizada;
+	public static String Empate;
+	public static String Ganaste;
+	public static String Perdiste;
+	public static String ElContrincanteSeRindio;
+	public static String TeHasRendido;
+	public static String FallaEnPartida1;
+	public static String FallaEnPartida2;
 	//**********************************//
 	
 	public static Languages getCurrentLanguage(){
@@ -63,6 +84,13 @@ public class Localization {
 	
 	private static void loadEN(){
 		language= Languages.EN;
+		
+		SePerdioComServer1= "Communication with the server is lost.";
+		SePerdioComServer2= "            (Click to hide message)";
+		ServerNoEncontrado1= "Server not found. One of the following errors may have occurred:";
+		ServerNoEncontrado2= "-Server is down.";
+		ServerNoEncontrado3= "-The server IP address is incorrect.";
+		ServerNoEncontrado4= "                                        (Click to hide message)";
 		
 		Ingresar= "Login";
 		CrearCuenta= "Register";
@@ -108,10 +136,31 @@ public class Localization {
 		RechazoOfertaDejugar= " refuses your solicitude to play.";
 		CanceloSolicitud= " canceled the solicitude.";
 		NoPuedesInvATiMismo= "You can't invite yourself.";
+		
+		VolverAlMenu= "Back to menu";
+		Rendirse= "Surrender";
+		Juege= "PLAY";
+		SuTurno= "YOUR TURN";
+		Espere= "WAIT";
+		PartidaFinalizada= "MATCH END";
+		Empate= "DRAW";
+		Ganaste= "YOU WON";
+		Perdiste= "YOU LOSE";
+		ElContrincanteSeRindio= "The opponent SURRENDERED";
+		TeHasRendido= "YOU SURRENDERED";
+		FallaEnPartida1= "Has occurred a failure that caused an abrupt finish of the match.";
+		FallaEnPartida2= "It will not be taken into account in the statistics.";
 	}//end load EN
 	
 	private static void loadES(){
 		language= Languages.ES;
+		
+		SePerdioComServer1= "Se perdió la comunicación con el servidor.";
+		SePerdioComServer2= "            (Click para quitar mensaje)";
+		ServerNoEncontrado1= "No se encuentra el servidor. Uno de los siguientes errores pudo haber ocurrido:";
+		ServerNoEncontrado2= "-El servidor está caido.";
+		ServerNoEncontrado3= "-La direccón IP del servidor es incorrecta.";
+		ServerNoEncontrado4= "                                        (Click para quitar mensaje)";
 		
 		Ingresar= "Ingresar";
 		CrearCuenta= "Crear cuenta";
@@ -157,6 +206,20 @@ public class Localization {
 		RechazoOfertaDejugar= " ha rechazado tu oferta de jugar.";
 		CanceloSolicitud= " ha cancelado la solicitud.";
 		NoPuedesInvATiMismo= "No puedes invitarte a ti mismo.";
+		
+		VolverAlMenu= "Volver al menu";
+		Rendirse= "Rendirse";
+		Juege= "JUEGE";
+		SuTurno= "SU TURNO";
+		Espere= "ESPERE";
+		PartidaFinalizada= "PARTIDA FINALIZADA";
+		Empate= "EMPATE";
+		Ganaste= "GANASTE";
+		Perdiste= "PERDISTE";
+		ElContrincanteSeRindio= "El contrincante se ha RENDIDO";
+		TeHasRendido= "TE HAS RENDIDO";
+		FallaEnPartida1= "Ha ocurrido una falla que provocó la finalizacion abrupta de la partida.";
+		FallaEnPartida2= "La misma no será tenida en cuenta para las estadisticas.";
 	}//end load ES
 	
 	public static void loadLanguage(String language){

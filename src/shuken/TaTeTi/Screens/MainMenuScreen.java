@@ -19,6 +19,7 @@ import shuken.Engine.SimpleGUI.TimeLabel;
 import shuken.TaTeTi.Config;
 import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.Localization;
+import shuken.TaTeTi.ServerMessages;
 import shuken.TaTeTi.TaTeTi;
 import shuken.TaTeTi.Updateable;
 import shuken.TaTeTi.Entities.Ficha;
@@ -362,9 +363,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		}else{
 			//El contrincante deseado no se encuentra online o esta ocupado.
 			GameSession.getPlayer().setState(Player.States.IDLE);
-			//TODO mensaje entrante del servidor!
 			lblErrorMsg.reset();
-			lblErrorMsg.setLabel(msg.strings.get(0));
+			lblErrorMsg.setLabel(ServerMessages.getMessage(msg.strings.get(0)));
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
 	}
@@ -400,9 +400,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		waitingTimeCount=0;
 		timeOutCount= 0;
 		
-		//TODO mensaje entrante del servidor!
 		lblErrorMsg.reset();
-		lblErrorMsg.setLabel(msg.strings.get(0));
+		lblErrorMsg.setLabel(ServerMessages.getMessage(msg.strings.get(0)));
 		SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		
 		GameSession.getPlayer().setState(Player.States.IDLE);
@@ -451,7 +450,6 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		//Obtenemos data y cargamos la tala
 		int rows= msg.ints.get(0);
 		for(int i=0; i < rows; i++){
-			//TODO state de los players viene desde el servidor en castellano!!
 			String nick= msg.strings.get(i*2);
 			String state= msg.strings.get((i*2)+1);
 			tableOfPlayersOnline.addRow(nick, state);

@@ -127,7 +127,7 @@ public class HandleClient implements Runnable{
 		//Verificamos si existe un player para ese nick
 		if(GameData.playerData.getOne(nick) != null){
 			//Existe un usuario con ese nombre, por lo tanto, no es posible crear una cuenta nueva.
-			sendRespuestaCreateAccount(false, "El nombre de usuario se encuentra en uso.");
+			sendRespuestaCreateAccount(false, "cod1");
 			return;
 		}
 		
@@ -214,7 +214,7 @@ public class HandleClient implements Runnable{
 			//Colocamos a este player como disponible
 			player.setState(Player.States.IDLE);
 			Server.instance.updateTablaPlayerOnline();
-			if(resp) this.send_ErrorMessage("El usuario " + nickSolicitante + " ha perdido su conexión con el servidor.");
+			if(resp) this.send_ErrorMessage("cod9");
 			
 			return;
 		}
@@ -272,14 +272,14 @@ public class HandleClient implements Runnable{
 		Player p= Server.instance.getPlayer(nickOponente);
 		if(p == null){
 			//El player solicitado no esta online.
-			sendRespuestaSolicitudParaJugar(false, "El jugador solicitado no se encuentra online.");
+			sendRespuestaSolicitudParaJugar(false, "cod6");
 			return;
 		}
 		
 		if(!p.isIdle()){
 			//El player se encuentra jugando con otra persona, o esperando respuesta de otra persona.
-			if(p.isPlaying()) sendRespuestaSolicitudParaJugar(false, "El jugador se encuentra actualmente en otra partida.");
-			else sendRespuestaSolicitudParaJugar(false, "El jugador se encuentra ocupado.");
+			if(p.isPlaying()) sendRespuestaSolicitudParaJugar(false, "cod7");
+			else sendRespuestaSolicitudParaJugar(false, "cod8");
 			return;
 		}
 		
@@ -370,21 +370,21 @@ public class HandleClient implements Runnable{
 		Player p= GameData.playerData.getOne(nick);
 		if(p == null){
 			//No existe un usuario con ese nombre.
-			sendRespuestaLogginRequest(false, "El nombre de usuario es incorrecto.");
+			sendRespuestaLogginRequest(false, "cod2");
 			return;
 		}
 		
 		//Verificamos password...
 		if(p.getPassword().compareToIgnoreCase(pass)!= 0){
 			//El password es incorrecto.
-			sendRespuestaLogginRequest(false, "La clave es incorrecta.");
+			sendRespuestaLogginRequest(false, "cod3");
 			return;
 		}
 		
 		//Verificamos que no exista ya una conexion con esta ip (sólo una conexion por maquina)...
 		if(!ServerConfig.ALLOW_MULTIPLES_CLIENT && Server.instance.isThisMachineConnected(this.getClientIP())){
 			//Ya hay una sesion iniciada con esa ip...
-			sendRespuestaLogginRequest(false, "Ya existe una sesión iniciada en esta máquina (sólo se permite una sesión por PC).");
+			sendRespuestaLogginRequest(false, "cod4");
 			return;
 		}
 		
@@ -402,7 +402,7 @@ public class HandleClient implements Runnable{
 
 		}else{
 			//Ya existe un usuario loggeado con ese mismo nick.
-			sendRespuestaLogginRequest(false, "Esta cuenta ya posee una sesion abierta.");
+			sendRespuestaLogginRequest(false, "cod5");
 			return;
 		}
 		

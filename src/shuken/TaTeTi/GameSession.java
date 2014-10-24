@@ -290,10 +290,10 @@ public class GameSession implements Updateable{
 		
 		//Mostramos mensaje de error
 		ArrayList<String> text= new ArrayList<String>();
-		text.add("No se encuentra el servidor. Uno de los siguientes errores pudo haber ocurrido:");
-		text.add("-El servidor está caido.");
-		text.add("-La direccón IP del servidor es incorrecta.");
-		text.add("                                        (Click para quitar mensaje)");
+		text.add(Localization.ServerNoEncontrado1);
+		text.add(Localization.ServerNoEncontrado2);
+		text.add(Localization.ServerNoEncontrado3);
+		text.add(Localization.ServerNoEncontrado4);
 		SimpleGUI.getInstance().errorMsg.setText(text);
 		SimpleGUI.getInstance().errorMsg.show();
 	}
@@ -306,8 +306,8 @@ public class GameSession implements Updateable{
 		
 		//Mostramos mensaje de error
 		ArrayList<String> text= new ArrayList<String>();
-		text.add("Se perdió la comunicación con el servidor.");
-		text.add("            (Click para quitar mensaje)");
+		text.add(Localization.SePerdioComServer1);
+		text.add(Localization.SePerdioComServer2);
 		SimpleGUI.getInstance().errorMsg.setText(text);
 		SimpleGUI.getInstance().errorMsg.show();
 				

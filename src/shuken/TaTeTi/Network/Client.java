@@ -161,8 +161,8 @@ public class Client {
 			//1. Intentamos conectar...
 			clientSocket = new Socket(Config.SERVER_IP, Config.PORT);
 			clientSocket.setTcpNoDelay(true);
-			clientSocket.setKeepAlive(true);
-			clientSocket.setSoTimeout(0);
+			//clientSocket.setKeepAlive(true);
+			//clientSocket.setSoTimeout(0);
 			
 			//2. get Input and Output streams
 			out = new ObjectOutputStream(clientSocket.getOutputStream());
