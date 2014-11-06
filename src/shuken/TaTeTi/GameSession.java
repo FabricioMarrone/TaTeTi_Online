@@ -8,19 +8,12 @@ import shuken.TaTeTi.Entities.Player;
 import shuken.TaTeTi.Network.Client;
 import shuken.TaTeTi.Network.InetMessage;
 
-
 /**
- * Clase singleton que almacena informacion de la sesion del usuario, como asi tambien se encarga de gestionar los Threads encargados de la
- * comunicación con el servidor.
- * 
- * El GameSession es una clase que debe actualizarse en todos los screens.
- * 
+ * Singleton class that contains the session of the user, and also is responsible for managing the Threads in charge of communicating with the server.
  * @author F. Marrone
- *
  */
 public class GameSession implements Updateable{
 
-	
 	private static GameSession instance= null;
 	public static GameSession getInstance(){
 		if(instance == null) instance= new GameSession();
@@ -28,25 +21,25 @@ public class GameSession implements Updateable{
 		return instance;
 	}
 	
-	/** Flag que indica si el usuario a iniciado o no su sesion (es decir, si esta loggeado o no). */
+	/** Flag for login */
 	private boolean sesionIniciada= false;
 	
-	/** Jugador local una vez que inició sesion. */
+	/** Local player info. */
 	private Player localPlayer;
 	
-	/** Threads encargados de enviar y recibir mensajes del servidor.*/
+	/** Threads in charge of communicating with the server.*/
 	private Thread serverTalker, listenServer;
 	
-	/** Objeto client que contiene el socket (direcciones ip y demas) y otras cosas mas para hablar con el servidor. */
+	/** Client object. It manages the socket and IPs. */
 	private Client client;
 	
-	/** Control de errores. */
+	/** Errors */
 	private boolean serverNotFoundError= false;
 	private boolean serverConnectionLost= false;
 	private boolean tryConnectToServer= false;	//var aux que permite intentar una vez mas conectar, incluso cuando los flag de control indican que no es posible
 	
 	/** Latency */
-	private static final int LATENCY_COUNT_MAX= 3;
+	private static final int LATENCY_COUNT_MAX= 5;
 	private int promLatency;
 	private long acumulatedLatency;
 	private long latency;
@@ -73,7 +66,6 @@ public class GameSession implements Updateable{
 
 	//***********************************************//
 	
-	
 	//************** MAIN MENU SCREEN ***************//
 	protected boolean sendSolicitudParaJugar= false;
 	protected String nickOponenteSolicitado= "";
@@ -94,8 +86,6 @@ public class GameSession implements Updateable{
 	protected boolean sendObtenerPlayersOnline= false;
 	//***********************************************//
 	
-	
-	
 	//************** GAMEPLAY SCREEN ****************//
 	protected boolean sendFichaColocada= false;
 	protected Ficha fichaColocadaRecientemente;
@@ -104,39 +94,28 @@ public class GameSession implements Updateable{
 	//---
 	protected boolean sendPlayerSeRinde= false;
 	protected boolean seRindioX;
-	//***********************************************//
+	//***********************************************//	
 	
+	//**************************************************************************************************************//
 
-	//**************************************************************************************************************//
-	//**************************************************************************************************************//
-	//**************************************************************************************************************//
-	
 	/**
-	 * Constructor privado.
+	 * Private constructor.
 	 */
 	private GameSession(){
-		
 		//Inicializamos el Cliente...
 		client= new Client();
 		
 		//Inicializamos threads de comunicación con el servidor...
 		serverTalker= new Thread(new ServerTalker());
 		listenServer= new Thread(new ListenServer());
-	}//fin constructor
+	}
 	
-	
-	/**
-	 * Devuelve true si el usuario esta actualmente loggeado.
-	 * @return
-	 */
 	public boolean isSessionOn(){
 		return sesionIniciada;
 	}
 
 	/**
-	 * Devuelve el player local. Este metodo puede devolver null si es que aun no se ha iniciado la sesion. Por las dudas, antes de llamar a
-	 * este metodo cerciorarse con "isSessionOn()".
-	 * @return
+	 * @return the local player. Might be null if "isSessionOn()" returns false.
 	 */
 	public Player getLocalPlayer(){
 		return localPlayer;
@@ -152,7 +131,6 @@ public class GameSession implements Updateable{
 		sesionIniciada= false;
 	}
 	
-	
 	public static Player getPlayer(){
 		return instance.getLocalPlayer();
 	}
@@ -165,7 +143,6 @@ public class GameSession implements Updateable{
 	
 	@Override
 	public void update(float delta) {
-		
 		//Si estamos conectados al socket del server, entonces no debe haber ningun mensaje de error relacionado
 		if(this.isConnectedToServer()) SimpleGUI.getInstance().turnAreaOFF(SimpleGUI.getInstance().errorMsg);
 		
@@ -185,15 +162,11 @@ public class GameSession implements Updateable{
 			listenServer.start();
 		}
 		
-	}//fin update
-	
-	
-	
-	
+	}//end update
 	
 	/**
 	 * The GameSession class ask to the Client class to connect to the server. If for any reason, the server is offline or something, this method will
-	 * try to connect a few times. If the problems persists, this method will do nothing then.
+	 * try to connect a few times more.
 	 */
 	public void connectToServer(){
 		if(!tryConnectToServer){
@@ -276,8 +249,6 @@ public class GameSession implements Updateable{
 		this.seRindioX= seRindioX;
 	}
 	
-	
-	
 	public boolean isConnectedToServer(){
 		return client.connectedToServer;
 	}
@@ -315,12 +286,11 @@ public class GameSession implements Updateable{
 	}
 	
 	/**
-	 * Esta sub-clase se encarga de enviar mensajes al servidor.
+	 * Sub-class that send messages to the server.
 	 * @author F.Marrone
 	 *
 	 */
 	private class ServerTalker implements Runnable {
-
 
 		@Override
 		public void run() {
@@ -331,7 +301,6 @@ public class GameSession implements Updateable{
 				latency= System.currentTimeMillis();
 			}
 			
-			
 			//**************** LOGGIN SCREEN ****************//
 			if(sendLogginRequest){
 				System.out.println("Client-side: Solicitando loggin...");
@@ -340,14 +309,12 @@ public class GameSession implements Updateable{
 			}
 			//***********************************************//
 			
-			
 			//********** Create Account SCREEN **************//
 			if(sendCreateAccount){
 				client.sendCreateAccount(newUserNick, newUserPass);
 				sendCreateAccount= false;
 			}
 			//***********************************************//
-			
 			
 			//**************** MAIN MENU SCREEN *************//
 			if(sendSolicitudParaJugar){
@@ -387,8 +354,6 @@ public class GameSession implements Updateable{
 			}
 			//***********************************************//
 			
-			
-			
 			//************** GAMEPLAY SCREEN ****************//
 			if(sendFichaColocada){
 				System.out.println("Client-side: Cliente avisa al servidor que se ha colocado una ficha en [" + nroCeldaEnQueSeColocoFichaRecientemente + ", " + fichaColocadaRecientemente + "]");
@@ -401,20 +366,11 @@ public class GameSession implements Updateable{
 				sendPlayerSeRinde= false;
 			}
 			//***********************************************//
-		}//fin run
-
-		
-
-	}//fin servertalker
-	
-	
-	
-	
-	
-	
+		}//end run
+	}//end servertalker
 	
 	/**
-	 * Esta sub-clase continuamente escucha al servidor en espera de mensajes entrantes.
+	 * This sub-class waits for incoming messages from the server.
 	 * @author F.Marrone
 	 *
 	 */
@@ -422,10 +378,8 @@ public class GameSession implements Updateable{
 
 		@Override
 		public void run() {
-
 			//Si no estamos conectados al servidor (me refiero al socket) no escuchamos nada para evitar error.
 			if(!isConnectedToServer()) return;
-			
 			
 			try{
 				//Verificamos si hay un nuevo mensaje proveniente del servidor...
@@ -447,7 +401,6 @@ public class GameSession implements Updateable{
 
 				//**************** LOGGIN SCREEN ****************//
 				case SaC_Respuesta_Loggin_request: TaTeTi.getInstance().getLogginScreen().SaC_Respuesta_Loggin_request(msg); break;
-
 				//***********************************************//
 				
 				//********** Create Account SCREEN **************//
@@ -471,9 +424,7 @@ public class GameSession implements Updateable{
 				
 				case SaC_ErrorMessage:  TaTeTi.getInstance().getMainMenuScreen().SaC_ErrorMessage(msg); break;
 				//************************************************//
-				
-				
-				
+							
 				//**************** GAMEPLAY **********************//
 				case SaC_Ficha_Colocada_y_Avanzar_turno: TaTeTi.getInstance().getGamePlay().SaC_Ficha_Colocada_y_Avanzar_turno(msg); break;
 
@@ -484,24 +435,16 @@ public class GameSession implements Updateable{
 				case SaC_Fin_de_Partida: TaTeTi.getInstance().getGamePlay().SaC_Fin_de_Partida(msg); break;
 				//************************************************//
 
-
 				default:
 					break;
 
-				}//fin switch
-			}catch(NullPointerException e){
-				
+				}//end switch
+			}catch(NullPointerException e){		
 				if(!isSessionOn()) {
-					//Si ocurre 1 solo error de este tipo, es posible que sea producto de que el usuario cerro sesion. No hacemos nada.
-					//Pero si este error ocurre muchas veces en pocos segundos, el servidor ha sido dado de baja o se perdio conexion con el server.
-					System.out.println("Tiro null pointer en GameSession listenServer thread. Posiblemente el server se cayo o el usuario cerro sesion en un momento justo.");
+					//System.out.println("Tiro null pointer en GameSession listenServer thread. Posiblemente el server se cayo o el usuario cerro sesion en un momento justo.");
 					return;
 				}
 			}
-
-		}//fin run
-
-	}//fin listen server
-	
-	
-}//fin clase
+		}//end run
+	}//end listen server
+}//end class

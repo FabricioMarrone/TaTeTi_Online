@@ -11,12 +11,11 @@ public class Celda implements Renderable {
 
 	private int nroCelda;
 	
-	/** Tipo de ficha contenida en la celda. Si la celda esta vacia, esto vale null. */
+	/** Type of record contained in the cell. Can be null (when the cell is empty). */
 	private Ficha contenidoDeLaCelda;
 	
-	/** Zona del rectangulo. Esto es usado para detectar clicks sobre la celda. */
+	/** Cell zone (used to detect clicks). */
 	private Rectangle zone;
-	
 	
 	public Celda(int nroCelda, int x, int y, int width, int height){
 		this.nroCelda= nroCelda;
@@ -33,7 +32,6 @@ public class Celda implements Renderable {
 			batch.draw(ResourceManager.textures.circulo, zone.x, zone.y);
 		}
 		
-		
 		/*
 		//Only for testing
 		batch.end();
@@ -46,26 +44,20 @@ public class Celda implements Renderable {
 		*/
 	}
 
-	
 	/**
-	 * Establece cual es el contenido de la celda. Se admite null.
-	 * @param f
+	 * Sets the content of the cell. 
+	 * @param f Can be null.
 	 */
 	public void setContenidoDeLaCelda(Ficha f){
 		this.contenidoDeLaCelda= f;
 	}
 	
-	/**
-	 * Devuelve el tipo de ficha en la celda. Ojo que este valor puede ser null en caso de que este vacia.
-	 * @return
-	 */
 	public Ficha getContenidoDeLaCelda(){
 		return contenidoDeLaCelda;
 	}
 	
 	/**
-	 * Devuelve true si la celda contiene una ficha del tipo CRUZ
-	 * @return
+	 * @return true if the cells contains a X.
 	 */
 	public boolean celdaContainsX(){
 		if(contenidoDeLaCelda == null) return false;
@@ -79,8 +71,7 @@ public class Celda implements Renderable {
 	}
 	
 	/**
-	 * Devuelve true si la celda contiene una ficha del tipo CIRCULO
-	 * @return
+	 * @return true if the cell contains a O.
 	 */
 	public boolean celdaContainsO(){
 		if(contenidoDeLaCelda == null) return false;
@@ -93,11 +84,8 @@ public class Celda implements Renderable {
 		return false;
 	}
 	
-	
 	/**
-	 * Devuelve true si la celda contiene la ficha especificada.
-	 * @param f
-	 * @return
+	 * @return true if the cell contains the record f
 	 */
 	public boolean contains(Ficha ficha){
 		switch(ficha){
@@ -111,15 +99,13 @@ public class Celda implements Renderable {
 	}
 	
 	/**
-	 * Devuelve true si el contenido de la celda no es ni CRUZ ni CIRCULO. Es decir, si es null.
-	 * @return
+	 * @return true if the cell is empty
 	 */
 	public boolean isCeldaEmpty(){
 		if(contenidoDeLaCelda == null) return true;
 		
 		return false;
 	}
-	
 	
 	public void setLocation(int x, int y){
 		zone.setPosition(x, y);
@@ -132,4 +118,4 @@ public class Celda implements Renderable {
 	public int getNroCelda(){
 		return nroCelda;
 	}
-}//fin clase
+}//end class

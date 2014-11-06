@@ -16,7 +16,6 @@ public class Localization {
 	public static String ServerNoEncontrado2;
 	public static String ServerNoEncontrado3;
 	public static String ServerNoEncontrado4;
-	
 	//-Login screen
 	public static String Ingresar;
 	public static String CrearCuenta;

@@ -24,12 +24,10 @@ public class HighScores implements Updateable, Renderable{
 
 	private ArrayList<HighScoreRecord> records;
 	
-	
 	public HighScores(float posX, float posY){
 		position= new Vector2(posX, posY);
 		records= new ArrayList<HighScoreRecord>(CANT_OF_ROWS);
 	}
-	
 	
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRender) {
@@ -42,7 +40,6 @@ public class HighScores implements Updateable, Renderable{
 		ResourceManager.fonts.UIlabelsFont.draw(batch, "P", position.x + 230, position.y + ROW_SEPARATION);
 		ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
 		
-		
 		batch.end();
 		shapeRender.begin(ShapeType.Filled);
 		shapeRender.rect(position.x - 10, position.y - 5, 255, 1, Color.WHITE, new Color(0, 0, 0.8f, 1) , new Color(0, 0, 0.8f, 1), Color.WHITE);
@@ -51,7 +48,6 @@ public class HighScores implements Updateable, Renderable{
 		
 		boolean clientIsNotInHighScore= true;
 		
-		//for(int i= records.size()-1; i >= 0; i--){
 		for(int i= 0; i < records.size(); i++){
 			//Resaltamos player local
 			if(GameSession.getPlayer().getNick().compareToIgnoreCase(records.get(i).nick)== 0){

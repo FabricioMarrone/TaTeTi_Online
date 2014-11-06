@@ -25,6 +25,4 @@ public class PlayersOnlineRecord {
 	public String toString() {
 		return nick + " - " + state;
 	}
-	
-	
 }//end class

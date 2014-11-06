@@ -2,16 +2,15 @@ package shuken.TaTeTi.Entities;
 
 public class Player {
 
-
-	/** Nombre del jugador. */
+	/** name of the player. */
 	private String nick;
 	/** Password */
 	private String password;
-	/** Estadisticas del jugador (GANADOS, PERDIDOS, EMPATADOS)*/
+	/** player data (win, lose, draw)*/
 	private int ganados, perdidos, empatados;
 	
 	/**
-	 * Estados que puede adquirir un player. Esto es usado por el servidor para saber que esta haciendo el jugador.
+	 * Player states. This allows the server to know what is doing the user.
 	 */
 	public static enum States{
 		IDLE{
@@ -36,10 +35,8 @@ public class Player {
 		  }
 	}
 	
-	/** Estado del player. En principio, esto sólo es usado por el server.*/
+	/** Current player state.*/
 	private States state;
-	
-	
 	
 	public Player(String nick, String pass){
 		this(nick, pass, 0, 0 ,0);
@@ -61,21 +58,15 @@ public class Player {
 	public String getPassword(){
 		return password;
 	}
-	/**
-	 * Devuelve la cantidad de partidas ganadas
-	 */
+	
 	public int getGanados(){
 		return ganados;
 	}
-	/**
-	 * Devuelve la cantidad de partidas perdidas
-	 */
+
 	public int getPerdidos(){
 		return perdidos;
 	}
-	/**
-	 * Devuelve la cantidad de partidas empatadas
-	 */
+
 	public int getEmpatados(){
 		return empatados;
 	}
@@ -87,7 +78,6 @@ public class Player {
 	public int getTotalScore(){
 		return getGanados() * 10 + getEmpatados() * 2 - getPerdidos();
 	}
-	
 	
 	public void incrementWon(){
 		ganados+= 1;
@@ -108,37 +98,22 @@ public class Player {
 	public void setState(States state){
 		this.state= state;
 	}
-	/**
-	 * Devuelve true si el playe se encuentra en estado "idle".
-	 * @return
-	 */
+
 	public boolean isIdle(){
 		if(state == States.IDLE) return true;
 		else return false;
 	}
 	
-	/**
-	 * Devuelve true si el playe se encuentra en estado "waiting for opponent".
-	 * @return
-	 */
 	public boolean isWaitingForOpponent(){
 		if(state == States.WAITING_FOR_OPPONENT) return true;
 		else return false;
 	}
 	
-	/**
-	 * Devuelve true si el playe se encuentra en estado "playing", lo que significa que esta en medio de una partida con alguien.
-	 * @return
-	 */
 	public boolean isPlaying(){
 		if(state == States.PLAYING) return true;
 		else return false;
 	}
 	
-	/**
-	 * Devuelve true si el player se encuentra en estado "respondiendo solicitud".
-	 * @return
-	 */
 	public boolean isRespondiendoSolicitud(){
 		if(state == States.RESPONDIENDO_SOLICITUD) return true;
 		else return false;
@@ -148,4 +123,4 @@ public class Player {
 	public String toString(){
 		return nick + " " + state;
 	}
-}//fin clase
+}//end class

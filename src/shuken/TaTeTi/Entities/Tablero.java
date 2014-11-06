@@ -11,11 +11,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.GridPoint2;
 import com.badlogic.gdx.math.Vector2;
 
-
 /**
- * Un tablero de tateti contiene 9 celdas donde puede existir una CRUZ o un CIRCULO o ninguno de los anteriores.
+ * A Tic-Tac-Toe board contains 9 cells where can be a X or a O (or nothing).
  * 
- * Las celdas se ubican de la siguiente manera:
+ * The distribution is as follows:
  * 
  * 		-------------------------
  * 		|	1	|	2	|	3	|
@@ -25,33 +24,30 @@ import com.badlogic.gdx.math.Vector2;
  * 		|	7	|	8	|	9	|
  * 		-------------------------
  * 
- * La "posicion" del tablero corresponde a la esquina inferior izquierda.
- * 	
+ * 	The "position" attribute corresponds to the upper left corner of the board.
+ * 
  * @author F. Marrone
- *
  */
 public class Tablero implements Renderable, Updateable{
 
-	/** Celdas del tablero. */
+	/** Cells */
 	private Celda[] celdas;
 	
-	/** Posicion del tablero en pantalla. Determina donde se grafica pero ademas, dónde se hacen los clicks. */
+	/** Board position */
 	private GridPoint2 position;
 	
 	private static final int CELDA_WIDTH= 100;
 	private static final int CELDA_HEIGHT= 100;
 	
-	/** El color del tablero varía en funcion de la posicion del mouse. */
 	private Color boardColor;
 	
 	/**
-	 * Crea un nuevo tablero con todas sus celdas libres.
+	 * Creates a new board.
 	 */
 	public Tablero(int posX, int posY){
 		position= new GridPoint2(posX, posY);
 		
 		celdas= new Celda[10];
-		//for(int i= 1; i < 10; i++) celdas[i]= new Celda();
 		celdas[1]= new Celda(1, position.x, position.y + (2*CELDA_HEIGHT), CELDA_WIDTH, CELDA_HEIGHT);
 		celdas[2]= new Celda(2, position.x + CELDA_WIDTH, position.y + (2*CELDA_HEIGHT), CELDA_WIDTH, CELDA_HEIGHT);
 		celdas[3]= new Celda(3, position.x + (2*CELDA_WIDTH), position.y + (2*CELDA_HEIGHT), CELDA_WIDTH, CELDA_HEIGHT);
@@ -61,15 +57,9 @@ public class Tablero implements Renderable, Updateable{
 		celdas[7]= new Celda(7, position.x, position.y, CELDA_WIDTH, CELDA_HEIGHT);
 		celdas[8]= new Celda(8, position.x + CELDA_WIDTH, position.y, CELDA_WIDTH, CELDA_HEIGHT);
 		celdas[9]= new Celda(9, position.x + (2*CELDA_WIDTH), position.y, CELDA_WIDTH, CELDA_HEIGHT);
-		
-		//Metemos fichas a mano
-		//celdas[2].setContenidoDeLaCelda(Ficha.CRUZ);
-		//celdas[3].setContenidoDeLaCelda(Ficha.CRUZ);
-		//celdas[8].setContenidoDeLaCelda(Ficha.CIRCULO);
-		
+
 		boardColor= new Color(Color.WHITE);
 	}
-	
 	
 	@Override
 	public void update(float delta) {
@@ -102,7 +92,6 @@ public class Tablero implements Renderable, Updateable{
 		
 		//Se grafican las fichas jugadas (si hay alguna)...
 		for(int i= 1; i < 10; i++) celdas[i].render(batch, shapeRender);
-		
 	}
 
 	public void renderWinner(SpriteBatch batch, ShapeRenderer shapeRender, Ficha ficha){
@@ -130,23 +119,20 @@ public class Tablero implements Renderable, Updateable{
 	}
 	
 	/**
-	 * Devuelve true si todas las celdas del tablero se encuentran ocupadas con fichas.
-	 * @return
+	 * @return true if all the cells are taken.
 	 */
 	public boolean isFull(){
 		boolean flag= true;
 		for(int i= 1; i < 10; i++){
 			if(celdas[i].isCeldaEmpty()) flag= false;
 		}
-		
 		return flag;
 	}
 	
 	/**
-	 * Establece la posicion en pantalla del tablero. Esto tiene implicancia en el render del tablero como en la deteccion de clicks del
-	 * jugador.
-	 * @param x
-	 * @param y
+	 * Sets the position of the board. This also impacts on the "clickable zones" of the board.
+	 * @param x new position x
+	 * @param y new position y
 	 */
 	public void setPosition(int x, int y){
 		this.position.set(x, y);
@@ -163,11 +149,10 @@ public class Tablero implements Renderable, Updateable{
 	}
 	
 	/**
-	 * Coloca una ficha en la celda especificada. No se permite null (una ficha una vez puesta no puede retirarse). Solamente pueden colocarse
-	 * fichas en una celda si la misma esta vacia.
-	 * Este metodo devuelve true si se ha podido colocar la ficha en la celda. False otherwise.
+	 * Puts the record on the cell. if the cell is not empty, this method fails.
 	 * @param nroCelda
 	 * @param f
+	 * @return true if the record has been properly added to the board.
 	 */
 	public boolean putFichaOnCelda(int nroCelda, Ficha f){
 		if(f == null) return false;
@@ -175,33 +160,28 @@ public class Tablero implements Renderable, Updateable{
 			celdas[nroCelda].setContenidoDeLaCelda(f);
 			return true;
 		}
-		
 		return false;	//la celda ya contiene una ficha
 	}
 	
-	
 	/**
-	 * Dadas unas coordenadas (x,y) se verifica si recae sobre alguna de las celdas del tablero, en cuyo caso devuelve la celda (la primera
-	 * que encuentre). Si las coordenadas no recaen sobre ninguna celda, este metodo devuelve null.
+	 * Given two coords (could be mouse position, for example), this method returns the cell that is under the coords (if any).
 	 * @param coordX
 	 * @param coordY
-	 * @return
+	 * @return a cell (might be null)
 	 */
 	public Celda getCelda(float coordX, float coordY){
 		for(int i= 1; i < 10; i++){
 			if(celdas[i].getZone().contains(coordX, coordY)) return celdas[i];
 		}
-		
 		return null;
 	}
 	
 	/**
-	 * Quita todas las fichas del tablero.
+	 * Removes all the records from the board.
 	 */
 	public void clear(){
 		for(int i= 1; i < 10; i++) celdas[i].setContenidoDeLaCelda(null);
 	}
-	
 	
 	public boolean checkWinner(Ficha ficha){
 		//Analizamos las 8 posibilidades de ganar (ver documentacion). Con que una se cumpla ya es suficiente.
@@ -223,8 +203,5 @@ public class Tablero implements Renderable, Updateable{
 		if(celdas[1].contains(ficha) && celdas[5].contains(ficha) && celdas[9].contains(ficha)) return true;
 		
 		return false;
-	}//fin check winner
-	
-	
-	
-}//fin clase
+	}//end check winner
+}//end class

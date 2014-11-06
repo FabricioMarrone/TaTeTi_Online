@@ -18,8 +18,6 @@ public class ServerMessages {
 			if(cod.compareToIgnoreCase("cod8")==0) return "El jugador se encuentra ocupado.";
 			if(cod.compareToIgnoreCase("cod9")==0) return "El usuario con el que deseaba jugar ha perdido su conexión con el servidor.";
 			
-			
-			
 			return "Mensaje del servidor no decodificable.";
 		}
 		

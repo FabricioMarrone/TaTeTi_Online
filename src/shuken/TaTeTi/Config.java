@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 
-
-
 /**
  * General configs for Tic-Tac-Toe Online
  * @author F.Marrone
@@ -64,9 +62,7 @@ public class Config {
 		}catch(Exception e){
 			loadOK= false;
 		}
-		
 	}//end load config file
-	
 	
 	public static boolean loadOK(){
 		return loadOK;

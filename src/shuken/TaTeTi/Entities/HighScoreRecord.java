@@ -2,9 +2,10 @@ package shuken.TaTeTi.Entities;
 
 public class HighScoreRecord{
 	
-	/** En formato de string para render de prueba*/
+	/** Testing only */
 	protected String record;
-	/** Datos del registro */
+	
+	/** Data */
 	protected String nick;
 	protected int won, lose, draw;
 	
@@ -16,16 +17,7 @@ public class HighScoreRecord{
 		this.draw= draw;
 	}
 	
-	/**
-	 * Devuelve un String rapido con formato para mostrar en tabla.
-	 * @param nick
-	 * @param won
-	 * @param lose
-	 * @param draw
-	 * @return
-	 */
 	public static String getRecord(String nick, int won, int lose, int draw){
 		return nick + " G:" + won + " P:" + lose + " E:" + draw;
 	}
-	
 }//end class

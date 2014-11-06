@@ -37,9 +37,7 @@ public class SimpleCheckBox extends ClickableArea{
 	}//end render
 
 	@Override
-	public void update(float delta) {
-		//nothing
-	}
+	public void update(float delta) {}
 
 	public boolean isChecked(){
 		return checked;
@@ -56,6 +54,4 @@ public class SimpleCheckBox extends ClickableArea{
 		
 		if(ResourceManager.isAudioOn()) ResourceManager.audio.checkbox.play(0.3f);
 	}
-	
-	
 }//end class

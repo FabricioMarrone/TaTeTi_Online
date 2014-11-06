@@ -19,7 +19,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
-
 public class TableOfPlayersOnline implements Updateable, Renderable {
 
 	public static final int CANT_OF_ROWS = 10;
@@ -118,11 +117,10 @@ public class TableOfPlayersOnline implements Updateable, Renderable {
 				}
 			}
 		}
-		
 	}//end update
 	
 	/**
-	 * Nota: No es posible agregar a la tabla al player local.
+	 * Note: you cannot add the local player onto this list.
 	 */
 	public void addRow(String nick, String state){
 		if(GameSession.getPlayer().getNick().compareToIgnoreCase(nick)== 0) return;

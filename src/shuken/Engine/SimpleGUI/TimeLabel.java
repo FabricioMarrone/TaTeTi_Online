@@ -9,15 +9,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class TimeLabel extends ClickableArea{
-
 	
-	/** Fuente con la que se grafica el label. */
+	/** Font used to render the label. */
 	protected BitmapFont font;
 	
 	protected TextureRegion skin;
-	
 	protected float labelLength;
-	
 	protected float alpha;
 	protected float visibleTime;
 	private float elapsedTime;
@@ -25,6 +22,7 @@ public class TimeLabel extends ClickableArea{
 	public TimeLabel(String label, float posX, float posY, BitmapFont font, float visibleTime) {
 		this(label, posX, posY, font, visibleTime, null);
 	}
+	
 	public TimeLabel(String label, float posX, float posY, BitmapFont font, float visibleTime, TextureRegion skin) {
 		super(new Rectangle(posX, posY, 5, 5));
 
@@ -40,7 +38,6 @@ public class TimeLabel extends ClickableArea{
 
 	@Override
 	public void render(SpriteBatch batch) {
-		
 		if(skin != null) {
 			batch.setColor(1, 1, 1, alpha);
 			batch.draw(skin, zone.x, zone.y, zone.width, zone.height);
@@ -50,7 +47,6 @@ public class TimeLabel extends ClickableArea{
 		font.setColor(1, 1, 1, alpha);
 		font.draw(batch, label, zone.x + (zone.width - labelLength)/2, zone.y + font.getXHeight() + zone.height/2);
 		font.setColor(1, 1, 1, 1);
-		
 	}
 
 	@Override
@@ -68,7 +64,6 @@ public class TimeLabel extends ClickableArea{
 		}
 	}
 
-	
 	@Override
 	public void setLabel(String lbl){
 		this.setLabel(lbl, font);
@@ -84,7 +79,6 @@ public class TimeLabel extends ClickableArea{
 		zone.setX((Gdx.graphics.getWidth()/2) - (zone.width/2));
 	}
 	
-	
 	public void setVisibleTime(float time){
 		visibleTime= time;
 	}
@@ -93,4 +87,4 @@ public class TimeLabel extends ClickableArea{
 		elapsedTime= 0;
 		alpha= 1;
 	}
-}//fin clase
+}//end class

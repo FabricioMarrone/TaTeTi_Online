@@ -13,24 +13,23 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 
-
 /**
- * Una GUI simple es una clase que posee un conjunto de ClickableAreas y que cuando detecta que un click cae en alguna de dichas areas,
- * avisa al screen de turno. Utiliza para ello el input processor personalizado ShukenInput.
- * @author Shuken
+ * A simple GUI its a class that contains a list of ClickableAreas. When a click falls inside one of those areas, tells the actual screen about it.
+ * The SimpleGUI works with ShukenInput.
+ * @author F.Marrone
  *
  */
 public class SimpleGUI {
 
 	private static SimpleGUI instance= null;
 	
-	/** Conjunto de areas en la GUI. */
+	/** List of areas on the GUI. */
 	protected ArrayList<ClickableArea> areas;
 	
-	/** Mensaje de error accesible a cualquier screen y que se graficará por encima de todo. */
+	/** Error message for general purpose. */
 	public SimpleErrorMessage errorMsg;
 	
-	protected Rectangle auxRect;	//aux (en lugar de usar pool usamos 1 y a la mierda)
+	protected Rectangle auxRect;	//aux (en lugar de usar pool usamos 1 y listo)
 	
 	private SimpleGUI(){
 		areas= new ArrayList<ClickableArea>();
@@ -48,9 +47,8 @@ public class SimpleGUI {
 		return instance;
 	}
 	
-	
 	/**
-	 * Verifica si hubo algun click en alguna de las areas activas, en cuyo caso avisa al screen de turno.
+	 * Check if has been a click over an area.
 	 * @param delta
 	 */
 	public void update(float delta){
@@ -77,22 +75,18 @@ public class SimpleGUI {
 							
 							//Consumimos click...
 							ShukenInput.getInstance().consumeClick(0);
-						}
-						
+						}			
 					}else{
 						areas.get(i).clickOff();
 					}
 				}
 			}
 		}
-		
-		
-	}//fin update
+	}//end update
 	
 	/**
-	 * Devuelve true si se consume la tecla.
 	 * @param character
-	 * @return
+	 * @return true if the key is consumed.
 	 */
 	public boolean keyTyped(int key, char character){
 		for(int i= 0; i <areas.size(); i++) {
@@ -101,14 +95,11 @@ public class SimpleGUI {
 				if(txtbox.active && txtbox.isWritingOn()) return txtbox.keyTyped(key, character);
 			}
 		}
-		
 		return false;
 	}
 	
-	
-	
 	/**
-	 * Grafica todas aquellas clickables areas que esten activas.
+	 * Renders every visible area on the gui.
 	 * @param batch
 	 */
 	public void render(SpriteBatch batch){
@@ -122,7 +113,7 @@ public class SimpleGUI {
 	}
 	
 	/**
-	 * Grafica las zonas de todas las ClickableAreas activas.
+	 * Renders the limits of the areas. Test only.
 	 * @param shapeRender
 	 */
 	public void renderZones(ShapeRenderer shapeRender){
@@ -133,11 +124,9 @@ public class SimpleGUI {
 		shapeRender.end();
 	}
 	
-	
 	/**
-	 * Verifica si la POSICION actual del mouse esta por encima del area especificada. Devuele true en ese caso.
 	 * @param area
-	 * @return
+	 * @return true if the area is under the mouse current position.
 	 */
 	public boolean isAreaUnderTheMouse(Rectangle area){
 		if(area.contains(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY())) return true;
@@ -150,8 +139,7 @@ public class SimpleGUI {
 	}
 	
 	/**
-	 * Devuelve true si el mouse se encuentra sobre alguna ClickeableArea, sea cual sea. 
-	 * @return
+	 * @return true if the mouse is over (any) active area.
 	 */
 	public boolean isMouseOverAnyArea(float mouseX, float mouseY){
 		for(int i= 0; i < areas.size(); i++){
@@ -159,11 +147,11 @@ public class SimpleGUI {
 				if(areas.get(i).zone.contains(mouseX,mouseY)) return true;
 			}
 		}
-		
 		return false;
 	}
+	
 	/**
-	 * Coloca al area dentro de la simpleGUI. 
+	 * Adds the area into the GUI.
 	 * @param area
 	 */
 	public void addArea(ClickableArea area){
@@ -171,9 +159,8 @@ public class SimpleGUI {
 		areas.add(area);
 	}
 	
-	
 	/**
-	 * Coloca al area dentro de la simpleGUI pero desactivada. 
+	 * Adds the area into the GUI, but not visible.
 	 * @param area
 	 */
 	public void addAreaNoActive(ClickableArea area){
@@ -181,11 +168,9 @@ public class SimpleGUI {
 		areas.add(area);
 	}
 	
-	
-	
 	/**
-	 * Coloca al area deseada como area activa. Si hay un click en ella, se detecta y se avisa al screen de turno.</br>
-	 * El area debe estar previamente cargada.
+	 * Turns the area visible.</br>
+	 * It must be previously loaded.
 	 * @param id
 	 */
 	public void turnAreaON(ClickableArea area){
@@ -193,17 +178,11 @@ public class SimpleGUI {
 	}
 	
 	/**
-	 * Coloca al area deseada como area desactivada. Si hay un click en ella, NO se lo detecta.</br>
-	 * El area debe estar previamente cargada.
+	 * Turns the area invisible.</br>
+	 * It must be previously loaded.
 	 * @param id
 	 */
 	public void turnAreaOFF(ClickableArea area){
 		areas.get(areas.indexOf(area)).active= false;
 	}
-	
-	
-	
-	
-	
-	
-}//fin clase
+}//end class

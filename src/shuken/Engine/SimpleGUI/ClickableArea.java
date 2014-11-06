@@ -5,9 +5,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
- * Un area clickeable es un sector de la pantalla que, en caso de recibir un click del mouse, avisa al gameplay de turno del click.
- * 
- * @author Shuken
+ * A clickable area is a sector of the screen that, in case of a mouse click above it, tells to the actual screen about it.
+ * @author F.Marrone
  *
  */
 public abstract class ClickableArea {
@@ -17,11 +16,11 @@ public abstract class ClickableArea {
 	protected boolean active;
 	
 	
-	/** Indica si esta area consume o no clicks cuando hay clicks sobre ella. */
+	/** If muts or not consume the click. */
 	public boolean consumeClick= true;
 	
 	/**
-	 * Crea una nueva zona clickable activa a partir de un rectangulo.
+	 * Creates a new clickable area from a rectangle.
 	 * @param zone
 	 */
 	public ClickableArea(Rectangle zone){
@@ -30,14 +29,12 @@ public abstract class ClickableArea {
 		label= "";
 	}
 	
-	
-	
 	public abstract void render(SpriteBatch batch);
 		
 	public abstract void update(float delta);
 	
 	/**
-	 * Grafica la zona de la ClickableArea (un rectangulo blanco).
+	 * Renders the borders of the area (white rectangle). Test only.
 	 * @param shapeRender
 	 */
 	public void renderZone(ShapeRenderer shapeRender){
@@ -53,24 +50,21 @@ public abstract class ClickableArea {
 	}
 	
 	/**
-	 * Devuelve true si las coordenadas pasadas como parametro estan por encima del componente.
-	 * @param coordX
-	 * @param coordY
-	 * @return
+	 * @return true if the coords are over the area
 	 */
 	public boolean coordOverArea(float coordX, float coordY){
 		return zone.contains(coordX, coordY);
 	}
 	
 	/**
-	 * Este metodo es llamado por la SimpleGUI cuando recae un click sobre esta area.
+	 * This method is called by the SimpleGUI when a click falls into this area.
 	 */
 	public void clickOn(){
 		//Sub-clases must override this method
 	}
 	
 	/**
-	 * Este metodo es llamado por la SimpleGUI cuando NO recae un click sobre esta area.
+	 * This method is called by the SimpleGUI when a click do not falls into this area.
 	 */
 	public void clickOff(){
 		//Sub-clases must override this method

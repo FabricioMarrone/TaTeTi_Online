@@ -25,7 +25,6 @@ public class SimpleErrorMessage extends ClickableArea {
 	}
 
 	private static Rectangle defineZone(ArrayList<String> text, BitmapFont font){
-		
 		float width= 0;
 		for(int i= 0; i < text.size(); i++){
 			float w= ResourceManager.fonts.calculateTextWidth(font, text.get(i));
@@ -39,7 +38,6 @@ public class SimpleErrorMessage extends ClickableArea {
 		return new Rectangle(x, y, width, height);
 	}
 	
-	
 	@Override
 	public void render(SpriteBatch batch) {
 		if(skin != null) {
@@ -51,7 +49,6 @@ public class SimpleErrorMessage extends ClickableArea {
 		for(int i= 0; i < text.size(); i++){
 			font.draw(batch, text.get(i), zone.x, (zone.y + zone.height) - (i*font.getLineHeight()));
 		}
-		
 	}
 
 	@Override
@@ -61,7 +58,6 @@ public class SimpleErrorMessage extends ClickableArea {
 		this.text= text;
 		this.zone= defineZone(text, font);
 	}
-	
 	
 	@Override
 	public void clickOn() {

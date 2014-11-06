@@ -1,11 +1,9 @@
 package shuken.Engine.SimpleGUI;
 
 import java.util.ArrayList;
-import java.awt.HeadlessException;
 import java.awt.Toolkit;
 import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
+
 
 import shuken.Engine.Resources.ResourceManager;
 import shuken.Engine.ShukenInput.ShukenInput;
@@ -18,43 +16,40 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
-
 public class SimpleTextBox extends ClickableArea {
 
 	protected boolean textboxForPassword= false;
 	
-	/** Aspecto del textbox. */
+	/** Textbox skin. */
 	protected TextureRegion skin;
 	
-	/** Fuente con la que se grafica el texto. */
+	/** Font used to render the text. */
 	protected BitmapFont font;
 	
 	protected boolean writingOnTextbox= false;
 	
-	/** Texto ingresado por el usuario en formato interno para manipularlo. */
+	/** Input user text (internal format). */
 	protected ArrayList<Character> text;
 	
-	/** texto con el unico fin de ayudar en la graficacion del cursor (en la pos adecuada) */
+	/** Aux var, used to render the text correctly. */
 	private String textToRenderCursor= "";	//aux
 	private char[] cs;						//aux: secuencia de caracteres utilizada en el proceso del renderCursor
 	
-	/** Cantidad de caracteres visibles dentro del textbox (depende del largo del textbox)*/
+	/** Cant of visible chars on the textbox.*/
 	//public int cantOfCharAvailableOnShape;
 
-	
-	/** Caracter del cursor (en formato string para facilitar las cosas)*/
+	/** Cursor char. */
 	protected String cursorChar= "|";
-	/** Posicion (index) del cursor. */
+	/** position (index) of the cursor. */
 	protected int CursorPosition=0;
 	protected int renderCursorPosition;	//aux: posicion en la q se renderiza (en pixeles), es diferente de la posicion "real" dentro del texto.
 	
-	/** Intervalo de intermitencia del cursor (en segundos)*/
+	/** Cursor render interval (in seconds)*/
 	protected float intermitencia= 0.4f;
-	/** Determina si se grafica o no el cursor. Necesario para realizar la intermitencia.*/
 	protected boolean showCursor= true;
 	private float elapsedTime= 0;		//aux
 	
-	/** Limite de caracteres q puede tener el texto ingresado.*/
+	/** mMx text lenght.*/
 	protected int maxTextLength= 50;
 	
 	private int marginX= 10;
@@ -80,7 +75,6 @@ public class SimpleTextBox extends ClickableArea {
 		maxTextLength= maxCantChars;
 	}
 
-	
 	@Override
 	public void render(SpriteBatch batch) {
 		//Graficamos el skin...
@@ -91,7 +85,6 @@ public class SimpleTextBox extends ClickableArea {
 			batch.setColor(Color.WHITE);
 		}
 		
-
 		//Graficamos el texto introducido hasta el momento...
 		if(textboxForPassword) font.draw(batch, getPasswordText(), zone.x + marginX, zone.y + marginY - 8);
 		else font.draw(batch, getTextNoConsume(), zone.x + marginX, zone.y + marginY - 5);
@@ -103,13 +96,7 @@ public class SimpleTextBox extends ClickableArea {
 		//marginX= 10;
 		//marginY= 30;
 	}
-
-
 	
-	
-	/**
-	 * Grafica el cursor del textbox (unicamente si el componente esta onAction).
-	 */
 	protected void renderCursor(SpriteBatch batch){
 		if(!this.writingOnTextbox) return;
 		
@@ -127,15 +114,11 @@ public class SimpleTextBox extends ClickableArea {
 			}
 		}
 		
-		//font.draw(batch, textToRenderCursor, 10, 300);
-		
 		//Graficamos cursor...
 		if(showCursor) {
 			font.draw(batch, cursorChar, zone.x + marginX + ResourceManager.fonts.calculateTextWidth(font, textToRenderCursor) - 2, zone.y + marginY - 4);
 		}
-	}//fin rendercursor
-	
-
+	}//end rendercursor
 	
 	@Override
 	public void update(float delta) {	
@@ -145,7 +128,7 @@ public class SimpleTextBox extends ClickableArea {
 			elapsedTime= 0;
 			showCursor= !showCursor;
 		}
-	}//fin update
+	}//end update
 	
 	@Override
 	public void clickOn(){
@@ -157,28 +140,20 @@ public class SimpleTextBox extends ClickableArea {
 		writingOnTextbox= false;
 	}
 	
-	
 	public boolean isWritingOn(){
 		return writingOnTextbox;
 	}
 	
-	
-
-	
 	/**
-	 * Este metodo lo llama la clase SimpleGUI cuando una tecla se presiona en la GUI, mas precisamente en un TextBox. Le pasa la tecla y
-	 * su char asociado para q el textbox lo trabaje como mejor le parezca. La GUI no se responsabiliza mas de lo q debe. Solo llama a este
-	 * metodo y si este metodo devuelve true consume el evento para q no pase al gamestate de turno.
+	 * When the textbox is active and has focus, the SimpleGUI calls this method on every key typed. The textbox must decide what to do with the key.
 	 */
 	public boolean keyTyped(int key, char c){
 		boolean keyConsumed= false;
-		
 		//System.out.println("LETRA: " + c + "      CODIGO: " + key);
 		
 		switch(key){
-		
 		//****************************
-		//Teclas que no deben colocarse en el texto. Ejemplos: shift, ctrl, tab, F1, F2, etc...
+		//Do not put this keys on the text! Examples: shift, ctrl, tab, F1, F2, etc...
 		case(Keys.ENTER):
 		case(Keys.SHIFT_LEFT):
 		case(Keys.SHIFT_RIGHT):
@@ -208,15 +183,11 @@ public class SimpleTextBox extends ClickableArea {
 		case(Keys.F10):
 		case(Keys.F11):
 		case(Keys.F12):
-		
-		
-				//case(221):					//la q tiene forma de menu contextual en mi teclado, a la izquierda del "right ctrol"
-		
-			
+		//case(221):					//la q tiene forma de menu contextual en mi teclado, a la izquierda del "right ctrol"
 			break;
 		//****************************
 		
-		//LCONTROL + "V" (pegar)
+		//LCONTROL + "V" (paste)
 		case(Keys.V):
 			
 			//Verificamos q se este apretando el "left ctrl"...
@@ -229,7 +200,6 @@ public class SimpleTextBox extends ClickableArea {
 			}
 			break;
 			
-		
 		//Si es la de borrar (BACK) borramos el char a la izquierda del cursor...
 		case(Keys.DEL):
 			if(text.size() != 0) {
@@ -254,13 +224,13 @@ public class SimpleTextBox extends ClickableArea {
 			keyConsumed= true;
 			break;
 			
-		//Tecla "fin". Posicionamos cursor al final del texto.
+		//Tecla "end". Posicionamos cursor al final del texto.
 		case(Keys.END):
 			this.moveCursor(text.size());
 			keyConsumed= true;
 			break;
 			
-		//Tecla "inicio" (numero 199). Posicionamos el cursor al inicio del texto.
+		//Tecla "home" (numero 199). Posicionamos el cursor al inicio del texto.
 		case(Keys.HOME):
 			this.moveCursor(0);
 			keyConsumed= true;
@@ -307,20 +277,13 @@ public class SimpleTextBox extends ClickableArea {
 			this.putCharacterIntoText(c);
 			keyConsumed= true;
 			break;
-
-		}//fin switch	
+		}//end switch	
 			
 		if(ResourceManager.isAudioOn() && keyConsumed) ResourceManager.audio.key.play(0.3f);
 		
 		return keyConsumed;
-	}//fin keyPressed
+	}//end keyPressed
 	
-	
-	
-	/**
-	 * Agrega una letra al texto.
-	 * @param c
-	 */
 	public void putCharacterIntoText(char c){
 		//Si el texto no supera el limite establecido, colocamos la letra y movemos una posicion el cursor...
 		if(text.size() < maxTextLength){
@@ -329,10 +292,6 @@ public class SimpleTextBox extends ClickableArea {
 		}
 	}
 	
-	/**
-	 * Coloca el string pasado como parametro dentro del textbox. Previo a eso, el textbox convierte el string a un array de caracteres.
-	 * @param s
-	 */
 	public void putStringIntoText(String s){
 		//Convertimos a array de chars...
 		char chars[]= s.toCharArray();
@@ -341,21 +300,20 @@ public class SimpleTextBox extends ClickableArea {
 		for(int i=0; i < chars.length; i++){
 			this.putCharacterIntoText(chars[i]);
 		}
-		
 	}
 	
 	/**
 	 * Coloca el string pasado como parametro dentro del textbox. Llamar a este metodo borra cualquier otro valor previo.
+	 * Puts the string into the textbox. All previous data is lost. 
 	 */
 	public void putNewStringIntoText(String s){
 		this.clearText();
 		this.putStringIntoText(s);
 	}
 	
-	
 	/**
-	 * Mueve el cursor "p" cantidad de lugares (incluyendo negativos hacia la izquierda). Verifica limites del renderCursorPosition.
-	 * @param p
+	 * moves the cursos "p" positions (migh be negative as well).
+	 * @param p cant of move
 	 */
 	public void moveCursor(int p){
 		//Movemos el cursor p lugares...
@@ -372,15 +330,10 @@ public class SimpleTextBox extends ClickableArea {
 		this.renderCursorPosition= this.CursorPosition;
 		//if(this.CursorPosition >= this.cantOfCharAvailableOnShape) this.renderCursorPosition= this.cantOfCharAvailableOnShape;
 		//if(this.CursorPosition < this.cantOfCharAvailableOnShape) this.renderCursorPosition= this.CursorPosition;
+	}//end moveCursor
 
-	}//fin moveCursor
-
-	
-	
 	/**
-	 * Devuelve el texto ingresado hasta el momento, en un formato leible (String). </br>
-	 * Este metodo consume el texto! Solo puede ser leido 1 vez.
-	 * @return
+	 * @return the text on string format. This method deletes the data!
 	 */
 	public String getText(){
 		String temp_text= "";
@@ -395,8 +348,7 @@ public class SimpleTextBox extends ClickableArea {
 	}
 	
 	/**
-	 * Devuelve el texto ingresado hasta el momento, en un formato leible (String).
-	 * @return
+	 *  @return the text on string format. This method DO NOT deletes the data.
 	 */
 	public String getTextNoConsume(){
 		String temp_text= "";
@@ -407,8 +359,7 @@ public class SimpleTextBox extends ClickableArea {
 	}
 	
 	/**
-	 * Devuelve el texto ingresado hasta el momento, pero oculto.
-	 * @return
+	 * @return the text (hidden).
 	 */
 	public String getPasswordText(){
 		String temp_text= "";
@@ -418,9 +369,6 @@ public class SimpleTextBox extends ClickableArea {
 		return temp_text;
 	}
 	
-	/**
-	 * Coloca el texto del ClipBoard dentro del textbox.
-	 */
 	protected void pasteTextFromClipBoard(){
 		String data;
 		try {
@@ -430,21 +378,11 @@ public class SimpleTextBox extends ClickableArea {
 			//Introducimos texto en textbox...
 			this.putStringIntoText(data);
 			
-		} catch (HeadlessException e) {
-			e.printStackTrace();
-		} catch (UnsupportedFlavorException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}//fin pasteText
+	}//end pasteText
 	
-	
-	
-	/**
-	 * Limpia el texto dentro del textbox.
-	 * @return
-	 */
 	protected void clearText(){
 		//Limpiamos array...
 		this.text.clear();
@@ -452,11 +390,7 @@ public class SimpleTextBox extends ClickableArea {
 		this.moveCursor(0);
 	}
 	
-
-
 	public void setTextboxForPassword(boolean b){
 		this.textboxForPassword= b;
 	}
-
-	
-}//fin de clase
+}//end class

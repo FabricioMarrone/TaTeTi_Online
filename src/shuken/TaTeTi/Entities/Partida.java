@@ -10,11 +10,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
-/**
- * Esta clase encierra todo lo referido a una partida de TaTeTi: el tablero y sus celdas, los jugadores y el manejo de los turnos.
- * @author F. Marrone
- *
- */
 public class Partida implements Renderable, Updateable{
 
 	private Tablero tablero;
@@ -41,6 +36,7 @@ public class Partida implements Renderable, Updateable{
 			return null;
 		}
 	}
+	
 	private MatchStates currentState;
 	
 	public Partida(Player pX, Player pO, boolean playerXStarts, boolean forServer){
@@ -62,15 +58,15 @@ public class Partida implements Renderable, Updateable{
 		
 		currentState= MatchStates.PARTIDA_EN_CURSO;
 	}
+	
 	/**
-	 * Crea una nueva partida entre dos jugadores.
+	 * Creates a new match between two players.
 	 * @param pX
 	 * @param pO
 	 */
 	public Partida(Player pX, Player pO, boolean playerXStarts){
 		this(pX, pO, playerXStarts, false);
 	}
-	
 	
 	@Override
 	public void update(float delta) {
@@ -92,17 +88,8 @@ public class Partida implements Renderable, Updateable{
 		ResourceManager.fonts.UIlabelsFont.draw(batch, getPlayerO().getNick(), 530, 360);
 		if(this.getFichaPlayerActual() == Ficha.CRUZ) batch.draw(ResourceManager.textures.cruz, 70, 280, 50, 50);
 		else batch.draw(ResourceManager.textures.circulo, 540, 280, 50, 50);
-	}//fin render
+	}//end render
 
-	
-	
-	
-	/**
-	 * Este metodo gestiona un click que realiza el jugador actual de la partida. Se debe verificar si recae en alguna celda del tablero, en
-	 * cuyo caso se debe colocar (intentar colocar) su ficha alli.
-	 * @param clickX
-	 * @param clickY
-	 */
 	public void playerClicksOnScreen(float clickX, float clickY){
 		//Verificamos si el click recae en alguna de las celdas del tablero...
 		Celda cell= tablero.getCelda(clickX, clickY);
@@ -118,37 +105,32 @@ public class Partida implements Renderable, Updateable{
 		}
 	}
 	
-	
 	public void putFichaOnCelda(int nroCelda, Ficha tipoFicha){
 		if(ResourceManager.isAudioOn()) ResourceManager.audio.ficha.play();
 		
 		tablero.putFichaOnCelda(nroCelda, tipoFicha);
 	}
 	
+	/**
+	 * FIXME: horrible way to resolve a bug. But it works.
+	 */
 	public void putFichaOnCeldaServerSide(int nroCelda, Ficha tipoFicha){
 		//if(ResourceManager.isAudioOn()) ResourceManager.audio.ficha.play();
-		
 		tablero.putFichaOnCelda(nroCelda, tipoFicha);
 	}
 	
 	/**
-	 * Actualiza el player del turno actual. Pasa al siguiente que corresponda.
+	 * Updates the current turn player.
 	 */
 	public void nextPlayer(){
 		if(playerTurnoActual.equals(playerX)) playerTurnoActual= playerO;
 		else if(playerTurnoActual.equals(playerO)) playerTurnoActual= playerX;
 	}
 	
-	
 	public void clearTablero(){
 		tablero.clear();
 	}
 	
-	/**
-	 * Este metodo verifica el estado de la partida (ver MatchStates). Verifica si alguien gana, si se ha empatado o si aun la partida sigue
-	 * en curso.
-	 * @return
-	 */
 	public MatchStates getPartidaState(){
 		//Si alguno se rindió
 		if(rendicion_x) return MatchStates.RENDICION_X;
@@ -182,17 +164,13 @@ public class Partida implements Renderable, Updateable{
 		return playerO;
 	}
 	
-	/**
-	 * Devuelve el tipo de ficha del jugador del turno actual.
-	 */
 	public Ficha getFichaPlayerActual(){
 		if(playerTurnoActual.equals(playerX)) return Ficha.CRUZ;
 		else return Ficha.CIRCULO;
 	}
 	
 	/**
-	 * Devuelve el oponente del cliente (este metodo es util sólo del lado del cliente)
-	 * @return
+	 * @return the player opponent (do not use this on server side, ¡Horrible bug related!)
 	 */
 	public Player getOpponent(){
 		if(GameSession.getPlayer().equals(getPlayerX())) return getPlayerO();
@@ -205,4 +183,4 @@ public class Partida implements Renderable, Updateable{
 	public void playerO_seRinde(){
 		rendicion_o= true;
 	}
-}//fin clase
+}//end class

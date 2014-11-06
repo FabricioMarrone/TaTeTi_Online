@@ -11,21 +11,20 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 /**
- * Boton simple que funciona con la SimpleGUI.
+ * Simple gui button that works with the SimpleGUI.
  * 
- * @author Shuken
+ * @author F.Marrone
  *
  */
 public class SimpleButton extends ClickableArea{
 
-	/** Fuente con la que se grafica el label. */
+	/** Font used to render the label. */
 	protected BitmapFont font;
 	
-	/** Aspecto del boton. */
+	/** Button skin */
 	protected TextureRegion skin;
 	
 	protected float labelLength;
-	
 	
 	public SimpleButton(String label, float posX, float posY, BitmapFont font, boolean adaptSizeToText){
 		this(label, posX, posY, font, null, adaptSizeToText);
@@ -64,13 +63,8 @@ public class SimpleButton extends ClickableArea{
 		font.setColor(Color.WHITE);
 	}
 	
-	
 	@Override
-	public void update(float delta) {
-		
-		
-	}
-	
+	public void update(float delta) {}
 	
 	@Override
 	public void setLabel(String lbl){
@@ -86,7 +80,4 @@ public class SimpleButton extends ClickableArea{
 	public void clickOn() {
 		if(ResourceManager.isAudioOn()) ResourceManager.audio.select.play(0.2f);
 	}
-
-	
-	
 }//fin clase

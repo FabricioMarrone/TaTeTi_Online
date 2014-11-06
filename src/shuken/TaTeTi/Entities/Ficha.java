@@ -12,4 +12,4 @@ public enum Ficha {
 		
 		return null;
 	}
-}//fin enum
+}

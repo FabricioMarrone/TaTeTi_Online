@@ -22,7 +22,7 @@ import shuken.TaTeTi.Screens.MainMenuScreen;
 
 public class TaTeTi extends ShukenGame{
 
-	/** Screens del juego. */
+	/** Screens of the game. */
 	public ShukenScreen loadingScreen;
 	public ShukenScreen loginScreen;
 	public ShukenScreen createAccountScreen;
@@ -57,13 +57,10 @@ public class TaTeTi extends ShukenGame{
 		System.out.println("----------------------------------");
 	}
 	
-	
-	
 	public static TaTeTi getInstance(){
 		return (TaTeTi)ShukenGame.getInstance();
 	}
 
-	 
 	public GamePlayScreen getGamePlay(){
 		return (GamePlayScreen)gameplay;
 	}
@@ -100,6 +97,7 @@ public class TaTeTi extends ShukenGame{
 					"The config file it's damage or not exists.", "Config File Error", JOptionPane.ERROR_MESSAGE);
 			app.exit();
 		}
+		
 		//We load the localization profile...
 		Localization.loadLanguage(Config.LANGUAGE);
 		
@@ -137,9 +135,7 @@ public class TaTeTi extends ShukenGame{
 		//Seteamos el screen inicial...
 		//this.setScreen(logginScreen);
 		this.setScreen(loadingScreen);
-	}//fin create
-
-
+	}//end create
 
 	@Override
 	public void dispose() {
@@ -151,6 +147,4 @@ public class TaTeTi extends ShukenGame{
 		mainMenuScreen.dispose();
 		gameplay.dispose();
 	}
-
-	
-}//fin clase
+}//end class
