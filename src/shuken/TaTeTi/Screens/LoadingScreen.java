@@ -51,7 +51,6 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 		
 		transitionToLogginScreen= new FadeTransition(0.5f, TaTeTi.getInstance().loginScreen, false);
 		transitions.add(transitionToLogginScreen);
-		
 	}
 	
 	@Override
@@ -92,13 +91,10 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 	}
 
 	@Override
-	public void simpleGUI_Event(ClickableArea area) {
-		
-	}
+	public void simpleGUI_Event(ClickableArea area) {}
 
 	@Override
-	public void show() {
-	}
+	public void show() {}
 
 	@Override
 	public void hide() {
@@ -125,7 +121,4 @@ public class LoadingScreen extends ShukenScreen  implements Updateable{
 		loadingTex.dispose();
 		font.dispose();
 	}
-
-	
-
 }//end class

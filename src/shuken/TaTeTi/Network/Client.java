@@ -13,26 +13,18 @@ import shuken.TaTeTi.GameSession;
 import shuken.TaTeTi.Entities.Ficha;
 import shuken.TaTeTi.Network.InetMessage.InetMsgType;
 
-
-/**
- * Esto es CLIENT SIDE!!!
- * 
- * Una clase que encapsula los mensajes que se envian y reciben al servidor.
- * @author F. Marrone
- *
- */
 public class Client {
 
-	/** Socket del cliente. */
+	/** Client Socket */
 	Socket clientSocket;
 
 	public boolean connectedToServer= false;
 	
-	/** Input and Output para comunicarse con el server. */
+	/** Input and Output to communicate with server. */
 	ObjectOutputStream out;
 	ObjectInputStream in;
 
-	/** Mensaje que se recibe del server.*/
+	/** Incoming message.*/
 	InetMessage message;
 	
 	public void sendHeartBeat(){
@@ -42,7 +34,6 @@ public class Client {
 		//Lo enviamos...
 		this.sendMessage(msg);
 	}
-	
 	
 	public void sendLogginRequest(String nick, String pass){
 		//Creamos el mensaje...
@@ -93,7 +84,6 @@ public class Client {
 		this.sendMessage(msg);
 	}
 	
-	
 	public void sendRespuestaPlayerSolicitaJugarConVos(boolean success, String nickSolicitante, boolean isForTimeOut){
 		//Creamos el mensaje...
 		InetMessage msg= new InetMessage(InetMsgType.CaS_Respuesta_Player_Solicita_Jugar_con_vos);
@@ -121,7 +111,6 @@ public class Client {
 		//Lo enviamos...
 		this.sendMessage(msg);
 	}
-	
 	
 	public void sendCerrarSesion(){
 		//Creamos el mensaje...
@@ -151,8 +140,7 @@ public class Client {
 	}
 	
 	/**
-	 * Intenta conectar al servidor. Notar que esto NO ES un loggin de usuario. Simplemente estamos conectando los sockets para mas tarde
-	 * intentar un loggin con user y pass.
+	 * Attempt to connect sockets. This is NOT a login.
 	 * 
 	 */
 	public void connectToServer(){
@@ -185,10 +173,7 @@ public class Client {
 			e.printStackTrace();
 		}	
 
-	}//fin connect to server
-	
-	
-	
+	}//end connect to server
 	
 	public void sendMessage(InetMessage msg)
 	{
@@ -206,22 +191,11 @@ public class Client {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-	}//fin sendMessage
+	}//end sendMessage
 
-	
 	public InetMessage receiveMessage(){
 		try {
 			return (InetMessage)in.readObject();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-			return null;
-		} catch(java.net.SocketException e){
-			return null;
-		} catch(NullPointerException e){
-			return null;
-		}catch (IOException e) {
-			e.printStackTrace();
-			return null;
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
@@ -229,7 +203,7 @@ public class Client {
 	}
 	
 	/**
-	 * Cierra el socket de este cliente (nada mas). El servidor va a comenzar a tirar fallas pero no deberia detenerse la ejecucion.
+	 * Close this socket.
 	 */
 	public void closeConnection(){
 		try {
@@ -239,5 +213,4 @@ public class Client {
 			e.printStackTrace();
 		}
 	}
-	
-}//fin clase
+}//end class

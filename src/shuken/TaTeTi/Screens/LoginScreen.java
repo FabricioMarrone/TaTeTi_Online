@@ -47,7 +47,7 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 	private TimeLabel lblErrorMsg;
 	private SimpleCheckBox checkBoxUser, checkBoxMusic;
 	
-	/** ---------Flags para enviar mensajes al servidor.--------------- */
+	/** ---------Flags to send message to the server. ----------------- */
 	protected boolean sendLogginRequest= false;
 	String nickIngresado= "";		//esto se obtiene de textboxs en el menu principal
 	String passIngresado= "";
@@ -85,7 +85,7 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().addAreaNoActive(checkBoxMusic);
 		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
 		
-	}//fin constructor
+	}
 	
 	@Override
 	public void postCreate() {
@@ -100,7 +100,6 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		transitions.add(transitionIn);
 		transitions.add(transitionToCreateAccount);
 		transitions.add(transitionToMainMenu);
-		
 	}
 	
 	@Override
@@ -149,8 +148,7 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		//Actualizamos gui...
 		SimpleGUI.getInstance().update(delta);
 		
-	}//fin update
-	
+	}//end update
 	
 	@Override
 	public void render(float delta) {
@@ -210,28 +208,17 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		
 		batch.end();
 		
-		
 		//Realizamos update
 		this.update(TaTeTi.confirmDelta(delta));
-	}//fin render
+	}//end render
 
-
-	
-	
-	/**
-	 * Este metodo verifica los flags de envio de mensajes y solicita al GameSession que retransmita los mensajes al servidor.
-	 */
 	protected void updateTalkToServer(){
-		
 		if(sendLogginRequest){
 			System.out.println("Client-side: Solicitando loggin...");
 			GameSession.getInstance().sendLogginRequest(nickIngresado, passIngresado);
 			sendLogginRequest= false;
 		}
-		
-		
-	}//fin updateTalkToServer
-	
+	}
 	
 	public void SaC_Respuesta_Loggin_request(InetMessage msg){
 		//System.out.println(msg.strings.get(0));
@@ -254,7 +241,6 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
 	}
-	
 	
 	@Override
 	public void simpleGUI_Event(ClickableArea area) {
@@ -315,7 +301,7 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 			}
 			TaTeTi.gamePreferences.flush();
 		}
-	}//fin simple gui event
+	}//end gui event
 	
 	@Override
 	public void resize(int width, int height) {}
@@ -366,7 +352,6 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 			ResourceManager.audio.loginScreenMusic.setVolume(volume);
 			ResourceManager.audio.loginScreenMusic.play();
 		}
-		
 	}
 
 	@Override
@@ -403,4 +388,4 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		shapeRender.dispose();
 	}
 
-}//fin clase
+}//end class

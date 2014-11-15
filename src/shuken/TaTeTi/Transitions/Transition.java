@@ -14,8 +14,10 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
  * This class manage the transition effects between screens.
  * 
  * Life cycle: 
- * start() ---> stop(), if destiny != null ---> change screen
- * [......running....]finished
+ * start() ---> stop(), 
+ * if destiny != null ---> change screen
+ * [......running....]
+ * finished
  * 
  * @author F.Marrone
  *
@@ -29,8 +31,7 @@ public class Transition implements Updateable, Renderable{
 	
 	private float transitionDuration;
 	private float elapsedTime;
-	
-	
+
 	/**
 	 * Creates a new transition to the destiny screen. When the transition finish, the "change screen process" will be called automatically.
 	 * @param duration (in seconds)
@@ -43,7 +44,6 @@ public class Transition implements Updateable, Renderable{
 		this.destiny= destiny;
 		this.automaticallyChangeScreen= true;
 	}
-	
 	
 	@Override
 	public void render(SpriteBatch batch, ShapeRenderer shapeRender) {

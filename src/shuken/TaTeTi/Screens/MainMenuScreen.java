@@ -35,7 +35,6 @@ import shuken.TaTeTi.Transitions.Transition;
 
 public class MainMenuScreen extends ShukenScreen implements Updateable{
 
-	
 	private SpriteBatch batch;
 	private ShapeRenderer shapeRender;
 	
@@ -46,13 +45,13 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	}
 	private ScreenStates state;
 	
-	/** Tiempo limite para responder una solicitud entrante antes de ser rechazada (medido en segundos)*/
+	/** Limit time to answer a request (in seconds)*/
 	private static final int TIME_TO_ANSWER= 15;
 	private static final int MAX_WAITING_TIME= TIME_TO_ANSWER + 5;
 	private float timeOutCount;
 	private float waitingTimeCount;
 	
-	/** Variable para generar animacion de flecha circular. */
+	/** Used for arrow animation. */
 	private float angle= 0;
 	
 	/** GUI */
@@ -68,7 +67,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	private Transition transitionIn, transitionToLogginScreen, transitionToGameplay;
 	
 	
-	/** ---------Flags para enviar mensajes al servidor.--------------- */
+	/** ---------Flags to send messages to the server. --------------- */
 	protected boolean sendSolicitudParaJugar= false;
 	String nickOponente= "";
 
@@ -91,7 +90,6 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	protected static final int PLAYERS_ONLINE_UPDATE_INTERVAL= 4;	//in seconds
 	protected float updatePlayersOnlineTime;;
 	/** --------------------------------------------------------------- */
-	
 	
 	public MainMenuScreen(){
 		batch= new SpriteBatch();
@@ -120,7 +118,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().addAreaNoActive(btnRechazarSolicitud);
 		SimpleGUI.getInstance().addAreaNoActive(btnCancelarSolicitud);
 		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
-	}//fin constructor
+	}
 	
 	@Override
 	public void postCreate() {
@@ -135,7 +133,6 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		transitions.add(transitionIn);
 		transitions.add(transitionToLogginScreen);
 		transitions.add(transitionToGameplay);
-		
 	}
 	
 	@Override
@@ -206,13 +203,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		
 		//Actualizamos gui...
 		SimpleGUI.getInstance().update(delta);
-		
-		
-	}//fin update
+	}//end update
 
-	
-	
-	
 	@Override
 	public void render(float delta) {
 		//Limpiamos screen...
@@ -303,16 +295,9 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		
 		//Realizamos update
 		this.update(TaTeTi.confirmDelta(delta));
-	}//fin render
+	}//end render
 
-	
-	
-	/**
-	 * Este metodo verifica los flags de envio de mensajes y solicita al GameSession que retransmita los mensajes al servidor.
-	 */
 	protected void updateTalkToServer(){
-		
-		
 		if(sendSolicitudParaJugar){
 			System.out.println("Client-side: enviando solicitud para jugar contra " + nickOponente + "...");
 			GameSession.getInstance().sendSolicitudParaJugar(nickOponente);
@@ -347,14 +332,10 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			GameSession.getInstance().sendObtenerPlayersOnline();
 			sendObtenerPlayersOnline= false;
 		}
-	}//fin updateTalkToServer
-	
-	
-	
+	}//end updateTalkToServer
 	
 	public void SaC_Respuesta_Solicitud_para_jugar(InetMessage msg){
 		//System.out.println(msg.strings.get(0));
-		
 		
 		if(msg.booleans.get(0)){
 			//El contrincante esta considerando jugar o no...
@@ -369,13 +350,11 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		}
 	}
 	
-	
 	public void SaC_Player_Solicita_Jugar_con_vos(InetMessage msg){
 		nickSolicitante= msg.strings.get(0);
 		GameSession.getPlayer().setState(Player.States.RESPONDIENDO_SOLICITUD);
 		setState_RespondiendoSolicitudEntrante();
 	}
-	
 	
 	public void SaC_Player_ha_rechazado_oferta(InetMessage msg){
 		//Datos del mensaje
@@ -438,10 +417,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		//Cambiamos de screen
 		//TaTeTi.getInstance().setScreen(TaTeTi.getInstance().gameplay);
 		transitionToGameplay.start();
-		
-		
-	}//fin startMatch
-	
+	}//end startMatch
 	
 	public void SaC_PlayersOnline(InetMessage msg){
 		//Limpiamos tabla vieja
@@ -478,9 +454,8 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			int draw= msg.ints.get((i*3)+2);
 
 			highScores.addRecord(nick, won, lose, draw);
-		}
-		
-	}//fin mejores puntajes
+		}	
+	}
 	
 	public void SaC_SeHaCanceladoSolicitudParaJugar(InetMessage msg){
 		setState_Normal();
@@ -490,7 +465,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		lblErrorMsg.reset();
 		lblErrorMsg.setLabel(opponent + Localization.CanceloSolicitud);
 		SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
-	}//fin se cancelo solicitud
+	}
 	
 	public void setState_Normal(){
 		state= ScreenStates.NORMAL;
@@ -554,8 +529,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		if(area.equals(btnCancelarSolicitud)){
 			cancelarSolicitud();
 		}
-	}//fin simple gui event
-	
+	}//end simple gui event
 	
 	protected void aceptarSolicitud(){
 		respuestaSolicitudEntrante= true;
@@ -621,7 +595,6 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().turnAreaON(btnCerrarSesion);
 	}
 	
-	
 	@Override
 	public void hide() {
 		//Ocultamos GUi
@@ -653,7 +626,4 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 	public void dispose() {
 		System.out.println("Main menu dispose");
 	}
-
-	
-
-}//fin clase
+}//end class

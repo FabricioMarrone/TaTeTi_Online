@@ -32,7 +32,6 @@ public class FadeTransition extends Transition{
 		
 	}
 
-
 	@Override
 	protected void internalUpdate(float delta) {
 		if(fadeIn){
@@ -48,10 +47,7 @@ public class FadeTransition extends Transition{
 				alpha= 1;
 			}
 		}
-		
 	}//end internal update
-
-	
 
 	@Override
 	public void start() {
@@ -59,9 +55,6 @@ public class FadeTransition extends Transition{
 		this.setInitialAlpha();
 	}
 
-
-	
-	
 	@Override
 	public void stop() {
 		super.stop();

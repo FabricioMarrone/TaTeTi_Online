@@ -1,10 +1,7 @@
 package shuken.TaTeTi.Network.Data;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import shuken.TaTeTi.Entities.Player;
@@ -17,7 +14,6 @@ public class PlayerData_BD implements IPlayerData {
 	private static final String draw_column= "draw";
 	private static final String lose_column= "lose";
 	
-    
 	public PlayerData_BD(){
 		//Iniciamos conexion
 		Connector.openConnection();
@@ -91,6 +87,5 @@ public class PlayerData_BD implements IPlayerData {
 	public void incrementDraw(Player p) {
 		Connector.execute("update Players set " + draw_column + "= " + draw_column + "+1 where " + nick_column + "= '" + p.getNick() + "'");
 	}
-	
 	
 }//end class

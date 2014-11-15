@@ -1,6 +1,5 @@
 package shuken.TaTeTi.Network;
 
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -33,22 +32,21 @@ public class Server extends JFrame {
 
 	//private static final long serialVersionUID = 1L;
 	
-	/** Instancia singleton del servidor para que los diferentes HandleClient puedan acceder al server. */
+	/** Singleton instance of the server, visible for every HandleClient. */
 	public static Server instance= null;
 	public static Random random= new Random();
 	
 	private static final String version= "v0.8";
 	
-	/** Socket del servidor. */
+	/** Server Socket. */
 	private ServerSocket serverSocket;
 	public static int PORT= 8081;	//default
 	public boolean online= false;
 	
-	/** Total de conexiones establecidas. */
+	/** Connections online (could be only sockets). */
 	public ArrayList<HandleClient> connections;
-	/** Partidas en ejecucion. */
+	/** Current matches */
 	public ArrayList<Partida> partidas;
-	
 	
 	private JPanel contentPane;
 	protected JLabel lblInicializando;
@@ -197,18 +195,13 @@ public class Server extends JFrame {
 		);
 		contentPane.setLayout(gl_contentPane);
 		
-		
 		//*********** Codigo by me ****************//
 		connections= new ArrayList<HandleClient>();
 		partidas= new ArrayList<Partida>();
 		
 		this.setTitle("Server " + version);
 		//*****************************************//
-	}//fin constructor
-	
-	
-	
-	
+	}//end constructor
 	
 	private void init(){
 		
@@ -250,9 +243,7 @@ public class Server extends JFrame {
 			e.printStackTrace();
 		}
 
-	}//fin init
-	
-	
+	}//end init
 	
 	private void run(){
 		try {
@@ -267,18 +258,12 @@ public class Server extends JFrame {
 			
 			//Inicializamos un nuevo thread que se hara cargo del cliente conectado...
 			new Thread(hClient).start();
-			
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		
-	}//fin run (recordar que esta dentro de un while)
-	
-	
-	/**
-	 * Loop de control de usuarios conectados.
-	 */
+	}//end run (remember, its inside a while loop)
+
 	private void controlLoop(){
 		//Loop infinito
 		while(true){
@@ -313,7 +298,6 @@ public class Server extends JFrame {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-
 		}
 	}
 	
@@ -322,12 +306,10 @@ public class Server extends JFrame {
 		int rows= tablePlayersOnlineModel.getRowCount();
 		for(int i= rows - 1; i >= 0; i--) tablePlayersOnlineModel.removeRow(i);
 		
-		
 		//La volvemos a cargar completa
 		for(int i= 0; i < connections.size(); i++){
 			Player p= connections.get(i).getPlayer();
 			if(p != null) tablePlayersOnlineModel.addRow(new Object[]{p.getNick(), p.getState()});
-				
 		}
 		
 		//Actualizamos label
@@ -335,12 +317,9 @@ public class Server extends JFrame {
 		lblCantidadUsuariosConectados.setText("Cantidad de sockets conectados: " + socketsConnected);
 	}
 	
-	
 	/**
-	 * Busca en el listado de conexiones y devuelve el player si es que algun HandleClient esta trabajando con ese player. Este metodo 
-	 * devuelve null si el player no se encuentra en ninguna conexion.
 	 * @param nick
-	 * @return
+	 * @return the player, if its logged on the server.
 	 */
 	public Player getPlayer(String nick){
 		/*
@@ -358,10 +337,8 @@ public class Server extends JFrame {
 	}
 	
 	/**
-	 * Devuelve el HandleClient que se encarga de gestionar al player especificado. Este metodo devuelve null si ningun HandleClient gestiona
-	 * al player ese.
 	 * @param nick
-	 * @return
+	 * @return the HandleClient instance that is managing that player. Might be null if the player is not online.
 	 */
 	public HandleClient getHandleClient(String nick){
 		for(int i= 0; i < connections.size(); i++){
@@ -374,9 +351,8 @@ public class Server extends JFrame {
 	}
 	
 	/**
-	 * Returns true if there is an existing connection (handleclient) for the ip specified.
 	 * @param ip
-	 * @return
+	 * @return true if there is an existing connection (handleclient) for the ip specified.
 	 */
 	public boolean isThisMachineConnected(String ip){
 		for(int i= 0; i < connections.size(); i++){
@@ -393,11 +369,8 @@ public class Server extends JFrame {
 	}
 	
 	/**
-	 * Devuelve la partida en la que se encuentra el player cuyo nick se especifica. Esta claro que un jugador unicamente puede estar en una
-	 * partida a la vez.
-	 * Este metodo devuelve null si no hay ninguna partida para ese nick.
 	 * @param nick
-	 * @return
+	 * @return returns a match where the player is playing. Might be null if the player is not playing.
 	 */
 	public Partida getPartida(String nick){
 		for(int i= 0; i < partidas.size(); i++){
@@ -409,9 +382,8 @@ public class Server extends JFrame {
 		return null;
 	}
 	
-	
 	/**
-	 * Registra la partida en la capa de datos.
+	 * Saves the match.
 	 * @param p
 	 */
 	public void registrarPartida(Partida p){
@@ -448,18 +420,12 @@ public class Server extends JFrame {
 		
 	}//end save match
 	
-	
-	
 	public void removeConnection(HandleClient conn){
 		connections.remove(conn);
 		
 		updateTablaPlayerOnline();
 	}
 	
-	/**
-	 * Devuelve los 10 mejores players
-	 * @return
-	 */
 	public ArrayList<Player> getTop10(){
 		
 		//Primero, obtenemos todos los datos

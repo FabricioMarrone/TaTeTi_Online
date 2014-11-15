@@ -2,11 +2,6 @@ package shuken.TaTeTi.Network.Data;
 
 import shuken.TaTeTi.Network.ServerConfig;
 
-/**
- * Clase singleton que provee acceso a los datos.
- * @author F. Marrone
- *
- */
 public class GameData {
 
 	public static IPlayerData playerData;
@@ -20,7 +15,5 @@ public class GameData {
 		}else{
 			playerData= new PlayerData_Memoria();
 		}
-		
-		
 	}
-}//fin clase
+}

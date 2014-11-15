@@ -48,7 +48,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 	}
 	private ScreenStates state;
 	
-	/** ---------Flags para enviar mensajes al servidor.--------------- */
+	/** ---------Flags to send messages to the server. ---------------- */
 	protected boolean sendCreateAccount= false;
 	String nickIngresado= "";		//esto se obtiene de textboxs
 	String passIngresado1= "";
@@ -135,7 +135,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		//Actualizamos gui...
 		SimpleGUI.getInstance().update(delta);
 		
-	}
+	}//end update
 	
 	@Override
 	public void render(float delta) {
@@ -199,11 +199,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			sendCreateAccount= false;
 			GameSession.getInstance().sendCreateAccount(nickIngresado, passIngresado1);
 		}
-		
-	}//end talk to server
-	
-	
-	
+	}
 	
 	public void setState_Normal(){
 		this.state= ScreenStates.Normal;
@@ -231,7 +227,6 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 			SimpleGUI.getInstance().turnAreaON(lblErrorMsg);
 		}
 	}
-	
 	
 	@Override
 	public void simpleGUI_Event(ClickableArea area) {
@@ -289,8 +284,7 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 	}//end gui event
 	
 	@Override
-	public void resize(int width, int height) {
-	}
+	public void resize(int width, int height) {}
 
 	@Override
 	public void show() {
@@ -340,12 +334,10 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 	}
 	
 	@Override
-	public void pause() {
-	}
+	public void pause() {}
 
 	@Override
-	public void resume() {	
-	}
+	public void resume() {}
 
 	@Override
 	public void dispose() {	
@@ -353,6 +345,4 @@ public class CreateAccountScreen extends ShukenScreen implements Updateable{
 		batch.dispose();
 		shapeRender.dispose();
 	}
-
-
 }//end class

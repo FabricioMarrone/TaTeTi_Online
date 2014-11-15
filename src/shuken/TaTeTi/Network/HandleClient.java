@@ -11,30 +11,28 @@ import shuken.TaTeTi.Entities.Partida.MatchStates;
 import shuken.TaTeTi.Network.Data.GameData;
 import shuken.TaTeTi.Network.InetMessage.InetMsgType;
 
-
-/*
- * Esta clase gestiona los clientes conectados al server. Hay un thread por cada cliente, y en cada uno de ellos se ejecuta la lógica de esta
- * clase.
+/**
+ * Server-side
+ * -----------
+ * There is a thread for every connected client. This class manage the conversation with one of them.
+ * This class run on his own thread, thats why implements the Runnable interface.
  * 
- * 
- * 
- * Esto es SERVER-SIDE!!!!!
+ * @author F.Marrone
  */
 public class HandleClient implements Runnable{
 	
-	/** Socket del cliente con el que el server se va a comunicar. */
+	/** Client Socket. */
 	private Socket clientSocket;
 	
-	/** Input and Output para intercambiar mensajes.*/
+	/** Input and Output to send and receive messages.*/
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	
-	/** Cuando se loggea el player, se lo almacena en esta variable. */
+	/** Logged player. */
 	private Player player= null;
 	private long lastHeartBeatTime;
 	
 	private boolean closeThread= false;
-	
 	
 	public HandleClient(Socket s){
 		clientSocket= s;
@@ -73,7 +71,7 @@ public class HandleClient implements Runnable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}//fin de run
+	}
 
 	/**
 	 * Returns the ip of the client connected (and handled) to this instance.
@@ -102,11 +100,8 @@ public class HandleClient implements Runnable{
 		
 		default:
 			break;
-		
-		}//fin switch
-		
-	}//fin analize inet message
-	
+		}//end switch
+	}//end analize inet message
 	
 	protected void heartBeat(){
 		//Creamos el mensaje...
@@ -198,7 +193,6 @@ public class HandleClient implements Runnable{
 		Server.instance.updateTablaPlayerOnline();
 	}
 	
-	
 	protected void respuestaPlayerParaJugar(InetMessage msg){
 		//Obtenemos respuesta...
 		boolean resp= msg.booleans.get(0);
@@ -234,15 +228,12 @@ public class HandleClient implements Runnable{
 				
 				//Creamos la partida en el servidor...
 				Server.instance.nuevaPartida(player, hClientPlayerSolicitante.getPlayer(), playerXStarts);
-				
-				
 			}else{
 				//El jugador que ACEPTA, es el player O
 				thisClientFicha= Ficha.CIRCULO;
 				
 				//Creamos la partida en el servidor...
 				Server.instance.nuevaPartida(hClientPlayerSolicitante.getPlayer(), player, playerXStarts);
-				
 			}
 			
 			//Enviamos a ESTE cliente...
@@ -258,11 +249,7 @@ public class HandleClient implements Runnable{
 			//ESTE player rechazó la oferta de jugar contra "nickSolicitante". Le avisamos al mismo de la respuesta.
 			hClientPlayerSolicitante.sendPlayerRechazoOfertaDeJugar(player.getNick(), isForTimeOut);
 		}
-		
-		
-	}//fin respuestaPlayerParaJugar
-	
-	
+	}//end respuestaPlayerParaJugar
 	
 	protected void solicitudParajugar(InetMessage msg){
 		//Obtenemos data...
@@ -296,9 +283,7 @@ public class HandleClient implements Runnable{
 		}
 		hClientOpponent.sendPlayerSolicitaJugarConVos(player.getNick());
 		
-	}//fin solicitud para jugar
-	
-	
+	}//end solicitud para jugar
 	
 	protected void fichaColocada(InetMessage msg){
 		//Obtenemos data...
@@ -348,18 +333,9 @@ public class HandleClient implements Runnable{
 			//Quitamos la partida del array de partidas...
 			Server.instance.partidas.remove(partida);
 		}
-		
-		
-		
-	}//fin ficha colocada
-	
-	
-	
-	
-	
+	}//end ficha colocada
 	
 	protected void logginRquest(InetMessage msg){
-		
 		//Obtenemos data...
 		String nick= msg.strings.get(0);
 		String pass= msg.strings.get(1);
@@ -406,8 +382,7 @@ public class HandleClient implements Runnable{
 			return;
 		}
 		
-	}//fin logginRequest
-	
+	}//end logginRequest
 	
 	public void sendPlayersOnline(ArrayList<Player> playersOnline){
 		//Creamos y cargamos el mensaje
@@ -465,7 +440,6 @@ public class HandleClient implements Runnable{
 		this.sendMessage(msg);
 	}
 	
-	
 	public void sendAvisoDe_FichaColocada_yFinDePartida(int nroCelda, Ficha tipoFicha, MatchStates resultado){
 		//Creamos el mensaje...
 		InetMessage msg= new InetMessage(InetMsgType.SaC_FichaColocada_y_FinDePartida);
@@ -473,12 +447,9 @@ public class HandleClient implements Runnable{
 		msg.ints.add(1, new Integer(tipoFicha.ordinal()));
 		msg.ints.add(2, new Integer(resultado.ordinal()));
 		
-		
 		//Lo enviamos...
 		this.sendMessage(msg);	
 	}
-	
-	
 	
 	public void sendFinDePartida(MatchStates resultado){
 		//Creamos el mensaje...
@@ -504,8 +475,6 @@ public class HandleClient implements Runnable{
 		Server.instance.updateTablaPlayerOnline();
 	}
 	
-	
-	
 	public void sendInicioPartida(Ficha tuFichaAsignada, String nickOponente, boolean playerXStarts){
 		//Creamos el mensaje...
 		InetMessage msg= new InetMessage(InetMsgType.SaC_Start_Match);
@@ -519,10 +488,7 @@ public class HandleClient implements Runnable{
 		//Colocamos al player como "jugando"
 		player.setState(Player.States.PLAYING);
 		Server.instance.updateTablaPlayerOnline();
-	}//fin sendInicioPartida
-	
-	
-	
+	}//end sendInicioPartida
 	
 	public void sendPlayerSolicitaJugarConVos(String nickSolicitante){
 		//Creamos el mensaje...
@@ -537,7 +503,6 @@ public class HandleClient implements Runnable{
 		this.sendMessage(msg);
 	}
 	
-	
 	public void sendSeHaCanceladoLaSolicitud(String nickQueCancela){
 		//Creamos el mensaje...
 		InetMessage msg= new InetMessage(InetMsgType.SaC_SeHaCanceladoSolicitudParaJugar);
@@ -550,7 +515,6 @@ public class HandleClient implements Runnable{
 		//Lo enviamos...
 		this.sendMessage(msg);
 	}
-	
 	
 	public void sendRespuestaSolicitudParaJugar(boolean success, String mensajeInformativo){
 		//Creamos el mensaje...
@@ -566,10 +530,7 @@ public class HandleClient implements Runnable{
 		else player.setState(Player.States.IDLE);
 		
 		Server.instance.updateTablaPlayerOnline();
-	}//fin sendRespuestaSolicitudParaJugar
-	
-	
-	
+	}//end sendRespuestaSolicitudParaJugar
 	
 	public void sendRespuestaLogginRequest(boolean success, String mensajeInformativo){
 		//Creamos el mensaje...
@@ -579,7 +540,7 @@ public class HandleClient implements Runnable{
 		
 		//Lo enviamos...
 		this.sendMessage(msg);
-	}//fin sendRespuestaLogginRequest
+	}//end sendRespuestaLogginRequest
 	
 	public void sendRespuestaCreateAccount(boolean success, String mensajeInformativo){
 		//Creamos el mensaje...
@@ -611,10 +572,6 @@ public class HandleClient implements Runnable{
 		}
 	}
 	
-	/**
-	 * Envia el mensaje al cliente.
-	 * @param msg
-	 */
 	void sendMessage(InetMessage msg)
 	{
 		try{
@@ -648,9 +605,7 @@ public class HandleClient implements Runnable{
 	}
 	
 	/**
-	 * Devuelve el player que el handle client maneja. Este metodo puede devolver null si el handleclient esta corriendo pero aun el usuario
-	 * no se ha loggeado.
-	 * @return
+	 * @return the logged player. Might be null.
 	 */
 	public Player getPlayer(){
 		return player;
@@ -663,4 +618,4 @@ public class HandleClient implements Runnable{
 	public void closeThread(){
 		closeThread= true;
 	}
-}//fin clase
+}//end class

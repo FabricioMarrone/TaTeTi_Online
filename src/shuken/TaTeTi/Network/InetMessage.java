@@ -3,18 +3,18 @@ package shuken.TaTeTi.Network;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-
 /**
- * Esta clase representa un objeto tipo mensaje TCP/IP enviado de un side a otro (server-client o client-server).</br>
+ * This class represents "a message TCP/IP". It will travel from one side to another over the net.</br>
  * 
- * Contiene variables sencillas que adoptaran distintos valores dependiendo de las necesidades del mensaje. Cada mensaje estará identificado,
- * lo que permitirá tratarlo adecuadamente.
+ * Contains basic data that will be used in specific ways, depending the message type.
+ * 
+ * @author F.Marrone
  */
 public class InetMessage implements Serializable{
 	
 	//private static final long serialVersionUID = 1L;
 	
-	/** Tipo de mensaje, dato necesario para tratarlo adecuadamente. */
+	/** Internet Message type */
 	public InetMsgType type;
 
 	public static enum InetMsgType{
@@ -50,19 +50,12 @@ public class InetMessage implements Serializable{
 		CaS_CerrarSesion
 	}
 	
-	
-	
 	/** Informacion enviada en el mensaje. */
 	public ArrayList<Boolean> booleans;
 	public ArrayList<Integer> ints;
 	public ArrayList<Float> floats;
 	public ArrayList<String> strings;
 
-	/**
-	 * Constuctor.
-	 * Crea un nuevo InetMessage con el ordinal del ActionID.
-	 * @param ActionIDvalue
-	 */
 	public InetMessage(InetMsgType type){
 		this.type= type;
 		
@@ -72,6 +65,5 @@ public class InetMessage implements Serializable{
 		floats= new ArrayList<Float>();
 		strings= new ArrayList<String>();
 	}
-	
-}//fin clase
+}//end class
 

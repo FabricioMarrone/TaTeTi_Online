@@ -45,12 +45,6 @@ public class Connector {
 		}
 	}
 	
-	/**
-	 * Ejecuta un SELECT a la BD. Este metodo verifica que exista una conexion establecida, caso contrario arroja error.
-	 * Este metodo devuelve el resultado de la consulta.
-	 * @param string
-	 * @return
-	 */
 	public static ResultSet executeSelect(String string){
 		if(!isConnectionAlive()) openConnection();
 		
@@ -69,11 +63,6 @@ public class Connector {
 		return null;
 	}
 	
-	/**
-	 * Ejecuta ya sea un INSERT o un UPDATE, que en ambos casos no se recibe una respuesta.
-	 * @param string
-	 * @return
-	 */
 	public static void execute(String string){
 		Statement stmt;
 		try{

@@ -27,7 +27,6 @@ import shuken.TaTeTi.Network.InetMessage;
 import shuken.TaTeTi.Transitions.FadeTransition;
 import shuken.TaTeTi.Transitions.Transition;
 
-
 public class GamePlayScreen extends ShukenScreen implements Updateable{
 
 	private SpriteBatch batch;
@@ -43,14 +42,14 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		Partida_terminada
 	}
 	
-	/** Estado actual del gameplay del cliente. */
+	/** Current gameplay state. */
 	public States currentState;
 	
 	/** Transitions */
 	private ArrayList<Transition> transitions;
 	private Transition transitionIn, transitionToMainMenu;
 	
-	/** Flags para enviar mensajes al servidor. */
+	/** Flags to send message to the server. */
 	protected boolean sendFichaColocada= false;
 	Ficha fichaColocadaRecientemente;
 	int nroCeldaEnQueSeColocoFichaRecientemente;
@@ -86,13 +85,6 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		transitions.add(transitionToMainMenu);
 	}
 	
-	/**
-	 * Prepara al gameplay para gestionar la partida. Este metodo es llamado antes de cambiar de screen.
-	 * @param partida
-	 * @param localPlayer
-	 * @param client
-	 * @param localPlayerPlaysFirst
-	 */
 	public void prepareForPartida(Partida partida, boolean localPlayerPlaysFirst){
 		this.partida= partida;
 
@@ -100,7 +92,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		else currentState= States.Opponent_Player_playing;
 		
 		resultado= MatchStates.PARTIDA_EN_CURSO;
-	}//fin preparefor partida
+	}
 	
 	@Override
 	public void update(float delta) {
@@ -133,7 +125,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		partida.update(delta);
 		
 		updateTalkToServer();
-	}//fin update
+	}//end update
 	
 	@Override
 	public void render(float delta) {
@@ -255,7 +247,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		
 		//Realizamos update
 		this.update(TaTeTi.confirmDelta(delta));
-	}//fin render
+	}//end render
 
 	protected void updateLocalPlayerPlaying(float delta){
 		//Gestionamos clicks del mouse
@@ -269,14 +261,14 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 			//Limpiamos click del buffer
 			ShukenInput.getInstance().consumeClick(0);
 		}
-	}//fin update local player playing
+	}
 	
 	protected void updateOpponentPlayerPlaying(float delta){
 		//Si hay clicks, los limpiamos derecho viejo
 		if(ShukenInput.getInstance().hasBeenClicked(0)){
 			ShukenInput.getInstance().consumeClick(0);
 		}
-	}//fin opponent player playing
+	}
 	
 	protected void updatePartidaTerminada(float delta){
 		//Si el que se rindio es ESTE cliente, nos vamos derecho al cambio de screen
@@ -319,9 +311,6 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		}
 	}
 	
-	/**
-	 * Este metodo verifica los flags de envio de mensajes y solicita al GameSession que retransmita los mensajes al servidor.
-	 */
 	protected void updateTalkToServer(){
 		
 		if(sendFichaColocada){
@@ -341,7 +330,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 			}
 			GameSession.getInstance().sendPlayerSeRinde(seRindioX);
 		}
-	}//fin updateTalkToServer
+	}//end updateTalkToServer
 	
 	public void SaC_Ficha_Colocada_y_Avanzar_turno(InetMessage msg){
 		//El otro jugador colocó una ficha.
@@ -381,20 +370,12 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		partida.putFichaOnCelda(nroCelda, f);
 	}
 	
-	/**
-	 * Este metodo prepara al gameplay para avisarle al servidor de que se ha colocado una ficha en el tablero.
-	 * @param nroCelda
-	 * @param tipo
-	 */
 	public void sendFichaColocada(int nroCelda, Ficha tipo){
 		sendFichaColocada= true;
 		fichaColocadaRecientemente= tipo;
 		nroCeldaEnQueSeColocoFichaRecientemente= nroCelda;
 	}
 	
-	/**
-	 * Avanza al proximo turno.
-	 */
 	public void nextTurn(){
 		System.out.println("NEXT TURN (Client: " + GameSession.getPlayer().getNick() + ")");
 		if(currentState == States.Local_Player_playing) currentState= States.Opponent_Player_playing;
@@ -415,7 +396,7 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 			System.out.println("Rendirse");
 			rendirse= true;
 		}
-	}//fin simple gui event
+	}
 	
 	@Override
 	public void resize(int width, int height) {}
@@ -455,4 +436,4 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 		batch.dispose();
 		shapeRender.dispose();
 	}
-}//fin clase
+}//end class

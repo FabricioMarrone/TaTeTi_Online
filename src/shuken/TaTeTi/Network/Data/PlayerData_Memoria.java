@@ -35,12 +35,7 @@ public class PlayerData_Memoria implements IPlayerData{
 		
 	}
 	
-	
-	
 	@Override
-	/**
-	 * Busca el player y si lo encuentra lo devuelve. Si no encuentra un player para ese id, devuelve null.
-	 */
 	public Player getOne(String nick) {
 		for(int i= 0; i < players.size(); i++){
 			if(players.get(i).getNick().compareToIgnoreCase(nick)== 0) return players.get(i);
@@ -74,8 +69,4 @@ public class PlayerData_Memoria implements IPlayerData{
 	public void incrementDraw(Player p) {
 		getOne(p.getNick()).incrementDraw();
 	}
-
-
-	
-
-}//fin clase
+}//end class
