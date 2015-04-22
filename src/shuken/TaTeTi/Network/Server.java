@@ -36,7 +36,7 @@ public class Server extends JFrame {
 	public static Server instance= null;
 	public static Random random= new Random();
 	
-	private static final String version= "v0.8";
+	private static final String version= "v0.8a";
 	
 	/** Server Socket. */
 	private ServerSocket serverSocket;

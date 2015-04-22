@@ -226,8 +226,8 @@ public class GamePlayScreen extends ShukenScreen implements Updateable{
 				}
 				break;
 			case INCONCLUSO:
-				ResourceManager.fonts.gameText.draw(batch, Localization.FallaEnPartida1, pos4X1, Gdx.graphics.getHeight() - 60);
-				ResourceManager.fonts.gameText.draw(batch, Localization.FallaEnPartida2, pos4X2, Gdx.graphics.getHeight() - 80);
+				ResourceManager.fonts.gameText.draw(batch, Localization.FallaEnPartida1, pos4X1, Gdx.graphics.getHeight() - 52);
+				ResourceManager.fonts.gameText.draw(batch, Localization.FallaEnPartida2, pos4X2, Gdx.graphics.getHeight() - 72);
 				break;
 			}
 			

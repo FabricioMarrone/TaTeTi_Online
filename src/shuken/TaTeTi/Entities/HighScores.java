@@ -38,16 +38,20 @@ public class HighScores implements Updateable, Renderable{
 		ResourceManager.fonts.UIlabelsFont.draw(batch, "E", position.x + 199, position.y + ROW_SEPARATION);
 		ResourceManager.fonts.UIlabelsFont.setColor(0.8f, 0, 0, 1);
 		ResourceManager.fonts.UIlabelsFont.draw(batch, "P", position.x + 230, position.y + ROW_SEPARATION);
+		ResourceManager.fonts.UIlabelsFont.setColor(1f, 0.7f, 0.2f, 1);
+		ResourceManager.fonts.UIlabelsFont.draw(batch, "Pts", position.x + 260, position.y + ROW_SEPARATION);
 		ResourceManager.fonts.UIlabelsFont.setColor(Color.WHITE);
 		
 		batch.end();
 		shapeRender.begin(ShapeType.Filled);
-		shapeRender.rect(position.x - 10, position.y - 5, 255, 1, Color.WHITE, new Color(0, 0, 0.8f, 1) , new Color(0, 0, 0.8f, 1), Color.WHITE);
+		shapeRender.rect(position.x - 10, position.y - 5, 300, 1, Color.WHITE, new Color(0, 0, 0.8f, 1) , new Color(0, 0, 0.8f, 1), Color.WHITE);
+		shapeRender.rect(position.x + 252, position.y - 5, 1, -150, Color.WHITE, new Color(0, 0, 0.8f, 1) , new Color(0, 0, 0.8f, 1), Color.WHITE);
 		shapeRender.end();
 		batch.begin();
 		
 		boolean clientIsNotInHighScore= true;
 		
+		int highScorePos= 0;
 		for(int i= 0; i < records.size(); i++){
 			//Resaltamos player local
 			if(GameSession.getPlayer().getNick().compareToIgnoreCase(records.get(i).nick)== 0){
@@ -55,10 +59,15 @@ public class HighScores implements Updateable, Renderable{
 				clientIsNotInHighScore= false;
 			}
 			
-			ResourceManager.fonts.gameText.draw(batch, (i+1) + "- " + records.get(i).nick, position.x, position.y - (i*ROW_SEPARATION) - 10);
+			if( (i!=0) && (records.get(i-1).tot == records.get(i).tot)) ResourceManager.fonts.gameText.draw(batch, "    " + records.get(i).nick, position.x, position.y - (i*ROW_SEPARATION) - 10);
+			else{
+				highScorePos++;
+				ResourceManager.fonts.gameText.draw(batch, highScorePos + "- " + records.get(i).nick, position.x, position.y - (i*ROW_SEPARATION) - 10);
+			}
 			ResourceManager.fonts.gameText.draw(batch, records.get(i).won + "", position.x + 170, position.y - (i*ROW_SEPARATION) - 10);
 			ResourceManager.fonts.gameText.draw(batch, records.get(i).draw + "", position.x + 200, position.y - (i*ROW_SEPARATION) - 10);
 			ResourceManager.fonts.gameText.draw(batch, records.get(i).lose + "", position.x + 230, position.y - (i*ROW_SEPARATION) - 10);
+			ResourceManager.fonts.gameText.draw(batch, records.get(i).tot + "", position.x + 265, position.y - (i*ROW_SEPARATION) - 10);
 			ResourceManager.fonts.gameText.setColor(Color.WHITE);
 		}
 		
@@ -69,6 +78,7 @@ public class HighScores implements Updateable, Renderable{
 			ResourceManager.fonts.gameText.draw(batch, p.getGanados() + "", position.x + 170, position.y - ((records.size()+1)*ROW_SEPARATION));
 			ResourceManager.fonts.gameText.draw(batch, p.getEmpatados() + "", position.x + 200, position.y - ((records.size()+1)*ROW_SEPARATION));
 			ResourceManager.fonts.gameText.draw(batch, p.getPerdidos() + "", position.x + 230, position.y - ((records.size()+1)*ROW_SEPARATION));
+			ResourceManager.fonts.gameText.draw(batch, p.getTotalScore() + "", position.x + 265, position.y - ((records.size()+1)*ROW_SEPARATION));
 			ResourceManager.fonts.gameText.setColor(Color.WHITE);
 		}
 	}
@@ -76,8 +86,8 @@ public class HighScores implements Updateable, Renderable{
 	@Override
 	public void update(float delta) {}
 	
-	public void addRecord(String nick, int won, int lose, int draw){
-		records.add(new HighScoreRecord(nick, won, lose, draw));
+	public void addRecord(String nick, int won, int lose, int draw, int tot){
+		records.add(new HighScoreRecord(nick, won, lose, draw, tot));
 	}
 	
 	public void clear(){

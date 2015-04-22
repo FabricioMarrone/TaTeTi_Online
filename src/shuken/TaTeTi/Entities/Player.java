@@ -76,7 +76,7 @@ public class Player {
 	}
 	
 	public int getTotalScore(){
-		return getGanados() * 10 + getEmpatados() * 2 - getPerdidos();
+		return (getGanados() * 2) + getEmpatados() - getPerdidos();
 	}
 	
 	public void incrementWon(){

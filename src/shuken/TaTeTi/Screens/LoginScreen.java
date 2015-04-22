@@ -75,7 +75,7 @@ public class LoginScreen extends ShukenScreen implements Updateable{
 		txtPass.setTextboxForPassword(true);
 		checkBoxUser= new SimpleCheckBox(410, 126, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
 		checkBoxMusic= new SimpleCheckBox(410, 103, ResourceManager.textures.checkbox_checked, ResourceManager.textures.checkbox_unchecked);
-		lblErrorMsg= new TimeLabel("", 200, 100, ResourceManager.fonts.gameText, 4f, ResourceManager.textures.transition);
+		lblErrorMsg= new TimeLabel("", 200, 100, ResourceManager.fonts.gameText, 10f, ResourceManager.textures.transition);
 		SimpleGUI.getInstance().addAreaNoActive(btnLoggin);
 		SimpleGUI.getInstance().addAreaNoActive(btnCrearCuenta);
 		SimpleGUI.getInstance().addAreaNoActive(txtUser);

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 import shuken.Engine.Basic.ShukenScreen;
 import shuken.Engine.Resources.ResourceManager;
@@ -106,7 +107,7 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		btnAceptarSolicitud= new SimpleButton(Localization.Aceptar, 360, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		btnRechazarSolicitud= new SimpleButton(Localization.Rechazar, 200, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
 		btnCancelarSolicitud= new SimpleButton(Localization.Cancelar, 277, 100, ResourceManager.fonts.gameText, ResourceManager.textures.button, false);
-		lblErrorMsg= new TimeLabel(" ", 200, 220, ResourceManager.fonts.gameText, 8.5f, ResourceManager.textures.transition);
+		lblErrorMsg= new TimeLabel(" ", 200, 220, ResourceManager.fonts.gameText, 10f, ResourceManager.textures.transition);
 		txtOpponent= new SimpleTextBox(45, 35, 19, ResourceManager.fonts.gameText, ResourceManager.textures.textbox);
 		txtOpponent.putStringIntoText("Player");
 		
@@ -117,7 +118,6 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		SimpleGUI.getInstance().addAreaNoActive(btnAceptarSolicitud);
 		SimpleGUI.getInstance().addAreaNoActive(btnRechazarSolicitud);
 		SimpleGUI.getInstance().addAreaNoActive(btnCancelarSolicitud);
-		SimpleGUI.getInstance().addAreaNoActive(lblErrorMsg);
 	}
 	
 	@Override
@@ -226,10 +226,18 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 			ResourceManager.fonts.defaultFont.draw(batch, "MainMenu Screen (" + state + ")", 10, Gdx.graphics.getHeight() - 50);
 		}
 		
+		//Graficamos nombre de usuario
+		ResourceManager.fonts.UIlabelsFont.draw(batch, GameSession.getPlayer().getNick().toString(), 10, Gdx.graphics.getHeight()-10);
+		batch.end();
+		shapeRender.begin(ShapeType.Filled);
+		shapeRender.rect(0, Gdx.graphics.getHeight() - 35, 100, 1, Color.WHITE, new Color(0, 0, 0.8f, 1) , new Color(0, 0, 0.8f, 1), Color.WHITE);
+		shapeRender.end();
+		batch.begin();
+		
 		switch(state){
 		case NORMAL:
 			//Usuario loggeado
-			//ResourceManager.fonts.UIlabelsFont.draw(batch, "Bienvenido " + GameSession.getPlayer().getNick() + " :)", 50, 320);
+			
 			int posX1=0, posX2=0, arrowWidth= 0, pos2X1=0, pos2X2=0, pos2X3=0;
 			if(Localization.getCurrentLanguage() == Languages.ES){
 				posX1= 390; posX2= 447; arrowWidth= ResourceManager.textures.arrow.getRegionWidth();
@@ -449,11 +457,12 @@ public class MainMenuScreen extends ShukenScreen implements Updateable{
 		int rows= msg.floats.get(0).intValue();
 		for(int i=0; i < rows; i++){
 			String nick= msg.strings.get(i);
-			int won= msg.ints.get((i*3));
-			int lose= msg.ints.get((i*3)+1);
-			int draw= msg.ints.get((i*3)+2);
-
-			highScores.addRecord(nick, won, lose, draw);
+			int won= msg.ints.get((i*4));
+			int lose= msg.ints.get((i*4)+1);
+			int draw= msg.ints.get((i*4)+2);
+			int tot= msg.ints.get((i*4)+3);
+			
+			highScores.addRecord(nick, won, lose, draw, tot);
 		}	
 	}
 	

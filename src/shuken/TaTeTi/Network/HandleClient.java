@@ -403,9 +403,10 @@ public class HandleClient implements Runnable{
 		InetMessage msg= new InetMessage(InetMsgType.SaC_MejoresPuntajes);
 		for(int i= 0; i < top10.size(); i++){
 			msg.strings.add(i, new String(top10.get(i).getNick()));
-			msg.ints.add((i*3), new Integer(top10.get(i).getGanados())); //won
-			msg.ints.add((i*3)+1, new Integer(top10.get(i).getPerdidos())); //lose
-			msg.ints.add((i*3)+2, new Integer(top10.get(i).getEmpatados())); //draw
+			msg.ints.add((i*4), new Integer(top10.get(i).getGanados())); //won
+			msg.ints.add((i*4)+1, new Integer(top10.get(i).getPerdidos())); //lose
+			msg.ints.add((i*4)+2, new Integer(top10.get(i).getEmpatados())); //draw
+			msg.ints.add((i*4)+3, new Integer(top10.get(i).getTotalScore()));
 		}
 		msg.floats.add(0, new Float(top10.size()));	//total de registros, en caso de que sean menos de 10
 
